@@ -14,7 +14,7 @@ import Profile from "./views/Profile";
 import Info from "./views/Info";
 import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
-import { CrownIcon, MenuIcon } from "./components/Icons";
+import { CrownIcon, MenuIcon, UserIcon } from "./components/Icons";
 
 export interface AppCtx {
   session: AppSession | null;
@@ -129,11 +129,25 @@ const App = () => {
                 <button
                   className="pill pill-free pill-btn"
                   onClick={() => navigate("/payment")}
-                  title="Hazte Pro"
+                  title="Suscríbete"
                 >
                   Gratis: {usage.freeUsed}/{FREE_LIMIT}
                 </button>
               )
+            )}
+            {session ? (
+              <button
+                className="header-login"
+                onClick={() => navigate("/perfil")}
+                title={session.user.email ?? "Mi perfil"}
+              >
+                <UserIcon size={14} />{" "}
+                {(session.user.email ?? "Perfil").split("@")[0]}
+              </button>
+            ) : (
+              <button className="header-login" onClick={() => navigate("/perfil")}>
+                Iniciar sesión
+              </button>
             )}
           </div>
         </div>

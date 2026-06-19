@@ -102,8 +102,8 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
           </div>
 
           <div className="drawer-group">
-            <h6>Suscripción</h6>
-            <Item to="/payment" icon={<CrownIcon size={18} />} label="Planes y precios" />
+            <h6>Suscríbete</h6>
+            <Item to="/payment" icon={<CrownIcon size={18} />} label="Plan Empresas · 1,99 €" />
             <Item to="/api-key" icon={<KeyIcon size={18} />} label="API para empresas" />
           </div>
 
