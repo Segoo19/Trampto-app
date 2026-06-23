@@ -17,7 +17,7 @@ export default defineConfig({
         name: "Trampto",
         short_name: "Trampto",
         description:
-          "Sella y verifica la integridad de tus documentos con una huella SHA-256 única.",
+          "Sella y verifica la integridad de tus documentos PDF con huella criptográfica SHA-256",
         id: "/",
         start_url: "/",
         scope: "/",
@@ -26,6 +26,7 @@ export default defineConfig({
         background_color: "#F6F7F9",
         theme_color: "#0D1B4B",
         lang: "es",
+        dir: "ltr",
         categories: ["business", "productivity", "utilities"],
         icons: [
           { src: "pwa-64x64.png", sizes: "64x64", type: "image/png" },
