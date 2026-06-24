@@ -60,6 +60,28 @@ export default defineConfig({
             label: "TRAMPTO en móvil",
           },
         ],
+        launch_handler: {
+          client_mode: "navigate-existing",
+        },
+        display_override: ["standalone", "minimal-ui"],
+        shortcuts: [
+          {
+            name: "Sellar documento",
+            short_name: "Sellar",
+            url: "/",
+            icons: [
+              { src: "pwa-192x192.png", sizes: "192x192", type: "image/png" },
+            ],
+          },
+          {
+            name: "Verificar",
+            short_name: "Verificar",
+            url: "/verificar",
+            icons: [
+              { src: "pwa-192x192.png", sizes: "192x192", type: "image/png" },
+            ],
+          },
+        ],
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
