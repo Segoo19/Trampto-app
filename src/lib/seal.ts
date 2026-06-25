@@ -492,7 +492,14 @@ export async function generateCertificate(result: SealResult): Promise<Uint8Arra
     color: GOLD,
     thickness: 1.2,
   });
-  const footer = "Generado por TRAMPTO · trampto.com";
+  // Dominio donde está desplegada la app (no se ata a trampto.com)
+  let verifyHost = "";
+  try {
+    verifyHost = new URL(VERIFY_BASE).host;
+  } catch {
+    verifyHost = window.location.host;
+  }
+  const footer = `Generado por TRAMPTO · ${verifyHost}`;
   const fw = helvetica.widthOfTextAtSize(footer, 8.5);
   page.drawText(footer, {
     x: (595 - fw) / 2,
