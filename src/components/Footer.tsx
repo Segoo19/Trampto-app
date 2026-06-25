@@ -80,22 +80,9 @@ const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
                 </button>
               </li>
               <li>
-                <a
-                  href="https://trampto.com/terms"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Términos
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://trampto.com/privacy"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <button className="linklike" onClick={go("/privacidad")}>
                   Privacidad
-                </a>
+                </button>
               </li>
             </ul>
           </div>

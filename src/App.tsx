@@ -12,6 +12,7 @@ import PaymentSuccess from "./views/PaymentSuccess";
 import ApiKey from "./views/ApiKey";
 import Profile from "./views/Profile";
 import Info from "./views/Info";
+import Privacy from "./views/Privacy";
 import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
 import { CrownIcon, MenuIcon, UserIcon } from "./components/Icons";
@@ -96,6 +97,8 @@ const App = () => {
     view = <Profile ctx={ctx} onLogout={logout} />;
   } else if (lower === "/about" || lower === "/use-cases" || lower === "/blog") {
     view = <Info page={lower.slice(1)} navigate={navigate} />;
+  } else if (lower === "/privacidad" || lower === "/privacy") {
+    view = <Privacy navigate={navigate} />;
   } else if (lower === "/verificar") {
     view = <Home key="verify" ctx={ctx} initialMode="verify" />;
   } else {
