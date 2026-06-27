@@ -60,6 +60,7 @@ const Home = ({
   const [step, setStep] = useState(0);
   const [result, setResult] = useState<SealResult | null>(null);
   const [registered, setRegistered] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
   const [retrying, setRetrying] = useState(false);
 
   // Verificación
@@ -116,6 +117,7 @@ const Home = ({
       downloadBytes(sealed.sealedBytes, sealedFilename(sealed.filename));
       setResult(sealed);
       setRegistered(reg.ok);
+      setRegisterError(reg.ok ? null : reg.error ?? null);
       setPhase("done");
       refreshUsage();
     } catch (err) {
@@ -164,7 +166,10 @@ const Home = ({
     if (reg.ok) {
       incrementFreeUsedOnDevice();
       setRegistered(true);
+      setRegisterError(null);
       refreshUsage();
+    } else {
+      setRegisterError(reg.error ?? null);
     }
     setRetrying(false);
   };
@@ -173,6 +178,7 @@ const Home = ({
     setPhase("idle");
     setResult(null);
     setRegistered(false);
+    setRegisterError(null);
     setError(null);
     setVerifyPhase("idle");
     setVerifyResult(null);
@@ -302,7 +308,14 @@ const Home = ({
               <ShieldAlertIcon size={18} />
               <span>
                 El documento se ha sellado y descargado, pero no se pudo
-                registrar el sello para la verificación pública.
+                registrar el sello para la verificación pública. Comprueba tu
+                conexión e inténtalo de nuevo.
+                {registerError && (
+                  <>
+                    <br />
+                    <small style={{ opacity: 0.85 }}>Motivo: {registerError}</small>
+                  </>
+                )}
               </span>
               <button
                 className="btn btn-outline btn-sm"

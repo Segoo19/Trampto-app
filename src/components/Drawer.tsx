@@ -135,7 +135,7 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
           ) : (
             usage && (
               <span className="pill pill-free">
-                Gratis: {usage.freeUsed}/{FREE_LIMIT}
+                Disponible: {usage.freeUsed}/{FREE_LIMIT}
               </span>
             )
           )}

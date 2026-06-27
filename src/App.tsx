@@ -134,7 +134,7 @@ const App = () => {
                   onClick={() => navigate("/payment")}
                   title="Suscríbete"
                 >
-                  Gratis: {usage.freeUsed}/{FREE_LIMIT}
+                  Disponible: {usage.freeUsed}/{FREE_LIMIT}
                 </button>
               )
             )}
