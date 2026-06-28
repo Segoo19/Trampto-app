@@ -1,0 +1,14 @@
+{
+  "header": {
+    "signIn": "Sign in",
+    "available": "Available: {{used}}/{{limit}}",
+    "pro": "PRO · Unlimited",
+    "admin": "ADMIN · Unlimited",
+    "openMenu": "Open menu"
+  },
+  "lang": {
+    "label": "Language",
+    "es": "ES",
+    "en": "EN"
+  }
+}

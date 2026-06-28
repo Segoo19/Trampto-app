@@ -15,6 +15,8 @@ import Info from "./views/Info";
 import Privacy from "./views/Privacy";
 import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
+import LanguageSwitcher from "./components/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 import { CrownIcon, MenuIcon, UserIcon } from "./components/Icons";
 
 export interface AppCtx {
@@ -25,6 +27,7 @@ export interface AppCtx {
 }
 
 const App = () => {
+  const { t } = useTranslation();
   const [path, navigate] = usePath();
   const [realSession, setRealSession] = useState<Session | null>(null);
   const [localAdmin, setLocalAdmin] = useState<AppSession | null>(getLocalAdmin());
@@ -113,7 +116,7 @@ const App = () => {
             <button
               className="menu-btn"
               onClick={() => setMenuOpen(true)}
-              aria-label="Abrir menú"
+              aria-label={t("header.openMenu")}
             >
               <MenuIcon size={22} />
             </button>
@@ -123,18 +126,23 @@ const App = () => {
             </button>
           </div>
           <div className="header-right">
+            <LanguageSwitcher />
             {usage?.isPro ? (
               <span className="pill pill-pro">
-                <CrownIcon size={13} /> {usage.isAdmin ? "ADMIN" : "PRO"} · Ilimitado
+                <CrownIcon size={13} />{" "}
+                {usage.isAdmin ? t("header.admin") : t("header.pro")}
               </span>
             ) : (
               usage && (
                 <button
                   className="pill pill-free pill-btn"
                   onClick={() => navigate("/payment")}
-                  title="Suscríbete"
+                  title={t("header.signIn")}
                 >
-                  Disponible: {usage.freeUsed}/{FREE_LIMIT}
+                  {t("header.available", {
+                    used: usage.freeUsed,
+                    limit: FREE_LIMIT,
+                  })}
                 </button>
               )
             )}
@@ -142,14 +150,14 @@ const App = () => {
               <button
                 className="header-login"
                 onClick={() => navigate("/perfil")}
-                title={session.user.email ?? "Mi perfil"}
+                title={session.user.email ?? "Perfil"}
               >
                 <UserIcon size={14} />{" "}
                 {(session.user.email ?? "Perfil").split("@")[0]}
               </button>
             ) : (
               <button className="header-login" onClick={() => navigate("/perfil")}>
-                Iniciar sesión
+                {t("header.signIn")}
               </button>
             )}
           </div>

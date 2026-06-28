@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "./i18n";
 import "./styles.css";
 
 // Recuperación automática tras un redeploy: si un chunk dinámico (pdf-lib,
