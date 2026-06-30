@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   CheckIcon,
   CopyIcon,
@@ -19,13 +20,14 @@ const ShareMenu = ({
   text?: string;
   label?: string;
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const msg = text ?? "Verifica este documento sellado con TRAMPTO";
+  const msg = text ?? t("share.defaultText");
   const enc = encodeURIComponent;
-  const subject = "Verificación de documento · TRAMPTO";
+  const subject = t("share.subject");
   const body = `${msg}\n\n${url}`;
   const whatsapp = `https://wa.me/?text=${enc(`${msg} ${url}`)}`;
   const gmail = `https://mail.google.com/mail/?view=cm&fs=1&su=${enc(
@@ -86,7 +88,7 @@ const ShareMenu = ({
           </a>
           <button className="share-opt" onClick={copy}>
             {copied ? <CheckIcon size={18} /> : <CopyIcon size={18} />}
-            {copied ? "Enlace copiado" : "Copiar enlace"}
+            {copied ? t("share.copied") : t("share.copyLink")}
           </button>
         </div>
       )}

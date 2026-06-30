@@ -10,5 +10,80 @@
     "label": "Language",
     "es": "ES",
     "en": "EN"
+  },
+  "hero": {
+    "titlePre": "Your document, ",
+    "titleEm": "unique",
+    "titlePost": " and unalterable",
+    "subPre": "We guarantee its content is not altered and we record ",
+    "subStrong": "who sealed it and when",
+    "subPost": ": SHA-256 fingerprint, unique Seal ID, date and public verification link."
+  },
+  "tabs": {
+    "seal": "Seal",
+    "verify": "Verify"
+  },
+  "paywall": {
+    "title": "You've used your {{limit}} free documents",
+    "text": "Go Pro and seal documents with no limit.",
+    "price": "€1.99",
+    "perMonth": "/ month",
+    "cta": "Go Pro",
+    "stripeNote": "Secure payment with Stripe"
+  },
+  "seal": {
+    "dropTitle": "Drag your document here",
+    "dropSubtitle": "PDF, Word, PowerPoint, images or TXT · max. 50 MB",
+    "stepConverting": "Converting to PDF",
+    "stepHashing": "Computing the SHA-256 fingerprint",
+    "stepSealing": "Sealing page by page",
+    "stepRegistering": "Registering the public seal",
+    "doneTitle": "Document sealed",
+    "notRegistered": "The document was sealed and downloaded, but the seal couldn't be registered for public verification. Check your connection and try again.",
+    "reason": "Reason:",
+    "retry": "Retry",
+    "labelSealId": "Seal ID",
+    "labelFingerprint": "SHA-256 fingerprint (private)",
+    "cautionLabel": "Warning:",
+    "cautionText": "the fingerprint uniquely identifies your document. Don't copy or share it on its own: share only the public verification link.",
+    "labelPublicLink": "Public verification link",
+    "btnSealedPdf": "Sealed PDF",
+    "btnCertificate": "Integrity certificate",
+    "openLink": "Public link",
+    "uniquePre": "From this hash on, ",
+    "uniqueStrong": "your document is unique on the internet",
+    "uniquePost": ". No two are alike.",
+    "sealAnother": "Seal another document"
+  },
+  "verify": {
+    "dropTitle": "Drag the sealed PDF here",
+    "dropSubtitle": "we'll check its integrity against the TRAMPTO registry",
+    "working": "Verifying document…",
+    "authenticTitle": "Authentic document",
+    "authenticSub": "It hasn't been modified since sealing. The Seal ID and the date prove who sealed it and when.",
+    "labelDocument": "Document",
+    "labelSealedOn": "Sealed on",
+    "shareVerification": "Share verification",
+    "invalidTitle": "Invalid seal",
+    "invalidSub": "This document wasn't sealed with TRAMPTO or was modified after sealing.",
+    "verifyAnother": "Verify another document"
+  },
+  "share": {
+    "share": "Share",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "subject": "Document verification · TRAMPTO",
+    "defaultText": "Verify this document sealed with TRAMPTO",
+    "fileText": "Verify \"{{name}}\" sealed with TRAMPTO",
+    "fileFallback": "this document"
+  },
+  "errors": {
+    "unsupportedFormat": "Unsupported format. Upload a PDF, Word (DOCX), PowerPoint (PPTX), image or TXT.",
+    "tooBig": "The document must be under 50 MB.",
+    "legacyOffice": "That's an old Office format (.ppt/.doc). Open it in PowerPoint or Word and use \"Save as\" → .pptx, .docx or PDF.",
+    "sealFailed": "Couldn't seal the document. Make sure the file isn't damaged.",
+    "pdfProtected": "This PDF is password-protected. Remove the protection and try again.",
+    "verifyNeedsPdf": "Verification is done with the sealed PDF you downloaded.",
+    "verifyFailed": "Couldn't verify the document. Please try again."
   }
 }

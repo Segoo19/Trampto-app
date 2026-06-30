@@ -10,5 +10,80 @@
     "label": "Idioma",
     "es": "ES",
     "en": "EN"
+  },
+  "hero": {
+    "titlePre": "Tu documento, ",
+    "titleEm": "único",
+    "titlePost": " e inalterable",
+    "subPre": "Garantizamos que su contenido no se altera y dejamos constancia de ",
+    "subStrong": "quién lo selló y cuándo",
+    "subPost": ": huella SHA-256, Seal ID único, fecha y enlace público de verificación."
+  },
+  "tabs": {
+    "seal": "Sellar",
+    "verify": "Verificar"
+  },
+  "paywall": {
+    "title": "Has usado tus {{limit}} documentos gratis",
+    "text": "Pásate a Pro y sella documentos sin límite.",
+    "price": "1,99 €",
+    "perMonth": "/ mes",
+    "cta": "Hazte Pro",
+    "stripeNote": "Pago seguro con Stripe"
+  },
+  "seal": {
+    "dropTitle": "Arrastra tu documento aquí",
+    "dropSubtitle": "PDF, Word, PowerPoint, imágenes o TXT · máx. 50 MB",
+    "stepConverting": "Convirtiendo a PDF",
+    "stepHashing": "Calculando la huella SHA-256",
+    "stepSealing": "Sellando página a página",
+    "stepRegistering": "Registrando el sello público",
+    "doneTitle": "Documento sellado",
+    "notRegistered": "El documento se ha sellado y descargado, pero no se pudo registrar el sello para la verificación pública. Comprueba tu conexión e inténtalo de nuevo.",
+    "reason": "Motivo:",
+    "retry": "Reintentar",
+    "labelSealId": "ID de sello",
+    "labelFingerprint": "Huella SHA-256 (privada)",
+    "cautionLabel": "Cuidado:",
+    "cautionText": "la huella identifica tu documento de forma única. No la copies ni la compartas sueltas: comparte solo el enlace público de verificación.",
+    "labelPublicLink": "Enlace público de verificación",
+    "btnSealedPdf": "PDF sellado",
+    "btnCertificate": "Certificado de integridad",
+    "openLink": "Link público",
+    "uniquePre": "A partir de este hash, ",
+    "uniqueStrong": "tu documento es único en internet",
+    "uniquePost": ". No existen dos iguales.",
+    "sealAnother": "Sellar otro documento"
+  },
+  "verify": {
+    "dropTitle": "Arrastra el PDF sellado",
+    "dropSubtitle": "comprobaremos su integridad contra el registro de TRAMPTO",
+    "working": "Verificando documento…",
+    "authenticTitle": "Documento auténtico",
+    "authenticSub": "No ha sido modificado desde su sellado. El Seal ID y la fecha acreditan quién lo selló y cuándo.",
+    "labelDocument": "Documento",
+    "labelSealedOn": "Sellado el",
+    "shareVerification": "Compartir verificación",
+    "invalidTitle": "Sello no válido",
+    "invalidSub": "Este documento no ha sido sellado con TRAMPTO o fue modificado después del sellado.",
+    "verifyAnother": "Verificar otro documento"
+  },
+  "share": {
+    "share": "Compartir",
+    "copyLink": "Copiar enlace",
+    "copied": "Enlace copiado",
+    "subject": "Verificación de documento · TRAMPTO",
+    "defaultText": "Verifica este documento sellado con TRAMPTO",
+    "fileText": "Verifica \"{{name}}\" sellado con TRAMPTO",
+    "fileFallback": "este documento"
+  },
+  "errors": {
+    "unsupportedFormat": "Formato no soportado. Sube un PDF, Word (DOCX), PowerPoint (PPTX), imagen o TXT.",
+    "tooBig": "El documento debe pesar menos de 50 MB.",
+    "legacyOffice": "Ese es un formato de Office antiguo (.ppt/.doc). Ábrelo en PowerPoint o Word y usa «Guardar como» → .pptx, .docx o PDF.",
+    "sealFailed": "No se pudo sellar el documento. Comprueba que el fichero no esté dañado.",
+    "pdfProtected": "Este PDF está protegido con contraseña. Quita la protección e inténtalo de nuevo.",
+    "verifyNeedsPdf": "La verificación se hace con el PDF sellado que descargaste.",
+    "verifyFailed": "No se pudo verificar el documento. Inténtalo de nuevo."
   }
 }

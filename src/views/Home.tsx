@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { AppCtx } from "../App";
 import {
   sealPdf,
@@ -29,19 +30,6 @@ import {
 
 const MAX_SIZE = 50 * 1024 * 1024; // 50 MB, igual que la web
 
-const LEGACY_MSG =
-  "Ese es un formato de Office antiguo (.ppt/.doc). Ábrelo en PowerPoint o Word y usa «Guardar como» → .pptx, .docx o PDF.";
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 const Home = ({
   ctx,
   initialMode = "seal",
@@ -49,7 +37,20 @@ const Home = ({
   ctx: AppCtx;
   initialMode?: "seal" | "verify";
 }) => {
+  const { t, i18n } = useTranslation();
   const { usage, refreshUsage, navigate } = ctx;
+
+  const formatDate = (iso: string): string =>
+    new Date(iso).toLocaleDateString(
+      i18n.language.startsWith("en") ? "en-US" : "es-ES",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }
+    );
 
   const [mode, setMode] = useState<"seal" | "verify">(initialMode);
   const [error, setError] = useState<string | null>(null);
@@ -77,27 +78,25 @@ const Home = ({
       return;
     }
     if (LEGACY_OFFICE_RE.test(file.name)) {
-      setError(LEGACY_MSG);
+      setError(t("errors.legacyOffice"));
       return;
     }
     const kind = detectKind(file);
     if (!kind) {
-      setError(
-        "Formato no soportado. Sube un PDF, Word (DOCX), PowerPoint (PPTX), imagen o TXT."
-      );
+      setError(t("errors.unsupportedFormat"));
       return;
     }
     if (file.size > MAX_SIZE) {
-      setError("El documento debe pesar menos de 50 MB.");
+      setError(t("errors.tooBig"));
       return;
     }
 
     const needsConvert = kind !== "pdf";
     const stepsList = [
-      ...(needsConvert ? ["Convirtiendo a PDF"] : []),
-      "Calculando la huella SHA-256",
-      "Sellando página a página",
-      "Registrando el sello público",
+      ...(needsConvert ? [t("seal.stepConverting")] : []),
+      t("seal.stepHashing"),
+      t("seal.stepSealing"),
+      t("seal.stepRegistering"),
     ];
     const offset = needsConvert ? 1 : 0;
     setSteps(stepsList);
@@ -123,13 +122,11 @@ const Home = ({
     } catch (err) {
       console.error("seal error:", err);
       const message = err instanceof Error ? err.message : "";
-      let friendly =
-        "No se pudo sellar el documento. Comprueba que el fichero no esté dañado.";
+      let friendly = t("errors.sealFailed");
       if (/OFFICE_LEGACY|central directory|zip/i.test(message)) {
-        friendly = LEGACY_MSG;
+        friendly = t("errors.legacyOffice");
       } else if (/encrypt/i.test(message)) {
-        friendly =
-          "Este PDF está protegido con contraseña. Quita la protección e inténtalo de nuevo.";
+        friendly = t("errors.pdfProtected");
       }
       setError(friendly);
       setPhase("idle");
@@ -139,11 +136,11 @@ const Home = ({
   const handleVerify = async (file: File) => {
     setError(null);
     if (detectKind(file) !== "pdf") {
-      setError("La verificación se hace con el PDF sellado que descargaste.");
+      setError(t("errors.verifyNeedsPdf"));
       return;
     }
     if (file.size > MAX_SIZE) {
-      setError("El documento debe pesar menos de 50 MB.");
+      setError(t("errors.tooBig"));
       return;
     }
     setVerifyPhase("working");
@@ -152,7 +149,7 @@ const Home = ({
     } catch (err) {
       console.error("verify error:", err);
       setVerifyResult(null);
-      setError("No se pudo verificar el documento. Inténtalo de nuevo.");
+      setError(t("errors.verifyFailed"));
       setVerifyPhase("idle");
       return;
     }
@@ -193,12 +190,14 @@ const Home = ({
     <>
       <div className="hero">
         <h1>
-          Tu documento, <em>único</em> e inalterable
+          {t("hero.titlePre")}
+          <em>{t("hero.titleEm")}</em>
+          {t("hero.titlePost")}
         </h1>
         <p>
-          Garantizamos que su contenido no se altera y dejamos constancia de
-          <strong> quién lo selló y cuándo</strong>: huella SHA-256, Seal ID
-          único, fecha y enlace público de verificación.
+          {t("hero.subPre")}
+          <strong>{t("hero.subStrong")}</strong>
+          {t("hero.subPost")}
         </p>
       </div>
 
@@ -210,7 +209,7 @@ const Home = ({
             role="tab"
             aria-selected={mode === "seal"}
           >
-            Sellar
+            {t("tabs.seal")}
           </button>
           <button
             className={mode === "verify" ? "active" : ""}
@@ -218,7 +217,7 @@ const Home = ({
             role="tab"
             aria-selected={mode === "verify"}
           >
-            Verificar
+            {t("tabs.verify")}
           </button>
         </div>
       </div>
@@ -231,25 +230,25 @@ const Home = ({
               <div className="crown">
                 <CrownIcon size={28} />
               </div>
-              <h2>Has usado tus {FREE_LIMIT} documentos gratis</h2>
+              <h2>{t("paywall.title", { limit: FREE_LIMIT })}</h2>
               <p style={{ color: "var(--muted)", fontSize: 14.5 }}>
-                Pásate a Pro y sella documentos sin límite.
+                {t("paywall.text")}
               </p>
               <div className="price">
-                1,99 € <span>/ mes</span>
+                {t("paywall.price")} <span>{t("paywall.perMonth")}</span>
               </div>
               <button
                 className="btn btn-gold btn-lg"
                 onClick={() => navigate("/payment")}
               >
-                <CrownIcon size={18} /> Hazte Pro
+                <CrownIcon size={18} /> {t("paywall.cta")}
               </button>
-              <p className="stripe-note">Pago seguro con Stripe</p>
+              <p className="stripe-note">{t("paywall.stripeNote")}</p>
             </div>
           ) : (
             <Dropzone
-              title="Arrastra tu documento aquí"
-              subtitle="PDF, Word, PowerPoint, imágenes o TXT · máx. 50 MB"
+              title={t("seal.dropTitle")}
+              subtitle={t("seal.dropSubtitle")}
               accept={SEAL_ACCEPT}
               disabled={!usage}
               onFile={handleSeal}
@@ -294,7 +293,7 @@ const Home = ({
             <div className="result-badge">
               <ShieldCheckIcon size={32} />
             </div>
-            <h2>Documento sellado</h2>
+            <h2>{t("seal.doneTitle")}</h2>
             <p className="sub mt-8">
               <span className="file-chip">
                 <FileIcon size={15} />
@@ -307,13 +306,13 @@ const Home = ({
             <div className="notice notice-warn">
               <ShieldAlertIcon size={18} />
               <span>
-                El documento se ha sellado y descargado, pero no se pudo
-                registrar el sello para la verificación pública. Comprueba tu
-                conexión e inténtalo de nuevo.
+                {t("seal.notRegistered")}
                 {registerError && (
                   <>
                     <br />
-                    <small style={{ opacity: 0.85 }}>Motivo: {registerError}</small>
+                    <small style={{ opacity: 0.85 }}>
+                      {t("seal.reason")} {registerError}
+                    </small>
                   </>
                 )}
               </span>
@@ -322,19 +321,23 @@ const Home = ({
                 onClick={retryRegister}
                 disabled={retrying}
               >
-                {retrying ? <span className="spinner spinner-dark" /> : "Reintentar"}
+                {retrying ? (
+                  <span className="spinner spinner-dark" />
+                ) : (
+                  t("seal.retry")
+                )}
               </button>
             </div>
           )}
 
           <div className="fields">
             <Field
-              label="ID de sello"
+              label={t("seal.labelSealId")}
               value={`TRP-${result.sealId}`}
               copyValue={`TRP-${result.sealId}`}
             />
             <Field
-              label="Huella SHA-256 (privada)"
+              label={t("seal.labelFingerprint")}
               value={result.stampedHash}
               sensitive
             />
@@ -342,16 +345,14 @@ const Home = ({
           <div className="hash-caution">
             <LockIcon size={15} />
             <span>
-              <strong>Cuidado:</strong> la huella identifica tu documento de
-              forma única. No la copies ni la compartas sueltas: comparte
-              solo el <strong>enlace público de verificación</strong>.
+              <strong>{t("seal.cautionLabel")}</strong> {t("seal.cautionText")}
             </span>
           </div>
 
           {registered && (
             <div className="fields">
               <Field
-                label="Enlace público de verificación"
+                label={t("seal.labelPublicLink")}
                 value={verificationUrl(result.stampedHash)}
                 copyValue={verificationUrl(result.stampedHash)}
               />
@@ -365,7 +366,7 @@ const Home = ({
                 downloadBytes(result.sealedBytes, sealedFilename(result.filename))
               }
             >
-              <DownloadIcon size={17} /> PDF sellado
+              <DownloadIcon size={17} /> {t("seal.btnSealedPdf")}
             </button>
             <button
               className="btn btn-burgundy"
@@ -376,14 +377,14 @@ const Home = ({
                 )
               }
             >
-              <DownloadIcon size={17} /> Certificado de integridad
+              <DownloadIcon size={17} /> {t("seal.btnCertificate")}
             </button>
             {registered && (
               <>
                 <ShareMenu
                   url={verificationUrl(result.stampedHash)}
-                  text={`Verifica "${result.filename}" sellado con TRAMPTO`}
-                  label="Compartir"
+                  text={t("share.fileText", { name: result.filename })}
+                  label={t("share.share")}
                 />
                 <a
                   className="btn btn-outline"
@@ -391,7 +392,7 @@ const Home = ({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <ExternalIcon size={16} /> Link público
+                  <ExternalIcon size={16} /> {t("seal.openLink")}
                 </a>
               </>
             )}
@@ -399,14 +400,15 @@ const Home = ({
 
           <div className="unique-message">
             <p>
-              A partir de este hash, <strong>tu documento es único en internet</strong>.
-              No existen dos iguales.
+              {t("seal.uniquePre")}
+              <strong>{t("seal.uniqueStrong")}</strong>
+              {t("seal.uniquePost")}
             </p>
           </div>
 
           <div className="center mt-16">
             <button className="btn btn-ghost" onClick={reset}>
-              Sellar otro documento
+              {t("seal.sealAnother")}
             </button>
           </div>
         </div>
@@ -416,8 +418,8 @@ const Home = ({
       {mode === "verify" && verifyPhase === "idle" && (
         <>
           <Dropzone
-            title="Arrastra el PDF sellado"
-            subtitle="comprobaremos su integridad contra el registro de TRAMPTO"
+            title={t("verify.dropTitle")}
+            subtitle={t("verify.dropSubtitle")}
             accept=".pdf,application/pdf"
             onFile={handleVerify}
           />
@@ -437,7 +439,7 @@ const Home = ({
             style={{ width: 22, height: 22, display: "inline-block" }}
           />
           <p className="mt-16" style={{ color: "var(--muted)" }}>
-            Verificando documento…
+            {t("verify.working")}
           </p>
         </div>
       )}
@@ -450,31 +452,31 @@ const Home = ({
                 <div className="result-badge">
                   <ShieldCheckIcon size={32} />
                 </div>
-                <h2>Documento auténtico</h2>
-                <p className="sub">
-                  No ha sido modificado desde su sellado. El Seal ID y la fecha
-                  acreditan quién lo selló y cuándo.
-                </p>
+                <h2>{t("verify.authenticTitle")}</h2>
+                <p className="sub">{t("verify.authenticSub")}</p>
               </div>
               <div className="fields">
                 {verifyResult.filename && (
-                  <Field label="Documento" value={verifyResult.filename} />
+                  <Field
+                    label={t("verify.labelDocument")}
+                    value={verifyResult.filename}
+                  />
                 )}
                 {verifyResult.createdAt && (
                   <Field
-                    label="Sellado el"
+                    label={t("verify.labelSealedOn")}
                     value={formatDate(verifyResult.createdAt)}
                   />
                 )}
                 {verifyResult.sealId && (
                   <Field
-                    label="ID de sello"
+                    label={t("seal.labelSealId")}
                     value={`TRP-${verifyResult.sealId}`}
                     copyValue={`TRP-${verifyResult.sealId}`}
                   />
                 )}
                 <Field
-                  label="Enlace público de verificación"
+                  label={t("seal.labelPublicLink")}
                   value={verificationUrl(verifyResult.hash)}
                   copyValue={verificationUrl(verifyResult.hash)}
                 />
@@ -482,8 +484,10 @@ const Home = ({
               <div className="actions">
                 <ShareMenu
                   url={verificationUrl(verifyResult.hash)}
-                  text={`Verifica "${verifyResult.filename ?? "este documento"}" sellado con TRAMPTO`}
-                  label="Compartir verificación"
+                  text={t("share.fileText", {
+                    name: verifyResult.filename ?? t("share.fileFallback"),
+                  })}
+                  label={t("verify.shareVerification")}
                 />
                 <a
                   className="btn btn-outline"
@@ -491,7 +495,7 @@ const Home = ({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <ExternalIcon size={16} /> Link público
+                  <ExternalIcon size={16} /> {t("seal.openLink")}
                 </a>
               </div>
             </>
@@ -500,16 +504,13 @@ const Home = ({
               <div className="result-badge invalid">
                 <ShieldAlertIcon size={32} />
               </div>
-              <h2>Sello no válido</h2>
-              <p className="sub">
-                Este documento no ha sido sellado con TRAMPTO o fue modificado
-                después del sellado.
-              </p>
+              <h2>{t("verify.invalidTitle")}</h2>
+              <p className="sub">{t("verify.invalidSub")}</p>
             </div>
           )}
           <div className="center mt-16">
             <button className="btn btn-ghost" onClick={reset}>
-              Verificar otro documento
+              {t("verify.verifyAnother")}
             </button>
           </div>
         </div>
