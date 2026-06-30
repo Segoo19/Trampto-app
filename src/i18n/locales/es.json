@@ -11,6 +11,9 @@
     "es": "ES",
     "en": "EN"
   },
+  "offline": {
+    "banner": "Sin conexión · Puedes seguir sellando documentos; la verificación y el registro públicos se reanudan al volver la red."
+  },
   "hero": {
     "titlePre": "Tu documento, ",
     "titleEm": "único",

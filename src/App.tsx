@@ -16,6 +16,7 @@ import Privacy from "./views/Privacy";
 import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
 import LanguageSwitcher from "./components/LanguageSwitcher";
+import OfflineBanner from "./components/OfflineBanner";
 import { useTranslation } from "react-i18next";
 import { CrownIcon, MenuIcon, UserIcon } from "./components/Icons";
 
@@ -173,6 +174,8 @@ const App = () => {
         usage={usage}
         onLogout={logout}
       />
+
+      <OfflineBanner />
 
       <main className="main">{view}</main>
 

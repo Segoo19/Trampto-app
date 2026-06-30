@@ -11,6 +11,9 @@
     "es": "ES",
     "en": "EN"
   },
+  "offline": {
+    "banner": "You're offline · You can keep sealing documents; public verification and registration resume when you're back online."
+  },
   "hero": {
     "titlePre": "Your document, ",
     "titleEm": "unique",

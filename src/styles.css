@@ -125,6 +125,16 @@ button {
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
+.offline-banner {
+  background: #fdf6e3;
+  border-bottom: 1px solid #ecd9a0;
+  color: #7a6212;
+  font-size: 13px;
+  text-align: center;
+  padding: 8px 16px;
+  line-height: 1.4;
+}
+
 .lang-switch {
   display: inline-flex;
   border: 1px solid var(--line);

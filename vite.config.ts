@@ -84,10 +84,34 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        // Precache de TODO el app shell (index.html + JS/CSS/iconos/fuentes
+        // locales). Así la app arranca offline sin depender de la red.
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2,json,webmanifest}"],
         globIgnores: ["**/screenshot-*.png"],
+        // Cualquier navegación (incluida la primera a "/") se resuelve con el
+        // index.html cacheado → la SPA arranca aunque no haya red, evitando el
+        // error "can't reach this page" del contenedor de Windows.
         navigateFallback: "/index.html",
         cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+        // Fuentes de Google: cacheadas para que el offline también se vea bien.
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: "StaleWhileRevalidate",
+            options: { cacheName: "trampto-google-fonts-css" },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "trampto-google-fonts",
+              expiration: { maxEntries: 20, maxAgeSeconds: 31536000 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
       },
       devOptions: {
         enabled: false,
