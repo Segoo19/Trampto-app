@@ -63,4 +63,10 @@ i18n
     react: { useSuspense: false }, // carga async sin Suspense
   });
 
+// Refleja el idioma activo en <html lang> (selectores :lang() de CSS para CJK
+// y accesibilidad). Se dispara también con la detección inicial.
+i18n.on("languageChanged", (lng) => {
+  document.documentElement.lang = lng;
+});
+
 export default i18n;

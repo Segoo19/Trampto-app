@@ -1940,3 +1940,26 @@ button {
     display: none;
   }
 }
+
+/* ---------- Renderizado CJK (chino / japonés) ---------- */
+/* DM Sans y Playfair Display no tienen glifos CJK. Para zh/ja forzamos una pila
+   de fuentes del sistema con cobertura CJK e interlineado más holgado.
+   :lang(zh) cubre tanto zh-CN como zh-TW; i18n fija <html lang> al cambiar. */
+body:lang(zh),
+body:lang(ja) {
+  font-family: system-ui, "PingFang SC", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Microsoft YaHei", "Microsoft JhengHei", "Noto Sans CJK SC", "Noto Sans JP",
+    "Yu Gothic", sans-serif;
+  line-height: 1.75;
+}
+:lang(zh) h1,
+:lang(zh) h2,
+:lang(zh) h3,
+:lang(ja) h1,
+:lang(ja) h2,
+:lang(ja) h3 {
+  font-family: system-ui, "PingFang SC", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Microsoft YaHei", "Microsoft JhengHei", "Noto Sans CJK SC", "Noto Sans JP",
+    "Yu Gothic", sans-serif;
+  line-height: 1.4;
+}
