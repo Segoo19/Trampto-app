@@ -15,7 +15,6 @@ import Info from "./views/Info";
 import Privacy from "./views/Privacy";
 import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
-import LanguageSwitcher from "./components/LanguageSwitcher";
 import OfflineBanner from "./components/OfflineBanner";
 import InstallButton from "./components/InstallButton";
 import { useTranslation } from "react-i18next";
@@ -129,7 +128,6 @@ const App = () => {
           </div>
           <div className="header-right">
             <InstallButton short />
-            <LanguageSwitcher />
             {usage?.isPro ? (
               <span className="pill pill-pro">
                 <CrownIcon size={13} />{" "}
