@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon, UploadIcon } from "./Icons";
 
 export const Dropzone = ({
@@ -92,6 +93,7 @@ export const Field = ({
   copyValue?: string;
   sensitive?: boolean;
 }) => {
+  const { t } = useTranslation();
   const [revealed, setRevealed] = useState(false);
 
   if (sensitive) {
@@ -103,15 +105,15 @@ export const Field = ({
             className="field-value sensitive"
             onCopy={(e) => e.preventDefault()}
             onContextMenu={(e) => e.preventDefault()}
-            aria-label={`${label} (protegida)`}
+            aria-label={`${label} (${t("bits.protected")})`}
           >
             {revealed ? value : maskHash(value)}
           </div>
         </div>
         <button
           className="copy-btn"
-          title={revealed ? "Ocultar" : "Mostrar"}
-          aria-label={revealed ? "Ocultar huella" : "Mostrar huella"}
+          title={revealed ? t("bits.hide") : t("bits.show")}
+          aria-label={revealed ? t("bits.hideFingerprint") : t("bits.showFingerprint")}
           onClick={() => setRevealed(!revealed)}
         >
           {revealed ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
@@ -127,7 +129,10 @@ export const Field = ({
         <div className="field-value">{value}</div>
       </div>
       {copyValue !== undefined && (
-        <CopyButton value={copyValue} label={`Copiar ${label.toLowerCase()}`} />
+        <CopyButton
+          value={copyValue}
+          label={t("bits.copy", { label: label.toLowerCase() })}
+        />
       )}
     </div>
   );

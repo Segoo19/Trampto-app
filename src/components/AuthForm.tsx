@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 import { canUseLocalAdmin, setLocalAdmin } from "../lib/localAdmin";
 
@@ -10,6 +11,7 @@ interface Props {
 // Atajo de desarrollo: la cuenta admin entra con su contraseña fija sin
 // pasar por la confirmación de correo (ver lib/localAdmin.ts).
 const AuthForm = ({ onAuthed }: Props) => {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +41,7 @@ const AuthForm = ({ onAuthed }: Props) => {
         });
         if (error) setError(error.message);
         else if (data.session) onAuthed();
-        else setInfo("Revisa tu correo para confirmar la cuenta.");
+        else setInfo(t("auth.checkEmail"));
       } else {
         const { data, error } = await supabase.auth.signInWithPassword({
           email,
@@ -56,7 +58,7 @@ const AuthForm = ({ onAuthed }: Props) => {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="auth-email">Email</label>
+        <label htmlFor="auth-email">{t("auth.email")}</label>
         <input
           id="auth-email"
           type="email"
@@ -68,7 +70,7 @@ const AuthForm = ({ onAuthed }: Props) => {
         />
       </div>
       <div>
-        <label htmlFor="auth-password">Contraseña</label>
+        <label htmlFor="auth-password">{t("auth.password")}</label>
         <input
           id="auth-password"
           type="password"
@@ -86,9 +88,9 @@ const AuthForm = ({ onAuthed }: Props) => {
         {loading ? (
           <span className="spinner" />
         ) : mode === "register" ? (
-          "Crear cuenta"
+          t("auth.createAccount")
         ) : (
-          "Iniciar sesión"
+          t("auth.signIn")
         )}
       </button>
       <button
@@ -100,9 +102,7 @@ const AuthForm = ({ onAuthed }: Props) => {
           setInfo(null);
         }}
       >
-        {mode === "register"
-          ? "¿Ya tienes cuenta? Inicia sesión"
-          : "¿No tienes cuenta? Regístrate"}
+        {mode === "register" ? t("auth.haveAccount") : t("auth.noAccount")}
       </button>
     </form>
   );

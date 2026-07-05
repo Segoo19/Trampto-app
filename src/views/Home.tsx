@@ -17,6 +17,7 @@ import { toPdf, detectKind, SEAL_ACCEPT, LEGACY_OFFICE_RE } from "../lib/convert
 import { incrementFreeUsedOnDevice, FREE_LIMIT } from "../lib/usage";
 import { Dropzone, Field } from "../components/Bits";
 import ShareMenu from "../components/ShareMenu";
+import InstallButton from "../components/InstallButton";
 import {
   ShieldCheckIcon,
   ShieldAlertIcon,
@@ -199,6 +200,9 @@ const Home = ({
           <strong>{t("hero.subStrong")}</strong>
           {t("hero.subPost")}
         </p>
+        <div className="hero-install">
+          <InstallButton />
+        </div>
       </div>
 
       <div className="segmented-wrap">

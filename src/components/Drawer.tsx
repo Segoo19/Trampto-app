@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import type { AppSession } from "../types";
 import type { Usage } from "../lib/usage";
 import { FREE_LIMIT } from "../lib/usage";
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Props) => {
+  const { t } = useTranslation();
   // Cerrar con Escape y bloquear el scroll del fondo mientras está abierto
   useEffect(() => {
     if (!open) return;
@@ -79,45 +81,45 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
             <img src="/trampto-logo.png" alt="TRAMPTO" />
             <span className="brand-name">TRAMPTO</span>
           </button>
-          <button className="drawer-close" onClick={onClose} aria-label="Cerrar menú">
+          <button className="drawer-close" onClick={onClose} aria-label={t("drawer.closeMenu")}>
             <XIcon size={20} />
           </button>
         </div>
 
         <nav className="drawer-nav">
           <div className="drawer-group">
-            <Item to="/" icon={<StampIcon size={19} />} label="Sellar" />
+            <Item to="/" icon={<StampIcon size={19} />} label={t("tabs.seal")} />
             <Item
               to="/verificar"
               icon={<ShieldCheckIcon size={19} />}
-              label="Verificar"
+              label={t("tabs.verify")}
             />
           </div>
 
           <div className="drawer-group">
-            <h6>Recursos</h6>
-            <Item to="/use-cases" icon={<FileIcon size={18} />} label="Casos de uso" />
-            <Item to="/blog" icon={<BookIcon size={18} />} label="Blog" />
-            <Item to="/about" icon={<BookIcon size={18} />} label="Sobre TRAMPTO" />
+            <h6>{t("drawer.resources")}</h6>
+            <Item to="/use-cases" icon={<FileIcon size={18} />} label={t("drawer.useCases")} />
+            <Item to="/blog" icon={<BookIcon size={18} />} label={t("drawer.blog")} />
+            <Item to="/about" icon={<BookIcon size={18} />} label={t("drawer.about")} />
           </div>
 
           <div className="drawer-group">
-            <h6>Suscríbete</h6>
-            <Item to="/payment" icon={<CrownIcon size={18} />} label="Plan Empresas · 1,99 €" />
-            <Item to="/api-key" icon={<KeyIcon size={18} />} label="API para empresas" />
+            <h6>{t("drawer.subscribe")}</h6>
+            <Item to="/payment" icon={<CrownIcon size={18} />} label={t("drawer.planBusiness")} />
+            <Item to="/api-key" icon={<KeyIcon size={18} />} label={t("drawer.apiForBusiness")} />
           </div>
 
           <div className="drawer-group">
-            <h6>Cuenta</h6>
+            <h6>{t("drawer.account")}</h6>
             <Item
               to="/perfil"
               icon={<UserIcon size={18} />}
-              label={session ? "Mi perfil" : "Iniciar sesión"}
+              label={session ? t("drawer.myProfile") : t("header.signIn")}
             />
             {session && (
               <Item
                 icon={<LogOutIcon size={18} />}
-                label="Cerrar sesión"
+                label={t("drawer.logout")}
                 onClick={() => {
                   onLogout();
                   onClose();
@@ -130,12 +132,12 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
         <div className="drawer-foot">
           {usage?.isPro ? (
             <span className="pill pill-pro">
-              <CrownIcon size={12} /> {usage.isAdmin ? "ADMIN" : "PRO"} · Ilimitado
+              <CrownIcon size={12} /> {usage.isAdmin ? t("header.admin") : t("header.pro")}
             </span>
           ) : (
             usage && (
               <span className="pill pill-free">
-                Disponible: {usage.freeUsed}/{FREE_LIMIT}
+                {t("header.available", { used: usage.freeUsed, limit: FREE_LIMIT })}
               </span>
             )
           )}

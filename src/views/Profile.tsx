@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { AppCtx } from "../App";
 import { supabase } from "../lib/supabase";
 import {
@@ -14,6 +15,7 @@ import { CrownIcon, UserIcon } from "../components/Icons";
 // nombre de usuario, email, plan con detalles y cancelación, y cierre de sesión.
 // Sin sesión, esta misma pantalla es el "Iniciar sesión".
 const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
+  const { t, i18n } = useTranslation();
   const { session, usage, refreshUsage, navigate } = ctx;
   const [username, setUsername] = useState("");
   const [saving, setSaving] = useState(false);
@@ -23,13 +25,14 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [cancelling, setCancelling] = useState(false);
 
+  const locale = i18n.language.startsWith("en") ? "en-US" : "es-ES";
+  const fmtDate = (iso: string) => new Date(iso).toLocaleDateString(locale);
+
   const load = useCallback(async () => {
     if (!session) return;
     const meta = session.user.user_metadata as Record<string, unknown> | null;
     setUsername(
-      (meta?.full_name as string) ??
-        session.user.email?.split("@")[0] ??
-        ""
+      (meta?.full_name as string) ?? session.user.email?.split("@")[0] ?? ""
     );
     getSubscription(session.user.id).then(setSubscription);
     countMySeals(session.user.id).then(setSealCount);
@@ -46,8 +49,8 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
           <div className="result-badge" style={{ background: "#eceef3", color: "var(--navy)" }}>
             <UserIcon size={30} />
           </div>
-          <h2>Iniciar sesión</h2>
-          <p className="sub">Accede a tu cuenta o crea una nueva.</p>
+          <h2>{t("profile.signInTitle")}</h2>
+          <p className="sub">{t("profile.signInSub")}</p>
         </div>
         <AuthForm onAuthed={() => refreshUsage()} />
       </div>
@@ -57,13 +60,12 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
   const handleSaveUsername = async () => {
     const name = username.trim();
     if (name.length < 3 || name.length > 20) {
-      setMessage("El nombre debe tener entre 3 y 20 caracteres.");
+      setMessage(t("profile.nameLength"));
       setTimeout(() => setMessage(null), 3000);
       return;
     }
     setSaving(true);
     try {
-      // Igual que la web: metadatos de auth + perfil (este último, best-effort)
       const { error } = await supabase.auth.updateUser({
         data: { full_name: name },
       });
@@ -76,9 +78,9 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
       } catch {
         /* el esquema de profiles puede variar */
       }
-      setMessage("✓ Nombre actualizado");
+      setMessage(t("profile.nameUpdated"));
     } catch {
-      setMessage("No se pudo actualizar el nombre.");
+      setMessage(t("profile.nameError"));
     } finally {
       setSaving(false);
       setTimeout(() => setMessage(null), 3000);
@@ -92,15 +94,11 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
     setCancelling(false);
     setConfirmCancel(false);
     if (ok) {
-      setMessage(
-        `Suscripción cancelada. Mantienes Pro hasta ${new Date(
-          subscription.expires_at
-        ).toLocaleDateString("es-ES")}.`
-      );
+      setMessage(t("profile.cancelled", { date: fmtDate(subscription.expires_at) }));
       await refreshUsage();
       load();
     } else {
-      setMessage("No se pudo cancelar. Escríbenos a tramptooficial@gmail.com.");
+      setMessage(t("profile.cancelError"));
     }
   };
 
@@ -112,11 +110,11 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
         <div className="result-badge" style={{ background: "#eceef3", color: "var(--navy)" }}>
           <UserIcon size={30} />
         </div>
-        <h2>Mi perfil</h2>
+        <h2>{t("profile.title")}</h2>
       </div>
 
       <div className="form" style={{ marginBottom: 18 }}>
-        <label htmlFor="profile-username">Nombre de usuario</label>
+        <label htmlFor="profile-username">{t("profile.username")}</label>
         <div style={{ display: "flex", gap: 10 }}>
           <input
             id="profile-username"
@@ -130,17 +128,17 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
             onClick={handleSaveUsername}
             disabled={saving}
           >
-            {saving ? <span className="spinner spinner-dark" /> : "Guardar"}
+            {saving ? <span className="spinner spinner-dark" /> : t("profile.save")}
           </button>
         </div>
       </div>
 
       <div className="profile-row">
-        <span className="label">Email</span>
+        <span className="label">{t("profile.email")}</span>
         <span className="value">{session.user.email}</span>
       </div>
       <div className="profile-row">
-        <span className="label">Plan</span>
+        <span className="label">{t("profile.plan")}</span>
         <span className="value">
           {plan === "FREE" ? (
             <span className="pill pill-free">FREE · {usage?.freeUsed ?? 0}/{FREE_LIMIT}</span>
@@ -152,21 +150,19 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
         </span>
       </div>
       <div className="profile-row">
-        <span className="label">Documentos sellados</span>
+        <span className="label">{t("profile.sealedDocs")}</span>
         <span className="value">{sealCount ?? "—"}</span>
       </div>
       {subscription && (
         <>
           <div className="profile-row">
-            <span className="label">Suscrito desde</span>
-            <span className="value">
-              {new Date(subscription.created_at).toLocaleDateString("es-ES")}
-            </span>
+            <span className="label">{t("profile.subscribedSince")}</span>
+            <span className="value">{fmtDate(subscription.created_at)}</span>
           </div>
           <div className="profile-row">
-            <span className="label">Próxima renovación</span>
+            <span className="label">{t("profile.nextRenewal")}</span>
             <span className="value">
-              {new Date(subscription.expires_at).toLocaleDateString("es-ES")} · 1,99 €
+              {fmtDate(subscription.expires_at)} · {t("paywall.price")}
             </span>
           </div>
         </>
@@ -181,7 +177,7 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
       <div className="actions mt-24">
         {!usage?.isPro && (
           <button className="btn btn-gold" onClick={() => navigate("/payment")}>
-            <CrownIcon size={16} /> Hazte Pro
+            <CrownIcon size={16} /> {t("profile.goPro")}
           </button>
         )}
         {usage?.isPro && !usage.isAdmin && subscription && !confirmCancel && (
@@ -189,31 +185,33 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
             className="btn btn-outline"
             onClick={() => setConfirmCancel(true)}
           >
-            Cancelar suscripción
+            {t("profile.cancelSub")}
           </button>
         )}
         <button className="btn btn-ghost" onClick={onLogout}>
-          Cerrar sesión
+          {t("profile.logout")}
         </button>
       </div>
 
       {confirmCancel && (
         <div className="notice notice-error mt-16">
-          <span>
-            ¿Seguro? Perderás el acceso Pro al final del periodo facturado.
-          </span>
+          <span>{t("profile.confirmCancel")}</span>
           <button
             className="btn btn-outline btn-sm"
             onClick={handleCancel}
             disabled={cancelling}
           >
-            {cancelling ? <span className="spinner spinner-dark" /> : "Sí, cancelar"}
+            {cancelling ? (
+              <span className="spinner spinner-dark" />
+            ) : (
+              t("profile.yesCancel")
+            )}
           </button>
           <button
             className="btn btn-outline btn-sm"
             onClick={() => setConfirmCancel(false)}
           >
-            Mantener PRO
+            {t("profile.keepPro")}
           </button>
         </div>
       )}
