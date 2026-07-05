@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { AppCtx } from "../App";
 import { supabase } from "../lib/supabase";
 import {
@@ -26,6 +27,7 @@ import {
 // Plan Empresas: clave API + guía de integración. Basado en la página
 // /api-key de la web original (endpoints api-seal y api-verify).
 const ApiKey = ({ ctx }: { ctx: AppCtx }) => {
+  const { t } = useTranslation();
   const { session, usage, refreshUsage, navigate } = ctx;
   const [company, setCompany] = useState<Company | null>(null);
   const [loadingCompany, setLoadingCompany] = useState(true);
@@ -81,7 +83,7 @@ const ApiKey = ({ ctx }: { ctx: AppCtx }) => {
       window.location.href = await startCheckout("api");
     } catch (err) {
       console.error("api checkout error:", err);
-      setError("No se pudo iniciar el pago. Inténtalo de nuevo.");
+      setError(t("api.checkoutError"));
       setCheckoutLoading(false);
     }
   };
@@ -95,11 +97,11 @@ const ApiKey = ({ ctx }: { ctx: AppCtx }) => {
   };
 
   const base = apiBaseUrl();
-  const keyForDocs = company?.api_key ?? "TU_CLAVE_API";
+  const keyForDocs = company?.api_key ?? "YOUR_API_KEY";
   const hasActiveCompany =
     !!company && company.subscription_status === "active" && !!company.api_key;
 
-  const sealSnippet = `// Sellar un documento (Node.js / navegador)
+  const sealSnippet = `// Seal a document (Node.js / browser)
 const res = await fetch("${base}/api-seal", {
   method: "POST",
   headers: {
@@ -107,17 +109,17 @@ const res = await fetch("${base}/api-seal", {
     "x-api-key": "${keyForDocs}",
   },
   body: JSON.stringify({
-    file: "<PDF en base64>",
-    filename: "documento.pdf",
+    file: "<PDF in base64>",
+    filename: "document.pdf",
     format: "pdf",
   }),
 });
 const data = await res.json();
-// → { success, hash, verifyUrl, sealedAt, sealId }`;
+// -> { success, hash, verifyUrl, sealedAt, sealId }`;
 
-  const verifySnippet = `# Verificar un documento (endpoint público)
-curl ${base}/api-verify/<huella-sha256>
-# → { "valid": true, "filename": "...", "sealedAt": "...", "sealId": "..." }`;
+  const verifySnippet = `# Verify a document (public endpoint)
+curl ${base}/api-verify/<sha256-fingerprint>
+# -> { "valid": true, "filename": "...", "sealedAt": "...", "sealId": "..." }`;
 
   return (
     <div className="card">
@@ -125,18 +127,14 @@ curl ${base}/api-verify/<huella-sha256>
         <div className="result-badge" style={{ background: "var(--gold-soft)", color: "var(--gold)" }}>
           <KeyIcon size={30} />
         </div>
-        <h2>API para empresas</h2>
-        <p className="sub">
-          Integra el sellado y la verificación de TRAMPTO en tu web. Toda la
-          documentación y la demo son públicas; tu <strong>clave API se activa
-          al suscribirte</strong> (plan Empresas, 1,99 €/mes).
-        </p>
+        <h2>{t("api.title")}</h2>
+        <p className="sub">{t("api.lead")}</p>
       </div>
 
       {canceled && (
         <div className="notice notice-warn">
           <ShieldAlertIcon size={18} />
-          Pago cancelado. Puedes intentarlo de nuevo cuando quieras.
+          {t("api.canceled")}
         </div>
       )}
 
@@ -147,7 +145,7 @@ curl ${base}/api-verify/<huella-sha256>
             style={{ width: 20, height: 20, display: "inline-block" }}
           />
           <p className="mt-8" style={{ color: "var(--muted)", fontSize: 14 }}>
-            Activando tu plan Empresas…
+            {t("api.activating")}
           </p>
         </div>
       )}
@@ -156,17 +154,14 @@ curl ${base}/api-verify/<huella-sha256>
       {!session && (
         <div className="apikey-cta">
           <p className="apikey-cta-title">
-            <KeyIcon size={16} /> Suscríbete para conseguir tu clave API
+            <KeyIcon size={16} /> {t("api.subscribeTitle")}
           </p>
-          <p className="apikey-cta-sub">
-            Toda la documentación y la demo de abajo son públicas. Tu clave se
-            genera al suscribirte al plan Empresas (1,99 €/mes).
-          </p>
+          <p className="apikey-cta-sub">{t("api.subscribeSub")}</p>
           <button
             className="btn btn-gold btn-lg"
             onClick={() => navigate("/payment")}
           >
-            <KeyIcon size={17} /> Suscribirme · 1,99 €/mes
+            <KeyIcon size={17} /> {t("payment.subscribe")}
           </button>
         </div>
       )}
@@ -175,12 +170,7 @@ curl ${base}/api-verify/<huella-sha256>
       {session && usage?.isAdmin && !loadingCompany && !hasActiveCompany && !activating && (
         <div className="notice" style={{ background: "var(--gold-soft)", border: "1px solid #e3d09a", color: "#8a6c14" }}>
           <KeyIcon size={18} />
-          <span>
-            Cuenta admin. La clave API real aparecerá aquí cuando el backend
-            esté configurado (functions <code>api-seal</code>/<code>api-verify</code>{" "}
-            desplegadas y <code>setup-admin.sql</code> ejecutado). Mientras tanto,
-            usa el panel de pruebas de abajo con cualquier clave.
-          </span>
+          <span>{t("api.adminNote")}</span>
         </div>
       )}
 
@@ -190,18 +180,15 @@ curl ${base}/api-verify/<huella-sha256>
           {justPaid ? (
             <div className="notice notice-warn" style={{ textAlign: "left" }}>
               <ShieldAlertIcon size={18} />
-              <span>
-                Pago recibido. Tu clave se está generando — pulsa
-                «Actualizar» en unos segundos.
-              </span>
+              <span>{t("api.paidGenerating")}</span>
               <button className="btn btn-outline btn-sm" onClick={loadCompany}>
-                Actualizar
+                {t("api.refresh")}
               </button>
             </div>
           ) : (
             <>
               <p style={{ fontSize: 13.5, color: "var(--muted)", marginBottom: 12 }}>
-                Suscríbete al plan Empresas para activar tu clave API:
+                {t("api.subscribePrompt")}
               </p>
               <button
                 className="btn btn-gold btn-lg"
@@ -212,11 +199,11 @@ curl ${base}/api-verify/<huella-sha256>
                   <span className="spinner" />
                 ) : (
                   <>
-                    <KeyIcon size={18} /> Suscribirme y activar mi clave · 1,99 €/mes
+                    <KeyIcon size={18} /> {t("api.subscribeActivate")}
                   </>
                 )}
               </button>
-              <p className="stripe-note">Pago seguro con Stripe · Sin permanencia</p>
+              <p className="stripe-note">{t("payment.stripeNote")}</p>
             </>
           )}
         </div>
@@ -227,11 +214,11 @@ curl ${base}/api-verify/<huella-sha256>
         <>
           <div className="notice" style={{ background: "var(--green-bg)", border: "1px solid #bfe5d0", color: "#115c36" }}>
             <ShieldCheckIcon size={18} />
-            Suscripción Empresas activa para {company.email}
+            {t("api.activeFor", { email: company.email })}
           </div>
 
           <div className="api-section">
-            <h3>Tu clave API</h3>
+            <h3>{t("api.yourApiKey")}</h3>
             <div className="api-key-box">
               <code>
                 {showKey
@@ -240,15 +227,15 @@ curl ${base}/api-verify/<huella-sha256>
               </code>
               <button
                 className="copy-btn"
-                title={showKey ? "Ocultar" : "Mostrar"}
+                title={showKey ? t("bits.hide") : t("bits.show")}
                 onClick={() => setShowKey(!showKey)}
               >
                 {showKey ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
               </button>
-              <CopyButton value={company.api_key!} label="Copiar clave API" />
+              <CopyButton value={company.api_key!} label={t("api.copyApiKey")} />
               <button
                 className="copy-btn"
-                title="Regenerar clave"
+                title={t("api.regenerate")}
                 onClick={handleRegenerate}
                 disabled={regenerating}
               >
@@ -256,10 +243,9 @@ curl ${base}/api-verify/<huella-sha256>
               </button>
             </div>
             <p style={{ fontSize: 12.5, color: "var(--muted)", marginTop: 8 }}>
-              Guárdala en una variable de entorno, nunca en el código. Si la
-              regeneras, la anterior deja de funcionar.
+              {t("api.keyHint")}
               {monthlyUsage !== null && (
-                <> · Uso este mes: <strong>{monthlyUsage}</strong> documentos</>
+                <> · {t("api.usageThisMonth", { count: monthlyUsage })}</>
               )}
             </p>
           </div>
@@ -269,17 +255,17 @@ curl ${base}/api-verify/<huella-sha256>
       {/* Demo de integración: VISIBLE PARA TODOS (también empresas no
           suscriptoras) para que vean cómo queda en su web antes de pagar */}
       <div className="api-section">
-        <h3>Míralo en acción: TRAMPTO en tu web</h3>
+        <h3>{t("api.demoSectionTitle")}</h3>
         <CompanyDemo />
       </div>
 
       {/* Documentación (visible siempre) */}
       <div className="api-section">
-        <h3>Sellar por API</h3>
+        <h3>{t("api.sealApiTitle")}</h3>
         <pre className="codeblock">{sealSnippet}</pre>
       </div>
       <div className="api-section">
-        <h3>Verificar por API (público)</h3>
+        <h3>{t("api.verifyApiTitle")}</h3>
         <pre className="codeblock">{verifySnippet}</pre>
       </div>
 
@@ -295,7 +281,7 @@ curl ${base}/api-verify/<huella-sha256>
 
       <div className="center mt-24">
         <button className="btn btn-ghost" onClick={() => navigate("/")}>
-          ← Volver
+          {t("payment.back")}
         </button>
       </div>
     </div>
@@ -303,9 +289,10 @@ curl ${base}/api-verify/<huella-sha256>
 };
 
 // Panel exclusivo de la cuenta admin: prueba la clave API contra el propio
-// TRAMPTO (sella un PDF de prueba y verifica su huella) y muestra el
-// resultado crudo, para comprobar que la integración funciona.
+// TRAMPTO. Los mensajes de diagnóstico son técnicos y solo los ve el admin,
+// por eso se mantienen en inglés (neutro) y no se traducen.
 const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
+  const { t } = useTranslation();
   const [key, setKey] = useState(apiKey ?? "");
   const [running, setRunning] = useState<"seal" | "verify" | null>(null);
   const [result, setResult] = useState<{
@@ -320,31 +307,28 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
 
   const base = apiBaseUrl();
 
-  // Comprueba si una edge function está desplegada. Un GET simple no dispara
-  // preflight CORS, así que el gateway responde 404 NOT_FOUND legible cuando
-  // la función no existe (en vez del críptico "Failed to fetch" del POST).
   const probeDeployed = async (fn: string): Promise<boolean | null> => {
     try {
       const r = await fetch(`${base}/${fn}`, {
         method: "GET",
         signal: AbortSignal.timeout(8000),
       });
-      const t = await r.text();
-      if (r.status === 404 && /not.?found/i.test(t)) return false;
+      const txt = await r.text();
+      if (r.status === 404 && /not.?found/i.test(txt)) return false;
       return true;
     } catch {
-      return null; // sin red / desconocido
+      return null;
     }
   };
 
   const notDeployedResult = (fn: string) => ({
     ok: false,
-    title: `✗ La función ${fn} no está desplegada todavía`,
+    title: `✗ Function ${fn} is not deployed yet`,
     body:
-      `El gateway de Supabase responde 404 NOT_FOUND para ${fn}.\n\n` +
-      `Despliégala con la CLI de Supabase:\n` +
+      `The Supabase gateway returns 404 NOT_FOUND for ${fn}.\n\n` +
+      `Deploy it with the Supabase CLI:\n` +
       `  supabase functions deploy ${fn}\n\n` +
-      `(Necesita los secretos SUPABASE_SERVICE_ROLE_KEY y, para api-seal, la tabla companies con tu clave.)`,
+      `(Needs the SUPABASE_SERVICE_ROLE_KEY secret and, for api-seal, the companies table with your key.)`,
   });
 
   const testSeal = async () => {
@@ -356,12 +340,11 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
         setResult(notDeployedResult("api-seal"));
         return;
       }
-      // PDF mínimo generado al vuelo para la prueba
       const { PDFDocument, StandardFonts } = await import("pdf-lib");
       const doc = await PDFDocument.create();
       const page = doc.addPage([300, 200]);
       const font = await doc.embedFont(StandardFonts.Helvetica);
-      page.drawText(`Prueba API TRAMPTO ${new Date().toISOString()}`, {
+      page.drawText(`TRAMPTO API test ${new Date().toISOString()}`, {
         x: 20,
         y: 160,
         size: 9,
@@ -377,7 +360,7 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
         headers: { "Content-Type": "application/json", "x-api-key": key },
         body: JSON.stringify({
           file: base64,
-          filename: "prueba-api.pdf",
+          filename: "api-test.pdf",
           format: "pdf",
         }),
         signal: AbortSignal.timeout(15000),
@@ -386,8 +369,8 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
       setResult({
         ok: res.ok,
         title: res.ok
-          ? `✓ api-seal respondió ${res.status}: la clave funciona`
-          : `✗ api-seal respondió ${res.status}`,
+          ? `✓ api-seal responded ${res.status}: the key works`
+          : `✗ api-seal responded ${res.status}`,
         body: text.slice(0, 600),
       });
     } catch (err) {
@@ -397,7 +380,7 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
           ? notDeployedResult("api-seal")
           : {
               ok: false,
-              title: "✗ No se pudo conectar con api-seal",
+              title: "✗ Could not connect to api-seal",
               body: m,
             }
       );
@@ -415,7 +398,6 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
         setResult(notDeployedResult("api-verify"));
         return;
       }
-      // Usa la huella del último documento sellado registrado
       const { data } = await supabase
         .from("sealed_documents")
         .select("hash")
@@ -431,8 +413,8 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
       setResult({
         ok: res.ok,
         title: res.ok
-          ? `✓ api-verify respondió ${res.status}: el endpoint público funciona`
-          : `✗ api-verify respondió ${res.status}`,
+          ? `✓ api-verify responded ${res.status}: the public endpoint works`
+          : `✗ api-verify responded ${res.status}`,
         body: text.slice(0, 600),
       });
     } catch (err) {
@@ -442,7 +424,7 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
           ? notDeployedResult("api-verify")
           : {
               ok: false,
-              title: "✗ No se pudo conectar con api-verify",
+              title: "✗ Could not connect to api-verify",
               body: m,
             }
       );
@@ -453,13 +435,12 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
 
   return (
     <div className="admin-panel">
-      <h3>Panel admin · Probar la API contra TRAMPTO</h3>
+      <h3>{t("api.adminPanelTitle")}</h3>
       <p style={{ fontSize: 13, color: "var(--muted)", marginBottom: 12 }}>
-        Simula la integración de un cliente: sella un PDF de prueba con tu
-        clave y verifica una huella real. Solo visible para la cuenta admin.
+        {t("api.adminPanelSub")}
       </p>
       <div className="form" style={{ marginBottom: 12 }}>
-        <label htmlFor="admin-key">Clave API a probar</label>
+        <label htmlFor="admin-key">{t("api.keyToTest")}</label>
         <input
           id="admin-key"
           value={key}
@@ -478,7 +459,7 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
             <span className="spinner spinner-dark" />
           ) : (
             <>
-              <CheckIcon size={15} /> Probar sellado (api-seal)
+              <CheckIcon size={15} /> {t("api.testSeal")}
             </>
           )}
         </button>
@@ -491,7 +472,7 @@ const AdminTester = ({ apiKey }: { apiKey: string | null }) => {
             <span className="spinner spinner-dark" />
           ) : (
             <>
-              <CheckIcon size={15} /> Probar verificación (api-verify)
+              <CheckIcon size={15} /> {t("api.testVerify")}
             </>
           )}
         </button>

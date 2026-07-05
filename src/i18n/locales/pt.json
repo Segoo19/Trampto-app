@@ -211,5 +211,200 @@
     "verifiedSub": "Autêntico e sem modificações desde o selamento. O Seal ID e a data comprovam quem o selou e quando.",
     "sealYourOwn": "Sele seu próprio documento",
     "uniqueStrong": "este documento é único na internet"
+  },
+  "api": {
+    "title": "API para empresas",
+    "lead": "Integre o selamento e a verificação do TRAMPTO no seu site. Toda a documentação e a demo são públicas; sua chave API é ativada ao assinar (Plano Empresas, 1,99 €/mês).",
+    "canceled": "Pagamento cancelado. Você pode tentar de novo quando quiser.",
+    "activating": "Ativando seu Plano Empresas…",
+    "subscribeTitle": "Assine para obter sua chave API",
+    "subscribeSub": "Toda a documentação e a demo abaixo são públicas. Sua chave é gerada ao assinar o Plano Empresas (1,99 €/mês).",
+    "adminNote": "Conta admin. A chave API real aparecerá aqui quando o backend estiver configurado (funções api-seal/api-verify implantadas e setup-admin.sql executado). Enquanto isso, use o painel de testes abaixo com qualquer chave.",
+    "paidGenerating": "Pagamento recebido. Sua chave está sendo gerada — toque em “Atualizar” em alguns segundos.",
+    "refresh": "Atualizar",
+    "subscribePrompt": "Assine o Plano Empresas para ativar sua chave API:",
+    "subscribeActivate": "Assinar e ativar minha chave · 1,99 €/mês",
+    "activeFor": "Assinatura Empresas ativa para {{email}}",
+    "yourApiKey": "Sua chave API",
+    "copyApiKey": "Copiar chave API",
+    "regenerate": "Regenerar chave",
+    "keyHint": "Guarde-a em uma variável de ambiente, nunca no código. Se regenerá-la, a anterior deixa de funcionar.",
+    "usageThisMonth": "Uso este mês: {{count}} documentos",
+    "demoSectionTitle": "Veja em ação: TRAMPTO no seu site",
+    "sealApiTitle": "Selar via API",
+    "verifyApiTitle": "Verificar via API (público)",
+    "checkoutError": "Não foi possível iniciar o pagamento. Tente novamente.",
+    "adminPanelTitle": "Painel admin · Testar a API contra o TRAMPTO",
+    "adminPanelSub": "Simule a integração de um cliente: sele um PDF de teste com sua chave e verifique uma impressão digital real. Visível apenas para a conta admin.",
+    "keyToTest": "Chave API a testar",
+    "testSeal": "Testar selamento (api-seal)",
+    "testVerify": "Testar verificação (api-verify)"
+  },
+  "demo": {
+    "caption": "É assim que o TRAMPTO ficaria integrado com sua chave API no site de um cliente. Seus usuários poderiam selar e verificar sem sair do seu site. Experimente de verdade:",
+    "navServices": "Serviços",
+    "navClients": "Clientes",
+    "navDocuments": "Documentos",
+    "heroTitle": "Sele e verifique seus documentos",
+    "heroSub": "Protegido pela tecnologia do TRAMPTO.",
+    "poweredBy": "Powered by",
+    "viewCode": "Ver o código que a empresa integraria",
+    "verifying": "Verificando com o TRAMPTO…",
+    "sealing": "Selando com o TRAMPTO…",
+    "authentic": "Documento autêntico",
+    "authenticSub": "{{name}} · sem modificações",
+    "fallbackName": "Documento",
+    "notVerified": "Não verificado",
+    "notVerifiedSub": "Não consta selamento no TRAMPTO ou foi alterado.",
+    "viaApi": "via API /api-verify",
+    "viaRegistry": "via registro TRAMPTO",
+    "tryAnother": "Testar outro",
+    "sealed": "Documento selado",
+    "sealedSub": "Isto é o que POST /api-seal retorna:",
+    "openVerification": "Abrir verificação",
+    "sealAnother": "Selar outro",
+    "dropVerify": "Arraste um PDF selado para verificar",
+    "dropSeal": "Arraste um documento para selá-lo via API",
+    "errLegacy": "Formato antigo (.ppt/.doc). Salve como .pptx, .docx ou PDF.",
+    "errUnsupported": "Formato não suportado. Use PDF, Word, PowerPoint, imagem ou TXT.",
+    "errReadFile": "Não foi possível ler o arquivo. Se for PowerPoint antigo, salve como .pptx ou PDF.",
+    "errSeal": "Não foi possível selar. Verifique o arquivo."
+  },
+  "info": {
+    "about": {
+      "title": "Sobre o TRAMPTO",
+      "sub": "Integridade documental, sem complicação.",
+      "blocks": [
+        {
+          "h": "O que é o TRAMPTO",
+          "p": "O TRAMPTO aplica um selo criptográfico SHA-256 aos seus documentos e gera uma impressão digital única. A partir desse momento, seu documento é único na internet: não existem dois iguais. Se alguém modificar um único bit, a impressão digital deixa de coincidir e a alteração é detectada na hora."
+        },
+        {
+          "h": "Integridade e autoria",
+          "p": "Garantimos que o conteúdo não mudou e quem o selou e quando: cada selo leva um Seal ID único, a data e a conta que o gerou. É complementar às assinaturas do tipo DocuSign."
+        },
+        {
+          "h": "Para quem",
+          "p": "Autônomos e PMEs que precisam proteger orçamentos, contratos, faturas ou entregas sem aprender nada novo: você envia, sela e compartilha."
+        },
+        {
+          "h": "Contato",
+          "p": "Escreva para tramptooficial@gmail.com."
+        }
+      ]
+    },
+    "useCases": {
+      "title": "Casos de uso",
+      "sub": "Onde um documento único e inalterável faz a diferença.",
+      "blocks": [
+        {
+          "h": "Orçamentos e faturas",
+          "p": "Sele o orçamento antes de enviá-lo. Se o cliente devolver uma versão “retocada”, a verificação o denuncia em segundos."
+        },
+        {
+          "h": "Contratos e acordos",
+          "p": "Após a assinatura, sele o PDF final. Qualquer modificação posterior invalida o selo e fica evidente."
+        },
+        {
+          "h": "Entregas criativas",
+          "p": "Designs, manuscritos ou relatórios: comprove que sua entrega existia com aquele conteúdo exato em uma data específica, com um link público de verificação."
+        },
+        {
+          "h": "Certificados e comprovantes",
+          "list": [
+            "Certificados acadêmicos ou de formação.",
+            "Comprovantes de entrega ou recebimento.",
+            "Atas e relatórios técnicos.",
+            "Documentação para licitações."
+          ]
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sub": "Guias breves sobre integridade documental.",
+      "blocks": [
+        {
+          "h": "Como tornar seu PDF à prova de adulteração",
+          "p": "Um PDF comum é editado em segundos. A forma robusta de protegê-lo não é bloqueá-lo com senha (isso quebra), mas registrar sua impressão digital SHA-256: um identificador único que muda por completo se um único byte for alterado. Com o TRAMPTO é automático."
+        },
+        {
+          "h": "Selo digital vs assinatura eletrônica",
+          "p": "A assinatura eletrônica responde a “quem assinou isto?”. O TRAMPTO responde às duas perguntas ao mesmo tempo: “isto continua sendo o que foi selado?” e “quem o selou e quando?”. São complementares."
+        },
+        {
+          "h": "Por que seu documento é único a partir do seu hash",
+          "p": "O SHA-256 produz 2²⁵⁶ impressões possíveis: mais do que há átomos no universo observável. A probabilidade de dois documentos diferentes compartilharem impressão é, na prática, zero."
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "title": "Política de privacidade",
+    "updated": "Última atualização: junho de 2026",
+    "back": "Voltar ao início",
+    "sections": [
+      {
+        "h": "1. Quem somos",
+        "p": [
+          "O Trampto é um aplicativo que sela e verifica a integridade de documentos PDF por meio de uma impressão digital criptográfica SHA-256. Esta política explica quais dados tratamos e quais são seus direitos.",
+          "Para qualquer dúvida, escreva para tramptooficial@gmail.com."
+        ]
+      },
+      {
+        "h": "2. Quais dados coletamos",
+        "items": [
+          "E-mail de cadastro: se você criar uma conta, para identificá-lo e dar acesso.",
+          "Documentos que você processa: ao selar, calculamos sua impressão digital SHA-256. Segundo a arquitetura atual, não armazenamos o conteúdo do PDF: guardamos a impressão digital, o nome do arquivo, o Seal ID e a data.",
+          "Dados de assinatura e pagamento: a cobrança é processada pela Stripe; não armazenamos os dados do seu cartão.",
+          "Cookie técnico (trampto_free_used) para contar os documentos do plano gratuito no seu dispositivo."
+        ]
+      },
+      {
+        "h": "3. Para que usamos os dados",
+        "items": [
+          "Prestar o serviço de selamento e verificação.",
+          "Gerenciar sua conta e sua assinatura.",
+          "Processar os pagamentos.",
+          "Permitir a verificação pública a partir da impressão digital."
+        ],
+        "p": "A base legal é a execução do contrato e, quando aplicável, seu consentimento."
+      },
+      {
+        "h": "4. Provedores que tratam dados",
+        "items": [
+          "Supabase — backend, banco de dados e autenticação.",
+          "Stripe — processamento de pagamentos.",
+          "Vercel — hospedagem do aplicativo."
+        ]
+      },
+      {
+        "h": "5. Retenção dos dados",
+        "p": "Mantemos os dados da sua conta enquanto ela estiver ativa. O registro de selos é mantido para permitir a verificação. Você pode solicitar sua exclusão."
+      },
+      {
+        "h": "6. Seus direitos (LGPD/RGPD)",
+        "p": [
+          "Você tem direito a acesso, retificação, exclusão, oposição, limitação e portabilidade.",
+          "Para exercê-los, escreva para tramptooficial@gmail.com. Você também pode reclamar à autoridade de controle competente."
+        ]
+      },
+      {
+        "h": "7. Segurança",
+        "p": "O aplicativo é servido por HTTPS. O conteúdo dos documentos que você sela no seu dispositivo não é transmitido nem armazenado em nossos servidores."
+      },
+      {
+        "h": "8. Menores",
+        "p": "O Trampto não se destina a menores de idade."
+      },
+      {
+        "h": "9. Alterações nesta política",
+        "p": "Publicaremos a versão vigente nesta mesma página."
+      },
+      {
+        "h": "10. Contato",
+        "p": "Responsável pelo tratamento: Trampto. Contato: tramptooficial@gmail.com."
+      }
+    ]
   }
 }

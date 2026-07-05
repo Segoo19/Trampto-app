@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   sha256Hex,
   lookupHash,
@@ -57,15 +58,12 @@ async function verifyForDemo(
 }
 
 const CompanyDemo = () => {
+  const { t } = useTranslation();
   const [tab, setTab] = useState<"seal" | "verify">("verify");
 
   return (
     <div className="demo-wrap">
-      <p className="demo-caption">
-        Así se vería TRAMPTO integrado con tu clave API en la web de un cliente.
-        Tus usuarios podrían <strong>sellar</strong> y <strong>verificar</strong>{" "}
-        sin salir de tu web. Pruébalo de verdad:
-      </p>
+      <p className="demo-caption">{t("demo.caption")}</p>
 
       <div className="demo-browser">
         <div className="demo-bar">
@@ -81,15 +79,15 @@ const CompanyDemo = () => {
               <span className="demo-logo-mark">A</span> Gestoría Atlas
             </div>
             <nav className="demo-menu">
-              <span>Servicios</span>
-              <span>Clientes</span>
-              <span className="demo-menu-active">Documentos</span>
+              <span>{t("demo.navServices")}</span>
+              <span>{t("demo.navClients")}</span>
+              <span className="demo-menu-active">{t("demo.navDocuments")}</span>
             </nav>
           </div>
 
           <div className="demo-hero">
-            <h3>Sella y verifica tus documentos</h3>
-            <p>Protegido con la tecnología de TRAMPTO.</p>
+            <h3>{t("demo.heroTitle")}</h3>
+            <p>{t("demo.heroSub")}</p>
           </div>
 
           {/* Widget TRAMPTO embebido con pestañas */}
@@ -99,13 +97,13 @@ const CompanyDemo = () => {
                 className={tab === "seal" ? "active" : ""}
                 onClick={() => setTab("seal")}
               >
-                Sellar
+                {t("tabs.seal")}
               </button>
               <button
                 className={tab === "verify" ? "active" : ""}
                 onClick={() => setTab("verify")}
               >
-                Verificar
+                {t("tabs.verify")}
               </button>
             </div>
 
@@ -113,7 +111,7 @@ const CompanyDemo = () => {
 
             <div className="demo-powered">
               <span>
-                Powered by <strong>TRAMPTO</strong>
+                {t("demo.poweredBy")} <strong>TRAMPTO</strong>
               </span>
             </div>
           </div>
@@ -121,13 +119,13 @@ const CompanyDemo = () => {
       </div>
 
       <details className="demo-code">
-        <summary>Ver el código que integraría la empresa</summary>
-        <pre className="codeblock">{`<!-- En la web de tu empresa -->
+        <summary>{t("demo.viewCode")}</summary>
+        <pre className="codeblock">{`<!-- On your company's website -->
 <script>
   const TRAMPTO_API_KEY = "${DEMO_KEY}";
 
-  // Sellar: POST /api-seal  →  { hash, verifyUrl, sealId }
-  async function sellar(file) {
+  // Seal: POST /api-seal  ->  { hash, verifyUrl, sealId }
+  async function seal(file) {
     const b64 = btoa(String.fromCharCode(...new Uint8Array(await file.arrayBuffer())));
     const r = await fetch("${apiBaseUrl()}/api-seal", {
       method: "POST",
@@ -137,8 +135,8 @@ const CompanyDemo = () => {
     return r.json();
   }
 
-  // Verificar: GET /api-verify/{hash}  →  { valid, filename, sealedAt }
-  async function verificar(hash) {
+  // Verify: GET /api-verify/{hash}  ->  { valid, filename, sealedAt }
+  async function verify(hash) {
     const r = await fetch("${apiBaseUrl()}/api-verify/" + hash);
     return r.json();
   }
@@ -150,6 +148,7 @@ const CompanyDemo = () => {
 
 // --- Pestaña Verificar ---
 const VerifyPane = () => {
+  const { t } = useTranslation();
   const [phase, setPhase] = useState<"idle" | "working" | "done">("idle");
   const [result, setResult] = useState<VerifyResult | null>(null);
   const [via, setVia] = useState<"api" | "registro" | null>(null);
@@ -173,7 +172,7 @@ const VerifyPane = () => {
     return (
       <div className="demo-status">
         <span className="spinner spinner-dark" />
-        <span>Verificando con TRAMPTO…</span>
+        <span>{t("demo.verifying")}</span>
       </div>
     );
   }
@@ -186,16 +185,20 @@ const VerifyPane = () => {
             <>
               <ShieldCheckIcon size={26} />
               <div>
-                <strong>Documento auténtico</strong>
-                <span>{result.filename ?? "Documento"} · sin modificaciones</span>
+                <strong>{t("demo.authentic")}</strong>
+                <span>
+                  {t("demo.authenticSub", {
+                    name: result.filename ?? t("demo.fallbackName"),
+                  })}
+                </span>
               </div>
             </>
           ) : (
             <>
               <ShieldAlertIcon size={26} />
               <div>
-                <strong>No verificado</strong>
-                <span>No consta sellado en TRAMPTO o fue alterado.</span>
+                <strong>{t("demo.notVerified")}</strong>
+                <span>{t("demo.notVerifiedSub")}</span>
               </div>
             </>
           )}
@@ -203,7 +206,7 @@ const VerifyPane = () => {
         <div className="demo-subrow">
           {via && (
             <span className="demo-via">
-              vía {via === "api" ? "API /api-verify" : "registro TRAMPTO"}
+              {via === "api" ? t("demo.viaApi") : t("demo.viaRegistry")}
             </span>
           )}
           <button
@@ -213,7 +216,7 @@ const VerifyPane = () => {
               setResult(null);
             }}
           >
-            Probar otro
+            {t("demo.tryAnother")}
           </button>
         </div>
       </>
@@ -226,7 +229,7 @@ const VerifyPane = () => {
       setDrag={setDrag}
       onFile={run}
       accept={PDF_ONLY}
-      label="Arrastra un PDF sellado para verificar"
+      label={t("demo.dropVerify")}
       inputId="demo-verify-input"
     />
   );
@@ -234,6 +237,7 @@ const VerifyPane = () => {
 
 // --- Pestaña Sellar ---
 const SealPane = () => {
+  const { t } = useTranslation();
   const [phase, setPhase] = useState<"idle" | "working" | "done">("idle");
   const [drag, setDrag] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -246,11 +250,11 @@ const SealPane = () => {
   const run = async (file: File) => {
     setErr(null);
     if (LEGACY_OFFICE_RE.test(file.name)) {
-      setErr("Formato antiguo (.ppt/.doc). Guárdalo como .pptx, .docx o PDF.");
+      setErr(t("demo.errLegacy"));
       return;
     }
     if (!detectKind(file)) {
-      setErr("Formato no soportado. Usa PDF, Word, PowerPoint, imagen o TXT.");
+      setErr(t("demo.errUnsupported"));
       return;
     }
     setPhase("working");
@@ -266,11 +270,7 @@ const SealPane = () => {
       setPhase("done");
     } catch (e) {
       const m = e instanceof Error ? e.message : "";
-      setErr(
-        /OFFICE_LEGACY|zip/i.test(m)
-          ? "No se pudo leer el archivo. Si es PowerPoint antiguo, guárdalo como .pptx o PDF."
-          : "No se pudo sellar. Revisa el archivo."
-      );
+      setErr(/OFFICE_LEGACY|zip/i.test(m) ? t("demo.errReadFile") : t("demo.errSeal"));
       setPhase("idle");
     }
   };
@@ -279,7 +279,7 @@ const SealPane = () => {
     return (
       <div className="demo-status">
         <span className="spinner spinner-dark" />
-        <span>Sellando con TRAMPTO…</span>
+        <span>{t("demo.sealing")}</span>
       </div>
     );
   }
@@ -290,8 +290,8 @@ const SealPane = () => {
         <div className="demo-result ok">
           <ShieldCheckIcon size={26} />
           <div>
-            <strong>Documento sellado</strong>
-            <span>Esto es lo que devuelve POST /api-seal:</span>
+            <strong>{t("demo.sealed")}</strong>
+            <span>{t("demo.sealedSub")}</span>
           </div>
         </div>
         <pre className="codeblock demo-json">{`{
@@ -307,10 +307,10 @@ const SealPane = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <ExternalIcon size={13} /> Abrir verificación
+            <ExternalIcon size={13} /> {t("demo.openVerification")}
           </a>
           <button className="demo-reset" onClick={() => setPhase("idle")}>
-            Sellar otro
+            {t("demo.sealAnother")}
           </button>
         </div>
       </>
@@ -324,7 +324,7 @@ const SealPane = () => {
         setDrag={setDrag}
         onFile={run}
         accept={SEAL_ACCEPT}
-        label="Arrastra un documento para sellarlo vía API"
+        label={t("demo.dropSeal")}
         inputId="demo-seal-input"
       />
       {err && <p className="demo-err">{err}</p>}

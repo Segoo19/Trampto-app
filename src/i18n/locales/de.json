@@ -211,5 +211,200 @@
     "verifiedSub": "Authentisch und seit der Versiegelung unverändert. Seal ID und Datum belegen, wer es versiegelt hat und wann.",
     "sealYourOwn": "Versiegle dein eigenes Dokument",
     "uniqueStrong": "dieses Dokument ist einzigartig im Internet"
+  },
+  "api": {
+    "title": "API für Unternehmen",
+    "lead": "Integriere Versiegelung und Verifizierung von TRAMPTO in deine Website. Die gesamte Dokumentation und die Demo sind öffentlich; dein API-Schlüssel wird beim Abonnieren aktiviert (Business-Tarif, 1,99 €/Monat).",
+    "canceled": "Zahlung abgebrochen. Du kannst es jederzeit erneut versuchen.",
+    "activating": "Dein Business-Tarif wird aktiviert…",
+    "subscribeTitle": "Abonniere, um deinen API-Schlüssel zu erhalten",
+    "subscribeSub": "Die gesamte Dokumentation und die Demo unten sind öffentlich. Dein Schlüssel wird beim Abonnieren des Business-Tarifs (1,99 €/Monat) generiert.",
+    "adminNote": "Admin-Konto. Der echte API-Schlüssel erscheint hier, sobald das Backend konfiguriert ist (Funktionen api-seal/api-verify bereitgestellt und setup-admin.sql ausgeführt). Nutze bis dahin das Testpanel unten mit einem beliebigen Schlüssel.",
+    "paidGenerating": "Zahlung eingegangen. Dein Schlüssel wird generiert — tippe in ein paar Sekunden auf „Aktualisieren“.",
+    "refresh": "Aktualisieren",
+    "subscribePrompt": "Abonniere den Business-Tarif, um deinen API-Schlüssel zu aktivieren:",
+    "subscribeActivate": "Abonnieren und Schlüssel aktivieren · 1,99 €/Monat",
+    "activeFor": "Business-Abo aktiv für {{email}}",
+    "yourApiKey": "Dein API-Schlüssel",
+    "copyApiKey": "API-Schlüssel kopieren",
+    "regenerate": "Schlüssel neu generieren",
+    "keyHint": "Speichere ihn in einer Umgebungsvariable, niemals im Code. Wenn du ihn neu generierst, funktioniert der alte nicht mehr.",
+    "usageThisMonth": "Nutzung diesen Monat: {{count}} Dokumente",
+    "demoSectionTitle": "Sieh es in Aktion: TRAMPTO auf deiner Website",
+    "sealApiTitle": "Per API versiegeln",
+    "verifyApiTitle": "Per API verifizieren (öffentlich)",
+    "checkoutError": "Zahlung konnte nicht gestartet werden. Versuche es erneut.",
+    "adminPanelTitle": "Admin-Panel · API gegen TRAMPTO testen",
+    "adminPanelSub": "Simuliere eine Client-Integration: versiegle ein Test-PDF mit deinem Schlüssel und verifiziere einen echten Fingerabdruck. Nur für das Admin-Konto sichtbar.",
+    "keyToTest": "Zu testender API-Schlüssel",
+    "testSeal": "Versiegeln testen (api-seal)",
+    "testVerify": "Verifizierung testen (api-verify)"
+  },
+  "demo": {
+    "caption": "So würde TRAMPTO mit deinem API-Schlüssel auf der Website eines Kunden aussehen. Deine Nutzer könnten versiegeln und verifizieren, ohne deine Seite zu verlassen. Probiere es wirklich aus:",
+    "navServices": "Leistungen",
+    "navClients": "Kunden",
+    "navDocuments": "Dokumente",
+    "heroTitle": "Versiegle und verifiziere deine Dokumente",
+    "heroSub": "Geschützt mit der Technologie von TRAMPTO.",
+    "poweredBy": "Bereitgestellt von",
+    "viewCode": "Den Code ansehen, den das Unternehmen integrieren würde",
+    "verifying": "Verifizierung mit TRAMPTO…",
+    "sealing": "Versiegeln mit TRAMPTO…",
+    "authentic": "Authentisches Dokument",
+    "authenticSub": "{{name}} · unverändert",
+    "fallbackName": "Dokument",
+    "notVerified": "Nicht verifiziert",
+    "notVerifiedSub": "Keine Versiegelung bei TRAMPTO verzeichnet oder verändert.",
+    "viaApi": "über API /api-verify",
+    "viaRegistry": "über TRAMPTO-Register",
+    "tryAnother": "Weiteres testen",
+    "sealed": "Dokument versiegelt",
+    "sealedSub": "Das gibt POST /api-seal zurück:",
+    "openVerification": "Verifizierung öffnen",
+    "sealAnother": "Weiteres versiegeln",
+    "dropVerify": "Zieh ein versiegeltes PDF zum Verifizieren hierher",
+    "dropSeal": "Zieh ein Dokument hierher, um es per API zu versiegeln",
+    "errLegacy": "Altes Format (.ppt/.doc). Speichere es als .pptx, .docx oder PDF.",
+    "errUnsupported": "Format nicht unterstützt. Nutze PDF, Word, PowerPoint, Bild oder TXT.",
+    "errReadFile": "Datei konnte nicht gelesen werden. Bei altem PowerPoint als .pptx oder PDF speichern.",
+    "errSeal": "Versiegeln fehlgeschlagen. Prüfe die Datei."
+  },
+  "info": {
+    "about": {
+      "title": "Über TRAMPTO",
+      "sub": "Dokumentintegrität, ganz einfach.",
+      "blocks": [
+        {
+          "h": "Was TRAMPTO ist",
+          "p": "TRAMPTO versieht deine Dokumente mit einem kryptografischen SHA-256-Siegel und erzeugt einen eindeutigen digitalen Fingerabdruck. Ab diesem Moment ist dein Dokument einzigartig im Internet: es gibt keine zwei gleichen. Ändert jemand auch nur ein Bit, stimmt der Fingerabdruck nicht mehr überein und die Änderung wird sofort erkannt."
+        },
+        {
+          "h": "Integrität und Urheberschaft",
+          "p": "Wir garantieren, dass sich der Inhalt nicht geändert hat, und wer es versiegelt hat und wann: jedes Siegel trägt eine eindeutige Seal ID, das Datum und das Konto, das es erstellt hat. Es ergänzt Signaturen wie DocuSign."
+        },
+        {
+          "h": "Für wen",
+          "p": "Selbstständige und KMU, die Angebote, Verträge, Rechnungen oder Lieferungen schützen müssen, ohne etwas Neues zu lernen: hochladen, versiegeln und teilen."
+        },
+        {
+          "h": "Kontakt",
+          "p": "Schreib uns an tramptooficial@gmail.com."
+        }
+      ]
+    },
+    "useCases": {
+      "title": "Anwendungsfälle",
+      "sub": "Wo ein einzigartiges, unveränderbares Dokument den Unterschied macht.",
+      "blocks": [
+        {
+          "h": "Angebote und Rechnungen",
+          "p": "Versiegle das Angebot, bevor du es sendest. Schickt der Kunde eine „bearbeitete“ Version zurück, entlarvt die Verifizierung sie in Sekunden."
+        },
+        {
+          "h": "Verträge und Vereinbarungen",
+          "p": "Versiegle nach der Unterschrift das finale PDF. Jede spätere Änderung macht das Siegel ungültig und wird offensichtlich."
+        },
+        {
+          "h": "Kreative Lieferungen",
+          "p": "Designs, Manuskripte oder Berichte: beweise, dass deine Lieferung mit genau diesem Inhalt an einem bestimmten Datum existierte, mit einem öffentlichen Verifizierungslink."
+        },
+        {
+          "h": "Zertifikate und Nachweise",
+          "list": [
+            "Studien- oder Fortbildungszertifikate.",
+            "Liefer- oder Empfangsnachweise.",
+            "Protokolle und technische Berichte.",
+            "Unterlagen für Ausschreibungen."
+          ]
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sub": "Kurze Leitfäden zur Dokumentintegrität.",
+      "blocks": [
+        {
+          "h": "So machst du dein PDF manipulationssicher",
+          "p": "Ein normales PDF lässt sich in Sekunden bearbeiten. Der robuste Schutz besteht nicht darin, es mit einem Passwort zu sperren (das lässt sich knacken), sondern seinen SHA-256-Fingerabdruck zu registrieren: eine eindeutige Kennung, die sich vollständig ändert, wenn ein einziges Byte verändert wird. Mit TRAMPTO ist das automatisch."
+        },
+        {
+          "h": "Digitales Siegel vs. elektronische Signatur",
+          "p": "Die elektronische Signatur beantwortet „wer hat das signiert?“. TRAMPTO beantwortet beide Fragen zugleich: „ist das noch das, was versiegelt wurde?“ und „wer hat es versiegelt und wann?“. Sie ergänzen sich."
+        },
+        {
+          "h": "Warum dein Dokument durch seinen Hash einzigartig ist",
+          "p": "SHA-256 erzeugt 2²⁵⁶ mögliche Fingerabdrücke: mehr als es Atome im beobachtbaren Universum gibt. Die Wahrscheinlichkeit, dass zwei verschiedene Dokumente denselben Fingerabdruck haben, ist praktisch null."
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "updated": "Zuletzt aktualisiert: Juni 2026",
+    "back": "Zurück zur Startseite",
+    "sections": [
+      {
+        "h": "1. Wer wir sind",
+        "p": [
+          "Trampto ist eine App, die die Integrität von PDF-Dokumenten mit einem kryptografischen SHA-256-Fingerabdruck versiegelt und verifiziert. Diese Erklärung beschreibt, welche Daten wir verarbeiten und welche Rechte du hast.",
+          "Bei Fragen schreib uns an tramptooficial@gmail.com."
+        ]
+      },
+      {
+        "h": "2. Welche Daten wir erheben",
+        "items": [
+          "Anmelde-E-Mail: wenn du ein Konto erstellst, zur Identifizierung und für den Zugang.",
+          "Dokumente, die du verarbeitest: beim Versiegeln berechnen wir ihren SHA-256-Fingerabdruck. Nach der aktuellen Architektur speichern wir den PDF-Inhalt nicht: wir speichern den Fingerabdruck, den Dateinamen, die Seal ID und das Datum.",
+          "Abo- und Zahlungsdaten: die Zahlung wird von Stripe abgewickelt; wir speichern deine Kartendaten nicht.",
+          "Technisches Cookie (trampto_free_used), um die Dokumente des Gratis-Tarifs auf deinem Gerät zu zählen."
+        ]
+      },
+      {
+        "h": "3. Wofür wir die Daten nutzen",
+        "items": [
+          "Den Versiegelungs- und Verifizierungsdienst bereitstellen.",
+          "Dein Konto und Abo verwalten.",
+          "Zahlungen abwickeln.",
+          "Die öffentliche Verifizierung anhand des Fingerabdrucks ermöglichen."
+        ],
+        "p": "Rechtsgrundlage ist die Vertragserfüllung und gegebenenfalls deine Einwilligung."
+      },
+      {
+        "h": "4. Anbieter, die Daten verarbeiten",
+        "items": [
+          "Supabase — Backend, Datenbank und Authentifizierung.",
+          "Stripe — Zahlungsabwicklung.",
+          "Vercel — Hosting der App."
+        ]
+      },
+      {
+        "h": "5. Speicherdauer",
+        "p": "Wir speichern deine Kontodaten, solange dein Konto aktiv ist. Das Siegelregister wird aufbewahrt, um die Verifizierung zu ermöglichen. Du kannst dessen Löschung verlangen."
+      },
+      {
+        "h": "6. Deine Rechte (DSGVO)",
+        "p": [
+          "Du hast das Recht auf Auskunft, Berichtigung, Löschung, Widerspruch, Einschränkung und Übertragbarkeit.",
+          "Um sie auszuüben, schreib uns an tramptooficial@gmail.com. Du kannst dich auch bei der zuständigen Aufsichtsbehörde beschweren."
+        ]
+      },
+      {
+        "h": "7. Sicherheit",
+        "p": "Die App wird über HTTPS bereitgestellt. Der Inhalt der Dokumente, die du auf deinem Gerät versiegelst, wird weder übertragen noch auf unseren Servern gespeichert."
+      },
+      {
+        "h": "8. Minderjährige",
+        "p": "Trampto richtet sich nicht an Minderjährige."
+      },
+      {
+        "h": "9. Änderungen dieser Erklärung",
+        "p": "Wir veröffentlichen die jeweils gültige Version auf dieser Seite."
+      },
+      {
+        "h": "10. Kontakt",
+        "p": "Verantwortlicher: Trampto. Kontakt: tramptooficial@gmail.com."
+      }
+    ]
   }
 }

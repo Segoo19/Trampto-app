@@ -211,5 +211,200 @@
     "verifiedSub": "Autentico e senza modifiche dalla sigillatura. Il Seal ID e la data attestano chi lo ha sigillato e quando.",
     "sealYourOwn": "Sigilla il tuo documento",
     "uniqueStrong": "questo documento è unico su Internet"
+  },
+  "api": {
+    "title": "API per le aziende",
+    "lead": "Integra la sigillatura e la verifica di TRAMPTO nel tuo sito. Tutta la documentazione e la demo sono pubbliche; la tua chiave API si attiva con l'abbonamento (piano Aziende, 1,99 €/mese).",
+    "canceled": "Pagamento annullato. Puoi riprovare quando vuoi.",
+    "activating": "Attivazione del tuo piano Aziende…",
+    "subscribeTitle": "Abbonati per ottenere la tua chiave API",
+    "subscribeSub": "Tutta la documentazione e la demo qui sotto sono pubbliche. La tua chiave viene generata abbonandoti al piano Aziende (1,99 €/mese).",
+    "adminNote": "Account admin. La chiave API reale apparirà qui una volta configurato il backend (funzioni api-seal/api-verify distribuite e setup-admin.sql eseguito). Nel frattempo, usa il pannello di test qui sotto con qualsiasi chiave.",
+    "paidGenerating": "Pagamento ricevuto. La tua chiave è in fase di generazione — tocca «Aggiorna» tra qualche secondo.",
+    "refresh": "Aggiorna",
+    "subscribePrompt": "Abbonati al piano Aziende per attivare la tua chiave API:",
+    "subscribeActivate": "Abbonati e attiva la mia chiave · 1,99 €/mese",
+    "activeFor": "Abbonamento Aziende attivo per {{email}}",
+    "yourApiKey": "La tua chiave API",
+    "copyApiKey": "Copia chiave API",
+    "regenerate": "Rigenera chiave",
+    "keyHint": "Conservala in una variabile d'ambiente, mai nel codice. Se la rigeneri, la precedente smette di funzionare.",
+    "usageThisMonth": "Utilizzo questo mese: {{count}} documenti",
+    "demoSectionTitle": "Guardalo in azione: TRAMPTO sul tuo sito",
+    "sealApiTitle": "Sigilla tramite API",
+    "verifyApiTitle": "Verifica tramite API (pubblico)",
+    "checkoutError": "Impossibile avviare il pagamento. Riprova.",
+    "adminPanelTitle": "Pannello admin · Testa l'API su TRAMPTO",
+    "adminPanelSub": "Simula l'integrazione di un cliente: sigilla un PDF di prova con la tua chiave e verifica un'impronta reale. Visibile solo all'account admin.",
+    "keyToTest": "Chiave API da testare",
+    "testSeal": "Prova sigillatura (api-seal)",
+    "testVerify": "Prova verifica (api-verify)"
+  },
+  "demo": {
+    "caption": "Ecco come apparirebbe TRAMPTO integrato con la tua chiave API sul sito di un cliente. I tuoi utenti potrebbero sigillare e verificare senza lasciare il tuo sito. Provalo davvero:",
+    "navServices": "Servizi",
+    "navClients": "Clienti",
+    "navDocuments": "Documenti",
+    "heroTitle": "Sigilla e verifica i tuoi documenti",
+    "heroSub": "Protetto dalla tecnologia di TRAMPTO.",
+    "poweredBy": "Powered by",
+    "viewCode": "Vedi il codice che l'azienda integrerebbe",
+    "verifying": "Verifica con TRAMPTO…",
+    "sealing": "Sigillatura con TRAMPTO…",
+    "authentic": "Documento autentico",
+    "authenticSub": "{{name}} · senza modifiche",
+    "fallbackName": "Documento",
+    "notVerified": "Non verificato",
+    "notVerifiedSub": "Nessuna sigillatura TRAMPTO registrata o è stato alterato.",
+    "viaApi": "tramite API /api-verify",
+    "viaRegistry": "tramite registro TRAMPTO",
+    "tryAnother": "Provane un altro",
+    "sealed": "Documento sigillato",
+    "sealedSub": "Questo è ciò che restituisce POST /api-seal:",
+    "openVerification": "Apri verifica",
+    "sealAnother": "Sigillane un altro",
+    "dropVerify": "Trascina un PDF sigillato da verificare",
+    "dropSeal": "Trascina un documento da sigillare tramite API",
+    "errLegacy": "Formato vecchio (.ppt/.doc). Salvalo come .pptx, .docx o PDF.",
+    "errUnsupported": "Formato non supportato. Usa PDF, Word, PowerPoint, immagine o TXT.",
+    "errReadFile": "Impossibile leggere il file. Se è un vecchio PowerPoint, salvalo come .pptx o PDF.",
+    "errSeal": "Impossibile sigillare. Controlla il file."
+  },
+  "info": {
+    "about": {
+      "title": "Informazioni su TRAMPTO",
+      "sub": "Integrità documentale, senza complicazioni.",
+      "blocks": [
+        {
+          "h": "Cos'è TRAMPTO",
+          "p": "TRAMPTO applica un sigillo crittografico SHA-256 ai tuoi documenti e genera un'impronta digitale univoca. Da quel momento, il tuo documento è unico su Internet: non ne esistono due uguali. Se qualcuno modifica un solo bit, l'impronta non corrisponde più e l'alterazione viene rilevata all'istante."
+        },
+        {
+          "h": "Integrità e paternità",
+          "p": "Garantiamo che il contenuto non è cambiato e chi lo ha sigillato e quando: ogni sigillo porta un Seal ID univoco, la data e l'account che lo ha generato. È complementare alle firme tipo DocuSign."
+        },
+        {
+          "h": "Per chi",
+          "p": "Liberi professionisti e PMI che devono proteggere preventivi, contratti, fatture o consegne senza imparare nulla di nuovo: carichi, sigilli e condividi."
+        },
+        {
+          "h": "Contatto",
+          "p": "Scrivici a tramptooficial@gmail.com."
+        }
+      ]
+    },
+    "useCases": {
+      "title": "Casi d'uso",
+      "sub": "Dove un documento unico e inalterabile fa la differenza.",
+      "blocks": [
+        {
+          "h": "Preventivi e fatture",
+          "p": "Sigilla il preventivo prima di inviarlo. Se il cliente restituisce una versione «ritoccata», la verifica lo smaschera in pochi secondi."
+        },
+        {
+          "h": "Contratti e accordi",
+          "p": "Dopo la firma, sigilla il PDF finale. Qualsiasi modifica successiva invalida il sigillo e diventa evidente."
+        },
+        {
+          "h": "Consegne creative",
+          "p": "Progetti, manoscritti o report: dimostra che la tua consegna esisteva con quel contenuto esatto in una data precisa, con un link pubblico di verifica."
+        },
+        {
+          "h": "Certificati e giustificativi",
+          "list": [
+            "Certificati accademici o di formazione.",
+            "Giustificativi di consegna o ricezione.",
+            "Verbali e report tecnici.",
+            "Documentazione per gare d'appalto."
+          ]
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sub": "Brevi guide sull'integrità documentale.",
+      "blocks": [
+        {
+          "h": "Come rendere il tuo PDF a prova di manomissione",
+          "p": "Un PDF normale si modifica in pochi secondi. Il modo robusto di proteggerlo non è bloccarlo con una password (si rompe), ma registrare la sua impronta SHA-256: un identificatore univoco che cambia completamente se si altera un solo byte. Con TRAMPTO è automatico."
+        },
+        {
+          "h": "Sigillo digitale vs firma elettronica",
+          "p": "La firma elettronica risponde a «chi ha firmato questo?». TRAMPTO risponde a entrambe le domande insieme: «è ancora ciò che è stato sigillato?» e «chi lo ha sigillato e quando?». Sono complementari."
+        },
+        {
+          "h": "Perché il tuo documento è unico grazie al suo hash",
+          "p": "SHA-256 produce 2²⁵⁶ impronte possibili: più degli atomi nell'universo osservabile. La probabilità che due documenti diversi condividano un'impronta è, in pratica, nulla."
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "title": "Informativa sulla privacy",
+    "updated": "Ultimo aggiornamento: giugno 2026",
+    "back": "Torna alla home",
+    "sections": [
+      {
+        "h": "1. Chi siamo",
+        "p": [
+          "Trampto è un'app che sigilla e verifica l'integrità dei documenti PDF tramite un'impronta crittografica SHA-256. Questa informativa spiega quali dati trattiamo e quali sono i tuoi diritti.",
+          "Per qualsiasi domanda, scrivici a tramptooficial@gmail.com."
+        ]
+      },
+      {
+        "h": "2. Quali dati raccogliamo",
+        "items": [
+          "E-mail di registrazione: se crei un account, per identificarti e darti accesso.",
+          "Documenti che elabori: durante la sigillatura calcoliamo la loro impronta SHA-256. Secondo l'architettura attuale, non memorizziamo il contenuto del PDF: conserviamo l'impronta, il nome del file, il Seal ID e la data.",
+          "Dati di abbonamento e pagamento: il pagamento è gestito da Stripe; non memorizziamo i dati della tua carta.",
+          "Cookie tecnico (trampto_free_used) per contare i documenti del piano gratuito sul tuo dispositivo."
+        ]
+      },
+      {
+        "h": "3. Per cosa usiamo i dati",
+        "items": [
+          "Fornire il servizio di sigillatura e verifica.",
+          "Gestire il tuo account e il tuo abbonamento.",
+          "Elaborare i pagamenti.",
+          "Consentire la verifica pubblica a partire dall'impronta."
+        ],
+        "p": "La base giuridica è l'esecuzione del contratto e, ove applicabile, il tuo consenso."
+      },
+      {
+        "h": "4. Fornitori che trattano i dati",
+        "items": [
+          "Supabase — backend, database e autenticazione.",
+          "Stripe — elaborazione dei pagamenti.",
+          "Vercel — hosting dell'app."
+        ]
+      },
+      {
+        "h": "5. Conservazione dei dati",
+        "p": "Conserviamo i dati del tuo account finché rimane attivo. Il registro dei sigilli viene conservato per consentire la verifica. Puoi richiederne la cancellazione."
+      },
+      {
+        "h": "6. I tuoi diritti (GDPR)",
+        "p": [
+          "Hai diritto di accesso, rettifica, cancellazione, opposizione, limitazione e portabilità.",
+          "Per esercitarli, scrivici a tramptooficial@gmail.com. Puoi anche presentare reclamo all'autorità di controllo competente."
+        ]
+      },
+      {
+        "h": "7. Sicurezza",
+        "p": "L'app è servita tramite HTTPS. Il contenuto dei documenti che sigilli sul tuo dispositivo non viene né trasmesso né memorizzato sui nostri server."
+      },
+      {
+        "h": "8. Minori",
+        "p": "Trampto non è destinato ai minori."
+      },
+      {
+        "h": "9. Modifiche a questa informativa",
+        "p": "Pubblicheremo la versione vigente su questa stessa pagina."
+      },
+      {
+        "h": "10. Contatto",
+        "p": "Titolare del trattamento: Trampto. Contatto: tramptooficial@gmail.com."
+      }
+    ]
   }
 }

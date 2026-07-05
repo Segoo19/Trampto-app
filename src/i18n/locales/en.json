@@ -210,5 +210,200 @@
     "verifiedSub": "Authentic and unmodified since sealing. The Seal ID and the date prove who sealed it and when.",
     "sealYourOwn": "Seal your own document",
     "uniqueStrong": "this document is unique on the internet"
+  },
+  "api": {
+    "title": "API for businesses",
+    "lead": "Integrate TRAMPTO sealing and verification into your website. All documentation and the demo are public; your API key is activated when you subscribe (Business plan, €1.99/month).",
+    "canceled": "Payment canceled. You can try again whenever you like.",
+    "activating": "Activating your Business plan…",
+    "subscribeTitle": "Subscribe to get your API key",
+    "subscribeSub": "All the documentation and the demo below are public. Your key is generated when you subscribe to the Business plan (€1.99/month).",
+    "adminNote": "Admin account. The real API key will appear here once the backend is configured (api-seal/api-verify functions deployed and setup-admin.sql run). Meanwhile, use the test panel below with any key.",
+    "paidGenerating": "Payment received. Your key is being generated — tap “Refresh” in a few seconds.",
+    "refresh": "Refresh",
+    "subscribePrompt": "Subscribe to the Business plan to activate your API key:",
+    "subscribeActivate": "Subscribe and activate my key · €1.99/month",
+    "activeFor": "Business subscription active for {{email}}",
+    "yourApiKey": "Your API key",
+    "copyApiKey": "Copy API key",
+    "regenerate": "Regenerate key",
+    "keyHint": "Store it in an environment variable, never in your code. If you regenerate it, the previous one stops working.",
+    "usageThisMonth": "Usage this month: {{count}} documents",
+    "demoSectionTitle": "See it in action: TRAMPTO on your website",
+    "sealApiTitle": "Seal via API",
+    "verifyApiTitle": "Verify via API (public)",
+    "checkoutError": "Payment could not be started. Please try again.",
+    "adminPanelTitle": "Admin panel · Test the API against TRAMPTO",
+    "adminPanelSub": "Simulate a client integration: seal a test PDF with your key and verify a real fingerprint. Visible to the admin account only.",
+    "keyToTest": "API key to test",
+    "testSeal": "Test sealing (api-seal)",
+    "testVerify": "Test verification (api-verify)"
+  },
+  "demo": {
+    "caption": "This is how TRAMPTO would look integrated with your API key on a client's website. Your users could seal and verify without leaving your site. Try it for real:",
+    "navServices": "Services",
+    "navClients": "Clients",
+    "navDocuments": "Documents",
+    "heroTitle": "Seal and verify your documents",
+    "heroSub": "Protected by TRAMPTO technology.",
+    "poweredBy": "Powered by",
+    "viewCode": "View the code the business would integrate",
+    "verifying": "Verifying with TRAMPTO…",
+    "sealing": "Sealing with TRAMPTO…",
+    "authentic": "Authentic document",
+    "authenticSub": "{{name}} · unmodified",
+    "fallbackName": "Document",
+    "notVerified": "Not verified",
+    "notVerifiedSub": "No record of sealing with TRAMPTO, or it was altered.",
+    "viaApi": "via API /api-verify",
+    "viaRegistry": "via TRAMPTO registry",
+    "tryAnother": "Try another",
+    "sealed": "Document sealed",
+    "sealedSub": "This is what POST /api-seal returns:",
+    "openVerification": "Open verification",
+    "sealAnother": "Seal another",
+    "dropVerify": "Drag a sealed PDF to verify",
+    "dropSeal": "Drag a document to seal it via API",
+    "errLegacy": "Old format (.ppt/.doc). Save it as .pptx, .docx or PDF.",
+    "errUnsupported": "Unsupported format. Use PDF, Word, PowerPoint, image or TXT.",
+    "errReadFile": "Could not read the file. If it's old PowerPoint, save it as .pptx or PDF.",
+    "errSeal": "Could not seal. Check the file."
+  },
+  "info": {
+    "about": {
+      "title": "About TRAMPTO",
+      "sub": "Document integrity, made simple.",
+      "blocks": [
+        {
+          "h": "What TRAMPTO is",
+          "p": "TRAMPTO applies a SHA-256 cryptographic seal to your documents and generates a unique digital fingerprint. From that moment on, your document is unique on the internet: no two are alike. If anyone modifies a single bit, the fingerprint no longer matches and the change is detected instantly."
+        },
+        {
+          "h": "Integrity and authorship",
+          "p": "We guarantee that the content hasn't changed and who sealed it and when: every seal carries a unique Seal ID, the date and the account that created it. It's complementary to e-signatures like DocuSign."
+        },
+        {
+          "h": "Who it's for",
+          "p": "Freelancers and SMBs who need to protect quotes, contracts, invoices or deliverables without learning anything new: upload, seal and share."
+        },
+        {
+          "h": "Contact",
+          "p": "Email us at tramptooficial@gmail.com."
+        }
+      ]
+    },
+    "useCases": {
+      "title": "Use cases",
+      "sub": "Where a unique, unalterable document makes the difference.",
+      "blocks": [
+        {
+          "h": "Quotes and invoices",
+          "p": "Seal the quote before sending it. If the client returns a “tweaked” version, verification exposes it in seconds."
+        },
+        {
+          "h": "Contracts and agreements",
+          "p": "After signing, seal the final PDF. Any later modification invalidates the seal and becomes evident."
+        },
+        {
+          "h": "Creative deliverables",
+          "p": "Designs, manuscripts or reports: prove your delivery existed with that exact content on a specific date, with a public verification link."
+        },
+        {
+          "h": "Certificates and receipts",
+          "list": [
+            "Academic or training certificates.",
+            "Delivery or receipt confirmations.",
+            "Minutes and technical reports.",
+            "Documentation for tenders."
+          ]
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sub": "Short guides on document integrity.",
+      "blocks": [
+        {
+          "h": "How to make your PDF tamper-proof",
+          "p": "A normal PDF can be edited in seconds. The robust way to protect it is not password-locking it (that breaks), but registering its SHA-256 fingerprint: a unique identifier that changes entirely if a single byte is altered. With TRAMPTO it's automatic."
+        },
+        {
+          "h": "Digital seal vs electronic signature",
+          "p": "An e-signature answers “who signed this?”. TRAMPTO answers both questions at once: “is this still what was sealed?” and “who sealed it and when?”. They're complementary."
+        },
+        {
+          "h": "Why your document is unique from its hash",
+          "p": "SHA-256 produces 2²⁵⁶ possible fingerprints: more than there are atoms in the observable universe. The odds of two different documents sharing a fingerprint are, in practice, zero."
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "updated": "Last updated: June 2026",
+    "back": "Back to home",
+    "sections": [
+      {
+        "h": "1. Who we are",
+        "p": [
+          "Trampto is an app that seals and verifies the integrity of PDF documents using a SHA-256 cryptographic fingerprint. This policy explains what data we process and what rights you have.",
+          "For any questions, email us at tramptooficial@gmail.com."
+        ]
+      },
+      {
+        "h": "2. What data we collect",
+        "items": [
+          "Sign-up email: if you create an account, to identify you and give you access.",
+          "Documents you process: when sealing, we compute their SHA-256 fingerprint. Under the current architecture, we do not store the PDF content: we store the fingerprint, the file name, the Seal ID and the date.",
+          "Subscription and payment data: payment is processed by Stripe; we do not store your card details.",
+          "Technical cookie (trampto_free_used) to count free-plan documents on your device."
+        ]
+      },
+      {
+        "h": "3. How we use the data",
+        "items": [
+          "Provide the sealing and verification service.",
+          "Manage your account and subscription.",
+          "Process payments.",
+          "Allow public verification from the fingerprint."
+        ],
+        "p": "The legal basis is performance of the contract and, where applicable, your consent."
+      },
+      {
+        "h": "4. Providers that process data",
+        "items": [
+          "Supabase — backend, database and authentication.",
+          "Stripe — payment processing.",
+          "Vercel — app hosting."
+        ]
+      },
+      {
+        "h": "5. Data retention",
+        "p": "We keep your account data while your account is active. The seal registry is kept to allow verification over time. You can request its deletion."
+      },
+      {
+        "h": "6. Your rights (GDPR)",
+        "p": [
+          "You have the right to access, rectification, erasure, objection, restriction and portability.",
+          "To exercise them, email us at tramptooficial@gmail.com. You may also complain to the competent supervisory authority."
+        ]
+      },
+      {
+        "h": "7. Security",
+        "p": "The app is served over HTTPS. The content of the documents you seal on your device is neither transmitted nor stored on our servers."
+      },
+      {
+        "h": "8. Minors",
+        "p": "Trampto is not intended for minors."
+      },
+      {
+        "h": "9. Changes to this policy",
+        "p": "We'll publish the current version on this page."
+      },
+      {
+        "h": "10. Contact",
+        "p": "Data controller: Trampto. Contact: tramptooficial@gmail.com."
+      }
+    ]
   }
 }

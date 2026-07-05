@@ -211,5 +211,200 @@
     "verifiedSub": "Authentique et sans modification depuis son scellage. Le Seal ID et la date attestent qui l'a scellé et quand.",
     "sealYourOwn": "Scellez votre propre document",
     "uniqueStrong": "ce document est unique sur Internet"
+  },
+  "api": {
+    "title": "API pour les entreprises",
+    "lead": "Intégrez le scellage et la vérification TRAMPTO sur votre site. Toute la documentation et la démo sont publiques ; votre clé API s'active à l'abonnement (offre Entreprises, 1,99 €/mois).",
+    "canceled": "Paiement annulé. Vous pouvez réessayer quand vous voulez.",
+    "activating": "Activation de votre offre Entreprises…",
+    "subscribeTitle": "Abonnez-vous pour obtenir votre clé API",
+    "subscribeSub": "Toute la documentation et la démo ci-dessous sont publiques. Votre clé est générée lorsque vous vous abonnez à l'offre Entreprises (1,99 €/mois).",
+    "adminNote": "Compte admin. La vraie clé API apparaîtra ici une fois le backend configuré (fonctions api-seal/api-verify déployées et setup-admin.sql exécuté). En attendant, utilisez le panneau de test ci-dessous avec n'importe quelle clé.",
+    "paidGenerating": "Paiement reçu. Votre clé est en cours de génération — appuyez sur « Actualiser » dans quelques secondes.",
+    "refresh": "Actualiser",
+    "subscribePrompt": "Abonnez-vous à l'offre Entreprises pour activer votre clé API :",
+    "subscribeActivate": "M'abonner et activer ma clé · 1,99 €/mois",
+    "activeFor": "Abonnement Entreprises actif pour {{email}}",
+    "yourApiKey": "Votre clé API",
+    "copyApiKey": "Copier la clé API",
+    "regenerate": "Régénérer la clé",
+    "keyHint": "Stockez-la dans une variable d'environnement, jamais dans le code. Si vous la régénérez, l'ancienne cesse de fonctionner.",
+    "usageThisMonth": "Utilisation ce mois-ci : {{count}} documents",
+    "demoSectionTitle": "Voyez-le en action : TRAMPTO sur votre site",
+    "sealApiTitle": "Sceller via l'API",
+    "verifyApiTitle": "Vérifier via l'API (public)",
+    "checkoutError": "Impossible de démarrer le paiement. Réessayez.",
+    "adminPanelTitle": "Panneau admin · Tester l'API face à TRAMPTO",
+    "adminPanelSub": "Simulez l'intégration d'un client : scellez un PDF de test avec votre clé et vérifiez une empreinte réelle. Visible uniquement pour le compte admin.",
+    "keyToTest": "Clé API à tester",
+    "testSeal": "Tester le scellage (api-seal)",
+    "testVerify": "Tester la vérification (api-verify)"
+  },
+  "demo": {
+    "caption": "Voici à quoi ressemblerait TRAMPTO intégré avec votre clé API sur le site d'un client. Vos utilisateurs pourraient sceller et vérifier sans quitter votre site. Essayez pour de vrai :",
+    "navServices": "Services",
+    "navClients": "Clients",
+    "navDocuments": "Documents",
+    "heroTitle": "Scellez et vérifiez vos documents",
+    "heroSub": "Protégé par la technologie TRAMPTO.",
+    "poweredBy": "Propulsé par",
+    "viewCode": "Voir le code que l'entreprise intégrerait",
+    "verifying": "Vérification avec TRAMPTO…",
+    "sealing": "Scellage avec TRAMPTO…",
+    "authentic": "Document authentique",
+    "authenticSub": "{{name}} · non modifié",
+    "fallbackName": "Document",
+    "notVerified": "Non vérifié",
+    "notVerifiedSub": "Aucun scellage TRAMPTO enregistré, ou le document a été altéré.",
+    "viaApi": "via API /api-verify",
+    "viaRegistry": "via le registre TRAMPTO",
+    "tryAnother": "En essayer un autre",
+    "sealed": "Document scellé",
+    "sealedSub": "Voici ce que renvoie POST /api-seal :",
+    "openVerification": "Ouvrir la vérification",
+    "sealAnother": "En sceller un autre",
+    "dropVerify": "Glissez un PDF scellé à vérifier",
+    "dropSeal": "Glissez un document à sceller via l'API",
+    "errLegacy": "Ancien format (.ppt/.doc). Enregistrez-le en .pptx, .docx ou PDF.",
+    "errUnsupported": "Format non pris en charge. Utilisez PDF, Word, PowerPoint, image ou TXT.",
+    "errReadFile": "Impossible de lire le fichier. Si c'est un ancien PowerPoint, enregistrez-le en .pptx ou PDF.",
+    "errSeal": "Impossible de sceller. Vérifiez le fichier."
+  },
+  "info": {
+    "about": {
+      "title": "À propos de TRAMPTO",
+      "sub": "L'intégrité documentaire, en toute simplicité.",
+      "blocks": [
+        {
+          "h": "Qu'est-ce que TRAMPTO",
+          "p": "TRAMPTO applique un sceau cryptographique SHA-256 à vos documents et génère une empreinte numérique unique. Dès lors, votre document est unique sur Internet : il n'en existe pas deux identiques. Si quelqu'un modifie un seul bit, l'empreinte ne correspond plus et l'altération est détectée immédiatement."
+        },
+        {
+          "h": "Intégrité et paternité",
+          "p": "Nous garantissons que le contenu n'a pas changé et qui l'a scellé et quand : chaque sceau porte un Seal ID unique, la date et le compte qui l'a généré. C'est complémentaire des signatures de type DocuSign."
+        },
+        {
+          "h": "Pour qui",
+          "p": "Indépendants et PME qui doivent protéger devis, contrats, factures ou livrables sans rien apprendre de nouveau : vous importez, scellez et partagez."
+        },
+        {
+          "h": "Contact",
+          "p": "Écrivez-nous à tramptooficial@gmail.com."
+        }
+      ]
+    },
+    "useCases": {
+      "title": "Cas d'usage",
+      "sub": "Là où un document unique et inaltérable fait la différence.",
+      "blocks": [
+        {
+          "h": "Devis et factures",
+          "p": "Scellez le devis avant de l'envoyer. Si le client renvoie une version « retouchée », la vérification la dévoile en quelques secondes."
+        },
+        {
+          "h": "Contrats et accords",
+          "p": "Après la signature, scellez le PDF final. Toute modification ultérieure invalide le sceau et devient évidente."
+        },
+        {
+          "h": "Livrables créatifs",
+          "p": "Créations, manuscrits ou rapports : prouvez que votre livrable existait avec ce contenu exact à une date précise, avec un lien public de vérification."
+        },
+        {
+          "h": "Certificats et justificatifs",
+          "list": [
+            "Certificats académiques ou de formation.",
+            "Justificatifs de livraison ou de réception.",
+            "Comptes rendus et rapports techniques.",
+            "Documentation pour appels d'offres."
+          ]
+        }
+      ]
+    },
+    "blog": {
+      "title": "Blog",
+      "sub": "Guides courts sur l'intégrité documentaire.",
+      "blocks": [
+        {
+          "h": "Comment rendre votre PDF inviolable",
+          "p": "Un PDF normal se modifie en quelques secondes. La façon robuste de le protéger n'est pas de le verrouiller par mot de passe (ça se casse), mais d'enregistrer son empreinte SHA-256 : un identifiant unique qui change entièrement si un seul octet est modifié. Avec TRAMPTO, c'est automatique."
+        },
+        {
+          "h": "Sceau numérique vs signature électronique",
+          "p": "La signature électronique répond à « qui a signé ceci ? ». TRAMPTO répond aux deux questions à la fois : « est-ce toujours ce qui a été scellé ? » et « qui l'a scellé et quand ? ». Ils sont complémentaires."
+        },
+        {
+          "h": "Pourquoi votre document est unique grâce à son hash",
+          "p": "SHA-256 produit 2²⁵⁶ empreintes possibles : plus qu'il n'y a d'atomes dans l'univers observable. La probabilité que deux documents différents partagent une empreinte est, en pratique, nulle."
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "updated": "Dernière mise à jour : juin 2026",
+    "back": "Retour à l'accueil",
+    "sections": [
+      {
+        "h": "1. Qui nous sommes",
+        "p": [
+          "Trampto est une application qui scelle et vérifie l'intégrité de documents PDF au moyen d'une empreinte cryptographique SHA-256. Cette politique explique quelles données nous traitons et quels sont vos droits.",
+          "Pour toute question, écrivez-nous à tramptooficial@gmail.com."
+        ]
+      },
+      {
+        "h": "2. Quelles données nous collectons",
+        "items": [
+          "E-mail d'inscription : si vous créez un compte, pour vous identifier et vous donner accès.",
+          "Documents que vous traitez : lors du scellage, nous calculons leur empreinte SHA-256. Selon l'architecture actuelle, nous ne stockons pas le contenu du PDF : nous conservons l'empreinte, le nom du fichier, le Seal ID et la date.",
+          "Données d'abonnement et de paiement : le paiement est traité par Stripe ; nous ne stockons pas les données de votre carte.",
+          "Cookie technique (trampto_free_used) pour compter les documents de l'offre gratuite sur votre appareil."
+        ]
+      },
+      {
+        "h": "3. À quoi servent les données",
+        "items": [
+          "Fournir le service de scellage et de vérification.",
+          "Gérer votre compte et votre abonnement.",
+          "Traiter les paiements.",
+          "Permettre la vérification publique à partir de l'empreinte."
+        ],
+        "p": "La base légale est l'exécution du contrat et, le cas échéant, votre consentement."
+      },
+      {
+        "h": "4. Prestataires qui traitent les données",
+        "items": [
+          "Supabase — backend, base de données et authentification.",
+          "Stripe — traitement des paiements.",
+          "Vercel — hébergement de l'application."
+        ]
+      },
+      {
+        "h": "5. Conservation des données",
+        "p": "Nous conservons les données de votre compte tant qu'il reste actif. Le registre des sceaux est conservé pour permettre la vérification. Vous pouvez en demander la suppression."
+      },
+      {
+        "h": "6. Vos droits (RGPD)",
+        "p": [
+          "Vous avez droit à l'accès, à la rectification, à l'effacement, à l'opposition, à la limitation et à la portabilité.",
+          "Pour les exercer, écrivez-nous à tramptooficial@gmail.com. Vous pouvez aussi introduire une réclamation auprès de l'autorité de contrôle compétente."
+        ]
+      },
+      {
+        "h": "7. Sécurité",
+        "p": "L'application est servie via HTTPS. Le contenu des documents que vous scellez sur votre appareil n'est ni transmis ni stocké sur nos serveurs."
+      },
+      {
+        "h": "8. Mineurs",
+        "p": "Trampto ne s'adresse pas aux mineurs."
+      },
+      {
+        "h": "9. Modifications de cette politique",
+        "p": "Nous publierons la version en vigueur sur cette même page."
+      },
+      {
+        "h": "10. Contact",
+        "p": "Responsable du traitement : Trampto. Contact : tramptooficial@gmail.com."
+      }
+    ]
   }
 }
