@@ -15,6 +15,7 @@ import {
 } from "../lib/seal";
 import { toPdf, detectKind, SEAL_ACCEPT, LEGACY_OFFICE_RE } from "../lib/convert";
 import { incrementFreeUsedOnDevice, FREE_LIMIT } from "../lib/usage";
+import { useLocalPrice } from "../lib/currency";
 import { Dropzone, Field } from "../components/Bits";
 import ShareMenu from "../components/ShareMenu";
 import InstallButton from "../components/InstallButton";
@@ -39,6 +40,7 @@ const Home = ({
   initialMode?: "seal" | "verify";
 }) => {
   const { t, i18n } = useTranslation();
+  const price = useLocalPrice();
   const { usage, refreshUsage, navigate } = ctx;
 
   const formatDate = (iso: string): string =>
@@ -239,7 +241,8 @@ const Home = ({
                 {t("paywall.text")}
               </p>
               <div className="price">
-                {t("paywall.price")} <span>{t("paywall.perMonth")}</span>
+                {t("paywall.price", { price: price.text })}{" "}
+                <span>{t("paywall.perMonth")}</span>
               </div>
               <button
                 className="btn btn-gold btn-lg"
@@ -248,6 +251,9 @@ const Home = ({
                 <CrownIcon size={18} /> {t("paywall.cta")}
               </button>
               <p className="stripe-note">{t("paywall.stripeNote")}</p>
+              {!price.isEur && (
+                <p className="stripe-note">{t("payment.approxNote")}</p>
+              )}
             </div>
           ) : (
             <Dropzone

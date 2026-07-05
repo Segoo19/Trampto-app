@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { AppSession } from "../types";
 import type { Usage } from "../lib/usage";
 import { FREE_LIMIT } from "../lib/usage";
+import { useLocalPrice } from "../lib/currency";
 import {
   BookIcon,
   CrownIcon,
@@ -27,6 +28,7 @@ interface Props {
 
 const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Props) => {
   const { t } = useTranslation();
+  const price = useLocalPrice();
   // Cerrar con Escape y bloquear el scroll del fondo mientras está abierto
   useEffect(() => {
     if (!open) return;
@@ -105,7 +107,7 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
 
           <div className="drawer-group">
             <h6>{t("drawer.subscribe")}</h6>
-            <Item to="/payment" icon={<CrownIcon size={18} />} label={t("drawer.planBusiness")} />
+            <Item to="/payment" icon={<CrownIcon size={18} />} label={t("drawer.planBusiness", { price: price.text })} />
             <Item to="/api-key" icon={<KeyIcon size={18} />} label={t("drawer.apiForBusiness")} />
           </div>
 

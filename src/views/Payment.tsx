@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { AppCtx } from "../App";
 import { supabase } from "../lib/supabase";
 import { startCheckout } from "../lib/usage";
+import { useLocalPrice } from "../lib/currency";
 import {
   CheckIcon,
   CrownIcon,
@@ -15,6 +16,7 @@ import {
 // sesión, se pide email + contraseña aquí mismo y se va directo al pago.
 const Payment = ({ ctx }: { ctx: AppCtx }) => {
   const { t } = useTranslation();
+  const price = useLocalPrice();
   const { session, usage, navigate } = ctx;
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
@@ -101,8 +103,14 @@ const Payment = ({ ctx }: { ctx: AppCtx }) => {
       <h2>{t("payment.planTitle")}</h2>
       <p style={{ color: "var(--muted)", fontSize: 14.5 }}>{t("payment.planLead")}</p>
       <div className="price">
-        {t("paywall.price")} <span>{t("paywall.perMonth")}</span>
+        {t("paywall.price", { price: price.text })}{" "}
+        <span>{t("paywall.perMonth")}</span>
       </div>
+      {!price.isEur && (
+        <p className="stripe-note" style={{ marginTop: 0 }}>
+          {t("payment.approxNote")}
+        </p>
+      )}
 
       <ul className="perks">
         <li>
@@ -174,7 +182,7 @@ const Payment = ({ ctx }: { ctx: AppCtx }) => {
             <span className="spinner" />
           ) : (
             <>
-              <CrownIcon size={18} /> {t("payment.subscribe")}
+              <CrownIcon size={18} /> {t("payment.subscribe", { price: price.text })}
             </>
           )}
         </button>

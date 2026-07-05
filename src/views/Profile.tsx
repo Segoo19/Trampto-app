@@ -9,6 +9,7 @@ import {
   FREE_LIMIT,
 } from "../lib/usage";
 import AuthForm from "../components/AuthForm";
+import { useLocalPrice } from "../lib/currency";
 import { CrownIcon, UserIcon } from "../components/Icons";
 
 // Perfil integrado en la app, versión minimalista del ProfilePage de la web:
@@ -16,6 +17,7 @@ import { CrownIcon, UserIcon } from "../components/Icons";
 // Sin sesión, esta misma pantalla es el "Iniciar sesión".
 const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
   const { t, i18n } = useTranslation();
+  const price = useLocalPrice();
   const { session, usage, refreshUsage, navigate } = ctx;
   const [username, setUsername] = useState("");
   const [saving, setSaving] = useState(false);
@@ -162,7 +164,8 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
           <div className="profile-row">
             <span className="label">{t("profile.nextRenewal")}</span>
             <span className="value">
-              {fmtDate(subscription.expires_at)} · {t("paywall.price")}
+              {fmtDate(subscription.expires_at)} ·{" "}
+              {t("paywall.price", { price: price.text })}
             </span>
           </div>
         </>

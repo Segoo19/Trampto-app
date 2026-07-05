@@ -13,6 +13,7 @@ import {
   type Company,
 } from "../lib/usage";
 import CompanyDemo from "../components/CompanyDemo";
+import { useLocalPrice } from "../lib/currency";
 import { CopyButton } from "../components/Bits";
 import {
   CheckIcon,
@@ -28,6 +29,7 @@ import {
 // /api-key de la web original (endpoints api-seal y api-verify).
 const ApiKey = ({ ctx }: { ctx: AppCtx }) => {
   const { t } = useTranslation();
+  const price = useLocalPrice();
   const { session, usage, refreshUsage, navigate } = ctx;
   const [company, setCompany] = useState<Company | null>(null);
   const [loadingCompany, setLoadingCompany] = useState(true);
@@ -128,7 +130,7 @@ curl ${base}/api-verify/<sha256-fingerprint>
           <KeyIcon size={30} />
         </div>
         <h2>{t("api.title")}</h2>
-        <p className="sub">{t("api.lead")}</p>
+        <p className="sub">{t("api.lead", { price: price.text })}</p>
       </div>
 
       {canceled && (
@@ -156,13 +158,18 @@ curl ${base}/api-verify/<sha256-fingerprint>
           <p className="apikey-cta-title">
             <KeyIcon size={16} /> {t("api.subscribeTitle")}
           </p>
-          <p className="apikey-cta-sub">{t("api.subscribeSub")}</p>
+          <p className="apikey-cta-sub">{t("api.subscribeSub", { price: price.text })}</p>
           <button
             className="btn btn-gold btn-lg"
             onClick={() => navigate("/payment")}
           >
-            <KeyIcon size={17} /> {t("payment.subscribe")}
+            <KeyIcon size={17} /> {t("payment.subscribe", { price: price.text })}
           </button>
+          {!price.isEur && (
+            <p className="apikey-cta-sub" style={{ marginTop: 8, marginBottom: 0 }}>
+              {t("payment.approxNote")}
+            </p>
+          )}
         </div>
       )}
 
@@ -199,11 +206,14 @@ curl ${base}/api-verify/<sha256-fingerprint>
                   <span className="spinner" />
                 ) : (
                   <>
-                    <KeyIcon size={18} /> {t("api.subscribeActivate")}
+                    <KeyIcon size={18} /> {t("api.subscribeActivate", { price: price.text })}
                   </>
                 )}
               </button>
               <p className="stripe-note">{t("payment.stripeNote")}</p>
+              {!price.isEur && (
+                <p className="stripe-note">{t("payment.approxNote")}</p>
+              )}
             </>
           )}
         </div>
