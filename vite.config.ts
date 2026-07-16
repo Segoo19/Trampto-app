@@ -23,7 +23,7 @@ export default defineConfig({
         scope: "/",
         display: "standalone",
         orientation: "portrait",
-        background_color: "#F6F7F9",
+        background_color: "#0D1B4B",
         theme_color: "#0D1B4B",
         lang: "es",
         dir: "ltr",
