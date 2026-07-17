@@ -83,27 +83,36 @@ const TZ_COUNTRY: Record<string, string> = {
 // Colombia/COP, Perú/PEN, Nigeria/NGN, Emiratos/AED…) no podemos convertir a su
 // divisa, así que mostramos USD como REFERENCIA internacional. Cámbialo a "EUR"
 // en NO_RATE_REFERENCE si prefieres enseñarles directamente el importe real.
-const NO_RATE_REFERENCE = "USD";
+// Referencia regional para países sin cotización propia: la moneda internacional
+// más cercana/útil en cada zona. El importe real en EUR se muestra siempre al
+// lado, así que nunca hay duda de en qué se cobra.
+const REF_USD = "USD"; // América, Golfo, África subsahariana y Asia
+const REF_EUR = "EUR"; // Magreb y entorno de la UE
 
 const COUNTRY_CURRENCY: Record<string, string> = {
-  // Moneda propia y cotizada por el BCE
+  // --- Moneda propia y cotizada por el BCE ---
   US: "USD", CA: "CAD", MX: "MXN", BR: "BRL", GB: "GBP", CH: "CHF", LI: "CHF",
   SE: "SEK", NO: "NOK", DK: "DKK", PL: "PLN", CZ: "CZK", HU: "HUF",
   RO: "RON", IS: "ISK", TR: "TRY", JP: "JPY", CN: "CNY", HK: "HKD",
   KR: "KRW", SG: "SGD", IN: "INR", ID: "IDR", MY: "MYR", PH: "PHP",
   TH: "THB", IL: "ILS", AU: "AUD", NZ: "NZD", ZA: "ZAR",
-  // Países que usan el dólar como moneda oficial
+  // --- El dólar ES su moneda oficial ---
   EC: "USD", PA: "USD", PR: "USD", SV: "USD",
-  // Sin cotización del BCE para su moneda → USD como referencia internacional
-  AR: NO_RATE_REFERENCE, CL: NO_RATE_REFERENCE, CO: NO_RATE_REFERENCE,
-  PE: NO_RATE_REFERENCE, VE: NO_RATE_REFERENCE, UY: NO_RATE_REFERENCE,
-  PY: NO_RATE_REFERENCE, BO: NO_RATE_REFERENCE, GT: NO_RATE_REFERENCE,
-  CR: NO_RATE_REFERENCE, CU: NO_RATE_REFERENCE, DO: NO_RATE_REFERENCE,
-  AE: NO_RATE_REFERENCE, SA: NO_RATE_REFERENCE, PK: NO_RATE_REFERENCE,
-  BD: NO_RATE_REFERENCE, VN: NO_RATE_REFERENCE, EG: NO_RATE_REFERENCE,
-  NG: NO_RATE_REFERENCE, KE: NO_RATE_REFERENCE, MA: NO_RATE_REFERENCE,
-  GH: NO_RATE_REFERENCE, TN: NO_RATE_REFERENCE, DZ: NO_RATE_REFERENCE,
-  TW: NO_RATE_REFERENCE, // TWD tampoco lo cotiza el BCE
+  // --- Latinoamérica sin cotización del BCE: el dólar es la referencia habitual
+  AR: REF_USD, CL: REF_USD, CO: REF_USD, PE: REF_USD, VE: REF_USD,
+  UY: REF_USD, PY: REF_USD, BO: REF_USD, GT: REF_USD, CR: REF_USD,
+  CU: REF_USD, DO: REF_USD,
+  // --- Golfo: sus divisas están ancladas al dólar, así que USD es lo más fiel
+  AE: REF_USD, SA: REF_USD,
+  // --- África subsahariana y Asia sin cotización: USD como referencia neutral.
+  // No usamos "la asiática más cercana" a propósito: a Taiwán no le encaja el
+  // yuan ni a Pakistán la rupia india. El dólar es lo que se usa allí para
+  // precios internacionales y no arrastra connotaciones.
+  NG: REF_USD, KE: REF_USD, GH: REF_USD,
+  TW: REF_USD, PK: REF_USD, BD: REF_USD, VN: REF_USD,
+  // --- Magreb y Egipto: por cercanía y comercio con la UE, el euro es la
+  // referencia más útil (y además coincide con el importe que se cobra).
+  MA: REF_EUR, TN: REF_EUR, DZ: REF_EUR, EG: REF_EUR,
 };
 
 export function detectCountry(): string | null {
