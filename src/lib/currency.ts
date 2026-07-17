@@ -14,43 +14,96 @@ import { useTranslation } from "react-i18next";
 export const BASE_PRICE_EUR = 1.99;
 
 // ---- País por zona horaria (sin permisos, sin red, independiente del idioma) ----
-// Solo mapeamos zonas de países con moneda != EUR; cualquier otra (incl. eurozona
-// o desconocida) cae a EUR, así nunca mostramos una conversión equivocada.
+// Usamos el NOMBRE IANA de la zona (p. ej. "America/Argentina/Buenos_Aires"), no
+// el offset horario: el nombre identifica el país de forma única, así que países
+// con el mismo horario (Argentina GMT-3 vs Brasil GMT-3) nunca se confunden.
+// Zona no listada → país desconocido → EUR (nunca una conversión equivocada).
 const TZ_COUNTRY: Record<string, string> = {
-  // Estados Unidos
+  // --- Eurozona (explícita: así "país conocido" = EUR, no "desconocido") ---
+  "Europe/Madrid": "ES", "Atlantic/Canary": "ES", "Europe/Paris": "FR",
+  "Europe/Berlin": "DE", "Europe/Rome": "IT", "Europe/Amsterdam": "NL",
+  "Europe/Brussels": "BE", "Europe/Vienna": "AT", "Europe/Lisbon": "PT",
+  "Atlantic/Madeira": "PT", "Europe/Athens": "GR", "Europe/Helsinki": "FI",
+  "Europe/Dublin": "IE", "Europe/Luxembourg": "LU", "Europe/Zagreb": "HR",
+  "Asia/Nicosia": "CY", "Europe/Nicosia": "CY", "Europe/Tallinn": "EE",
+  "Europe/Riga": "LV", "Europe/Vilnius": "LT", "Europe/Malta": "MT",
+  "Europe/Bratislava": "SK", "Europe/Ljubljana": "SI", "Europe/Andorra": "AD",
+  "Europe/Monaco": "MC", "Europe/San_Marino": "SM", "Europe/Vatican": "VA",
+  "Europe/Podgorica": "ME",
+  // --- Europa no-euro ---
+  "Europe/London": "GB", "Europe/Zurich": "CH", "Europe/Vaduz": "LI",
+  "Europe/Stockholm": "SE", "Europe/Oslo": "NO", "Europe/Copenhagen": "DK",
+  "Europe/Warsaw": "PL", "Europe/Prague": "CZ", "Europe/Budapest": "HU",
+  "Europe/Bucharest": "RO", "Atlantic/Reykjavik": "IS", "Europe/Istanbul": "TR",
+  // --- Norteamérica ---
   "America/New_York": "US", "America/Detroit": "US", "America/Chicago": "US",
   "America/Denver": "US", "America/Phoenix": "US", "America/Los_Angeles": "US",
   "America/Anchorage": "US", "America/Boise": "US", "America/Indiana/Indianapolis": "US",
-  "America/Kentucky/Louisville": "US", "Pacific/Honolulu": "US",
-  // Canadá
+  "America/Kentucky/Louisville": "US", "Pacific/Honolulu": "US", "America/Puerto_Rico": "PR",
   "America/Toronto": "CA", "America/Vancouver": "CA", "America/Edmonton": "CA",
   "America/Winnipeg": "CA", "America/Halifax": "CA", "America/St_Johns": "CA",
   "America/Regina": "CA", "America/Moncton": "CA",
-  // México
   "America/Mexico_City": "MX", "America/Monterrey": "MX", "America/Tijuana": "MX",
   "America/Cancun": "MX", "America/Merida": "MX", "America/Chihuahua": "MX",
   "America/Hermosillo": "MX", "America/Mazatlan": "MX",
-  // Brasil
+  // --- Latinoamérica ---
   "America/Sao_Paulo": "BR", "America/Bahia": "BR", "America/Fortaleza": "BR",
   "America/Recife": "BR", "America/Manaus": "BR", "America/Belem": "BR",
   "America/Cuiaba": "BR", "America/Campo_Grande": "BR",
-  // Europa no-euro
-  "Europe/London": "GB", "Europe/Zurich": "CH", "Europe/Stockholm": "SE",
-  "Europe/Oslo": "NO", "Europe/Copenhagen": "DK", "Europe/Warsaw": "PL",
-  // Asia-Pacífico
+  "America/Argentina/Buenos_Aires": "AR", "America/Argentina/Cordoba": "AR",
+  "America/Argentina/Mendoza": "AR", "America/Argentina/Salta": "AR",
+  "America/Argentina/Tucuman": "AR", "America/Argentina/Ushuaia": "AR",
+  "America/Santiago": "CL", "America/Bogota": "CO", "America/Lima": "PE",
+  "America/Caracas": "VE", "America/Montevideo": "UY", "America/Asuncion": "PY",
+  "America/La_Paz": "BO", "America/Guayaquil": "EC", "America/Panama": "PA",
+  "America/Guatemala": "GT", "America/Costa_Rica": "CR", "America/Havana": "CU",
+  "America/Santo_Domingo": "DO", "America/El_Salvador": "SV",
+  // --- Asia / Oriente Medio ---
   "Asia/Tokyo": "JP", "Asia/Shanghai": "CN", "Asia/Urumqi": "CN",
   "Asia/Hong_Kong": "HK", "Asia/Taipei": "TW", "Asia/Seoul": "KR",
   "Asia/Singapore": "SG", "Asia/Kolkata": "IN", "Asia/Calcutta": "IN",
+  "Asia/Jakarta": "ID", "Asia/Kuala_Lumpur": "MY", "Asia/Manila": "PH",
+  "Asia/Bangkok": "TH", "Asia/Jerusalem": "IL", "Asia/Dubai": "AE",
+  "Asia/Riyadh": "SA", "Asia/Karachi": "PK", "Asia/Dhaka": "BD",
+  "Asia/Ho_Chi_Minh": "VN",
+  // --- África ---
+  "Africa/Johannesburg": "ZA", "Africa/Lagos": "NG", "Africa/Cairo": "EG",
+  "Africa/Nairobi": "KE", "Africa/Casablanca": "MA", "Africa/Accra": "GH",
+  "Africa/Tunis": "TN", "Africa/Algiers": "DZ",
+  // --- Oceanía ---
   "Australia/Sydney": "AU", "Australia/Melbourne": "AU", "Australia/Brisbane": "AU",
   "Australia/Perth": "AU", "Australia/Adelaide": "AU", "Australia/Hobart": "AU",
   "Australia/Darwin": "AU", "Pacific/Auckland": "NZ",
 };
 
+// Moneda que se MUESTRA por país. Los países de la eurozona no se listan: caen a
+// EUR por defecto.
+//
+// Para países cuya moneda local el BCE NO cotiza (Argentina/ARS, Chile/CLP,
+// Colombia/COP, Perú/PEN, Nigeria/NGN, Emiratos/AED…) no podemos convertir a su
+// divisa, así que mostramos USD como REFERENCIA internacional. Cámbialo a "EUR"
+// en NO_RATE_REFERENCE si prefieres enseñarles directamente el importe real.
+const NO_RATE_REFERENCE = "USD";
+
 const COUNTRY_CURRENCY: Record<string, string> = {
-  US: "USD", CA: "CAD", MX: "MXN", BR: "BRL", GB: "GBP", CH: "CHF",
-  SE: "SEK", NO: "NOK", DK: "DKK", PL: "PLN", JP: "JPY", CN: "CNY",
-  HK: "HKD", KR: "KRW", SG: "SGD", IN: "INR", AU: "AUD", NZ: "NZD",
-  TW: "TWD", // sin tipo en el BCE → caerá a EUR en la conversión
+  // Moneda propia y cotizada por el BCE
+  US: "USD", CA: "CAD", MX: "MXN", BR: "BRL", GB: "GBP", CH: "CHF", LI: "CHF",
+  SE: "SEK", NO: "NOK", DK: "DKK", PL: "PLN", CZ: "CZK", HU: "HUF",
+  RO: "RON", IS: "ISK", TR: "TRY", JP: "JPY", CN: "CNY", HK: "HKD",
+  KR: "KRW", SG: "SGD", IN: "INR", ID: "IDR", MY: "MYR", PH: "PHP",
+  TH: "THB", IL: "ILS", AU: "AUD", NZ: "NZD", ZA: "ZAR",
+  // Países que usan el dólar como moneda oficial
+  EC: "USD", PA: "USD", PR: "USD", SV: "USD",
+  // Sin cotización del BCE para su moneda → USD como referencia internacional
+  AR: NO_RATE_REFERENCE, CL: NO_RATE_REFERENCE, CO: NO_RATE_REFERENCE,
+  PE: NO_RATE_REFERENCE, VE: NO_RATE_REFERENCE, UY: NO_RATE_REFERENCE,
+  PY: NO_RATE_REFERENCE, BO: NO_RATE_REFERENCE, GT: NO_RATE_REFERENCE,
+  CR: NO_RATE_REFERENCE, CU: NO_RATE_REFERENCE, DO: NO_RATE_REFERENCE,
+  AE: NO_RATE_REFERENCE, SA: NO_RATE_REFERENCE, PK: NO_RATE_REFERENCE,
+  BD: NO_RATE_REFERENCE, VN: NO_RATE_REFERENCE, EG: NO_RATE_REFERENCE,
+  NG: NO_RATE_REFERENCE, KE: NO_RATE_REFERENCE, MA: NO_RATE_REFERENCE,
+  GH: NO_RATE_REFERENCE, TN: NO_RATE_REFERENCE, DZ: NO_RATE_REFERENCE,
+  TW: NO_RATE_REFERENCE, // TWD tampoco lo cotiza el BCE
 };
 
 export function detectCountry(): string | null {
