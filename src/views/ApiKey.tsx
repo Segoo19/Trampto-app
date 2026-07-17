@@ -130,7 +130,7 @@ curl ${base}/api-verify/<sha256-fingerprint>
           <KeyIcon size={30} />
         </div>
         <h2>{t("api.title")}</h2>
-        <p className="sub">{t("api.lead", { price: price.text })}</p>
+        <p className="sub">{t("api.lead", { price: price.display })}</p>
       </div>
 
       {canceled && (
@@ -158,16 +158,16 @@ curl ${base}/api-verify/<sha256-fingerprint>
           <p className="apikey-cta-title">
             <KeyIcon size={16} /> {t("api.subscribeTitle")}
           </p>
-          <p className="apikey-cta-sub">{t("api.subscribeSub", { price: price.text })}</p>
+          <p className="apikey-cta-sub">{t("api.subscribeSub", { price: price.display })}</p>
           <button
             className="btn btn-gold btn-lg"
             onClick={() => navigate("/payment")}
           >
-            <KeyIcon size={17} /> {t("payment.subscribe", { price: price.text })}
+            <KeyIcon size={17} /> {t("payment.subscribe", { price: price.display })}
           </button>
-          {!price.isEur && (
+          {price.hasLocal && (
             <p className="apikey-cta-sub" style={{ marginTop: 8, marginBottom: 0 }}>
-              {t("payment.approxNote")}
+              {t("payment.approxNote", { eur: price.eurText })}
             </p>
           )}
         </div>
@@ -206,13 +206,13 @@ curl ${base}/api-verify/<sha256-fingerprint>
                   <span className="spinner" />
                 ) : (
                   <>
-                    <KeyIcon size={18} /> {t("api.subscribeActivate", { price: price.text })}
+                    <KeyIcon size={18} /> {t("api.subscribeActivate", { price: price.display })}
                   </>
                 )}
               </button>
               <p className="stripe-note">{t("payment.stripeNote")}</p>
-              {!price.isEur && (
-                <p className="stripe-note">{t("payment.approxNote")}</p>
+              {price.hasLocal && (
+                <p className="stripe-note">{t("payment.approxNote", { eur: price.eurText })}</p>
               )}
             </>
           )}

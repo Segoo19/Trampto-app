@@ -103,12 +103,12 @@ const Payment = ({ ctx }: { ctx: AppCtx }) => {
       <h2>{t("payment.planTitle")}</h2>
       <p style={{ color: "var(--muted)", fontSize: 14.5 }}>{t("payment.planLead")}</p>
       <div className="price">
-        {t("paywall.price", { price: price.text })}{" "}
+        {t("paywall.price", { price: price.display })}{" "}
         <span>{t("paywall.perMonth")}</span>
       </div>
-      {!price.isEur && (
+      {price.hasLocal && (
         <p className="stripe-note" style={{ marginTop: 0 }}>
-          {t("payment.approxNote")}
+          {t("payment.approxNote", { eur: price.eurText })}
         </p>
       )}
 
@@ -182,7 +182,7 @@ const Payment = ({ ctx }: { ctx: AppCtx }) => {
             <span className="spinner" />
           ) : (
             <>
-              <CrownIcon size={18} /> {t("payment.subscribe", { price: price.text })}
+              <CrownIcon size={18} /> {t("payment.subscribe", { price: price.display })}
             </>
           )}
         </button>

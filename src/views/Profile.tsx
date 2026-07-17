@@ -165,7 +165,7 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
             <span className="label">{t("profile.nextRenewal")}</span>
             <span className="value">
               {fmtDate(subscription.expires_at)} ·{" "}
-              {t("paywall.price", { price: price.text })}
+              {t("paywall.price", { price: price.display })}
             </span>
           </div>
         </>

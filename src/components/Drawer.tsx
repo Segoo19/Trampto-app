@@ -107,7 +107,7 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
 
           <div className="drawer-group">
             <h6>{t("drawer.subscribe")}</h6>
-            <Item to="/payment" icon={<CrownIcon size={18} />} label={t("drawer.planBusiness", { price: price.text })} />
+            <Item to="/payment" icon={<CrownIcon size={18} />} label={t("drawer.planBusiness", { price: price.display })} />
             <Item to="/api-key" icon={<KeyIcon size={18} />} label={t("drawer.apiForBusiness")} />
           </div>
 

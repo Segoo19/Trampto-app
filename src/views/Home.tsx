@@ -241,7 +241,7 @@ const Home = ({
                 {t("paywall.text")}
               </p>
               <div className="price">
-                {t("paywall.price", { price: price.text })}{" "}
+                {t("paywall.price", { price: price.display })}{" "}
                 <span>{t("paywall.perMonth")}</span>
               </div>
               <button
@@ -251,8 +251,8 @@ const Home = ({
                 <CrownIcon size={18} /> {t("paywall.cta")}
               </button>
               <p className="stripe-note">{t("paywall.stripeNote")}</p>
-              {!price.isEur && (
-                <p className="stripe-note">{t("payment.approxNote")}</p>
+              {price.hasLocal && (
+                <p className="stripe-note">{t("payment.approxNote", { eur: price.eurText })}</p>
               )}
             </div>
           ) : (
