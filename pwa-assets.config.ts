@@ -3,10 +3,12 @@ import {
   minimal2023Preset,
 } from "@vite-pwa/assets-generator/config";
 
-// Fondo navy sólido de la marca (#0D1B4B) para el icono maskable y el
-// apple-touch, en vez del blanco por defecto del preset. Coherente con el
-// theme_color y el background_color del manifest.
-const NAVY = "#0D1B4B";
+// Fondo sólido para el maskable y el apple-touch, en vez del blanco por defecto
+// del preset. Usamos el mismo azul claro con el que arranca el degradado del
+// logo (icon-512.png), para que el relleno del área de seguridad continúe el
+// fondo del propio icono en vez de recortarlo con un marco de otro color.
+// Coherente con el background_color del manifest.
+const ICON_BG = "#EBF2FF";
 
 // Genera los iconos PWA a partir del logo cuadrado (public/icon-512.png).
 // Salida en public/: pwa-64x64.png, pwa-192x192.png, pwa-512x512.png,
@@ -18,14 +20,14 @@ export default defineConfig({
       ...minimal2023Preset.maskable,
       resizeOptions: {
         ...minimal2023Preset.maskable.resizeOptions,
-        background: NAVY,
+        background: ICON_BG,
       },
     },
     apple: {
       ...minimal2023Preset.apple,
       resizeOptions: {
         ...minimal2023Preset.apple.resizeOptions,
-        background: NAVY,
+        background: ICON_BG,
       },
     },
   },
