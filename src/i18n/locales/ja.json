@@ -133,7 +133,9 @@
     "signIn": "ログイン",
     "checkEmail": "アカウントを確認するためメールをご確認ください。",
     "haveAccount": "すでにアカウントをお持ちですか？ログイン",
-    "noAccount": "アカウントがありませんか？登録"
+    "noAccount": "アカウントがありませんか？登録",
+    "networkError": "サーバーに接続できませんでした。接続を確認して再試行してください。",
+    "genericError": "問題が発生しました。もう一度お試しください。"
   },
   "paymentSuccess": {
     "activating": "Pro アカウントを有効化しています…",

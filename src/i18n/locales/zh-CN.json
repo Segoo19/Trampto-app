@@ -133,7 +133,9 @@
     "signIn": "登录",
     "checkEmail": "请查收邮件以确认账户。",
     "haveAccount": "已有账户？登录",
-    "noAccount": "还没有账户？注册"
+    "noAccount": "还没有账户？注册",
+    "networkError": "无法连接服务器。请检查你的网络连接后重试。",
+    "genericError": "出错了，请重试。"
   },
   "paymentSuccess": {
     "activating": "正在激活你的 Pro 账户…",

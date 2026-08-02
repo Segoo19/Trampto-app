@@ -1,5 +1,5 @@
 import type { AppSession } from "../types";
-import { supabase, dbTimeout } from "./supabase";
+import { supabase, dbTimeout, SUPABASE_URL } from "./supabase";
 
 export const FREE_LIMIT = 3;
 
@@ -328,5 +328,5 @@ export async function getMonthlyApiUsage(companyId: string): Promise<number | nu
 
 // Base de las edge functions de la API pública
 export function apiBaseUrl(): string {
-  return `${import.meta.env.VITE_SUPABASE_URL}/functions/v1`;
+  return `${SUPABASE_URL}/functions/v1`;
 }

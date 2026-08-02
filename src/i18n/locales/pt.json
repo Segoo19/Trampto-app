@@ -133,7 +133,9 @@
     "signIn": "Entrar",
     "checkEmail": "Verifique seu e-mail para confirmar a conta.",
     "haveAccount": "Já tem conta? Entrar",
-    "noAccount": "Não tem conta? Cadastre-se"
+    "noAccount": "Não tem conta? Cadastre-se",
+    "networkError": "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.",
+    "genericError": "Algo deu errado. Tente novamente."
   },
   "paymentSuccess": {
     "activating": "Ativando sua conta Pro…",

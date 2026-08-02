@@ -133,7 +133,9 @@
     "signIn": "Accedi",
     "checkEmail": "Controlla la tua email per confermare l'account.",
     "haveAccount": "Hai già un account? Accedi",
-    "noAccount": "Non hai un account? Registrati"
+    "noAccount": "Non hai un account? Registrati",
+    "networkError": "Impossibile raggiungere il server. Controlla la connessione e riprova.",
+    "genericError": "Qualcosa è andato storto. Riprova."
   },
   "paymentSuccess": {
     "activating": "Attivazione del tuo account Pro…",

@@ -133,7 +133,9 @@
     "signIn": "登入",
     "checkEmail": "請查收電子郵件以確認帳戶。",
     "haveAccount": "已有帳戶？登入",
-    "noAccount": "還沒有帳戶？註冊"
+    "noAccount": "還沒有帳戶？註冊",
+    "networkError": "無法連線伺服器。請檢查你的網路連線後重試。",
+    "genericError": "發生錯誤，請重試。"
   },
   "paymentSuccess": {
     "activating": "正在啟用你的 Pro 帳戶…",

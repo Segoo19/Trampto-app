@@ -132,7 +132,9 @@
     "signIn": "Iniciar sesión",
     "checkEmail": "Revisa tu correo para confirmar la cuenta.",
     "haveAccount": "¿Ya tienes cuenta? Inicia sesión",
-    "noAccount": "¿No tienes cuenta? Regístrate"
+    "noAccount": "¿No tienes cuenta? Regístrate",
+    "networkError": "No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
+    "genericError": "Algo salió mal. Inténtalo de nuevo."
   },
   "paymentSuccess": {
     "activating": "Activando tu cuenta Pro…",

@@ -132,7 +132,9 @@
     "signIn": "Sign in",
     "checkEmail": "Check your email to confirm your account.",
     "haveAccount": "Already have an account? Sign in",
-    "noAccount": "No account? Sign up"
+    "noAccount": "No account? Sign up",
+    "networkError": "Couldn't reach the server. Check your connection and try again.",
+    "genericError": "Something went wrong. Please try again."
   },
   "paymentSuccess": {
     "activating": "Activating your Pro account…",

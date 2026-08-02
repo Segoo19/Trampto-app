@@ -133,7 +133,9 @@
     "signIn": "Anmelden",
     "checkEmail": "Sieh in deinem Postfach nach, um das Konto zu bestätigen.",
     "haveAccount": "Schon ein Konto? Anmelden",
-    "noAccount": "Noch kein Konto? Registrieren"
+    "noAccount": "Noch kein Konto? Registrieren",
+    "networkError": "Server nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.",
+    "genericError": "Etwas ist schiefgelaufen. Versuche es erneut."
   },
   "paymentSuccess": {
     "activating": "Dein Pro-Konto wird aktiviert…",

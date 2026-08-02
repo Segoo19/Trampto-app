@@ -1963,3 +1963,156 @@ body:lang(ja) {
     "Yu Gothic", sans-serif;
   line-height: 1.4;
 }
+
+/* ============================================================
+   Renovación UI 2026 — mismos colores y misma estructura, solo
+   más pulido y fluido (sombras, transiciones y micro-interacciones).
+   Se apila sobre las reglas anteriores mediante la cascada.
+   ============================================================ */
+:root {
+  /* Curva de salida suave con un punto de "spring" para que todo se sienta vivo */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Sombras algo más profundas y en dos capas, mismo tono navy */
+  --shadow: 0 1px 2px rgba(13, 27, 75, 0.05),
+    0 10px 30px -14px rgba(13, 27, 75, 0.16);
+  --shadow-lift: 0 2px 6px rgba(13, 27, 75, 0.08),
+    0 18px 44px -18px rgba(13, 27, 75, 0.28);
+  --ring: 0 0 0 3px rgba(13, 27, 75, 0.16);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Foco por teclado consistente y accesible en toda la app */
+:where(button, a, input, textarea, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* --- Botones: transición más rica + micro-interacción (hover sube, click hunde) --- */
+.btn {
+  transition: background 0.18s var(--ease), border-color 0.18s var(--ease),
+    color 0.18s var(--ease), box-shadow 0.18s var(--ease),
+    transform 0.12s var(--ease);
+}
+.btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+.btn:not(:disabled):active {
+  transform: translateY(0) scale(0.98);
+}
+.btn-primary {
+  box-shadow: 0 6px 18px -8px rgba(13, 27, 75, 0.5);
+}
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 11px 26px -8px rgba(13, 27, 75, 0.55);
+}
+.btn-gold {
+  box-shadow: 0 6px 18px -8px rgba(196, 154, 34, 0.55);
+}
+.btn-gold:hover:not(:disabled) {
+  box-shadow: 0 11px 26px -8px rgba(196, 154, 34, 0.6);
+}
+
+/* --- Inputs: foco con halo suave en vez de outline duro --- */
+.form input {
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.form input:focus {
+  outline: none;
+  border-color: var(--navy);
+  box-shadow: var(--ring);
+}
+
+/* --- Segmentado (Sellar/Verificar): cambio de estado más suave --- */
+.segmented button {
+  transition: color 0.2s var(--ease), background 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+.segmented button:not(.active):hover {
+  color: var(--text);
+}
+
+/* --- Tarjetas: entrada un pelín más elegante --- */
+.card {
+  animation: rise 0.34s var(--ease);
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Dropzone: reacciona con más vida al hover y al arrastrar --- */
+.dropzone {
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease),
+    transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.dropzone:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+.dropzone.drag {
+  transform: scale(1.006);
+  box-shadow: var(--shadow-lift);
+}
+.dropzone .dz-icon {
+  transition: transform 0.25s var(--ease);
+}
+.dropzone:hover .dz-icon {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* --- Controles secundarios: hover/press más fluidos --- */
+.menu-btn,
+.install-btn,
+.pill-btn,
+.header-login,
+.share-opt,
+.demo-open,
+.copy-btn {
+  transition: background 0.18s var(--ease), border-color 0.18s var(--ease),
+    color 0.18s var(--ease), box-shadow 0.18s var(--ease),
+    transform 0.12s var(--ease);
+}
+.menu-btn:hover,
+.install-btn:hover {
+  transform: translateY(-1px);
+}
+.menu-btn:active,
+.install-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+/* --- Drawer y contenido: easing consistente con el resto --- */
+.drawer {
+  transition: transform 0.28s var(--ease);
+}
+.info-page a,
+.footer a {
+  transition: color 0.15s var(--ease);
+}
+
+/* --- Spinner un poco más orgánico --- */
+.spinner,
+.spinner-dark {
+  animation: spin 0.7s cubic-bezier(0.5, 0.15, 0.5, 0.85) infinite;
+}
+
+/* --- Respeto a quien prefiere menos movimiento --- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

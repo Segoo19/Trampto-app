@@ -1,7 +1,18 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { supabase } from "../lib/supabase";
+import { supabase, isNetworkError } from "../lib/supabase";
 import { canUseLocalAdmin, setLocalAdmin } from "../lib/localAdmin";
+
+// Aborta una promesa de auth si tarda demasiado, para no dejar el botón girando
+// de forma indefinida cuando el backend no responde.
+function withTimeout<T>(p: Promise<T>, ms = 15000): Promise<T> {
+  return Promise.race([
+    p,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error("timeout")), ms)
+    ),
+  ]);
+}
 
 interface Props {
   onAuthed: () => void;
@@ -34,26 +45,39 @@ const AuthForm = ({ onAuthed }: Props) => {
     setLoading(true);
     try {
       if (mode === "register") {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin },
-        });
-        if (error) setError(error.message);
+        const { data, error } = await withTimeout(
+          supabase.auth.signUp({
+            email,
+            password,
+            options: { emailRedirectTo: window.location.origin },
+          })
+        );
+        if (error) setError(mapAuthError(error.message));
         else if (data.session) onAuthed();
         else setInfo(t("auth.checkEmail"));
       } else {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) setError(error.message);
+        const { data, error } = await withTimeout(
+          supabase.auth.signInWithPassword({ email, password })
+        );
+        if (error) setError(mapAuthError(error.message));
         else if (data.session) onAuthed();
       }
+    } catch (err) {
+      // Errores lanzados (timeout, "Failed to fetch"…): mensaje de red claro.
+      setError(
+        isNetworkError(err) || (err instanceof Error && err.message === "timeout")
+          ? t("auth.networkError")
+          : t("auth.genericError")
+      );
     } finally {
       setLoading(false);
     }
   };
+
+  // Traduce el mensaje de Supabase: los de red se sustituyen por uno claro;
+  // el resto (credenciales, email sin confirmar…) se muestran tal cual.
+  const mapAuthError = (msg: string): string =>
+    isNetworkError(msg) ? t("auth.networkError") : msg;
 
   return (
     <form className="form" onSubmit={handleSubmit}>
