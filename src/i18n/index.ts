@@ -4,11 +4,16 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import resourcesToBackend from "i18next-resources-to-backend";
 
 // i18n de Trampto.
-// - Detección automática por el idioma del navegador (order: navigator).
+// - Autodetección por el idioma del navegador SOLO la primera vez.
+// - Selector manual (LanguageSwitcher) que persiste en localStorage: si el
+//   usuario elige un idioma, manda sobre la detección en las siguientes visitas.
+//   Necesario porque navigator.languages no siempre coincide con el idioma del
+//   sistema (móviles con el navegador en inglés aunque el teléfono esté en ES).
 // - Si el idioma detectado no está soportado, cae a español (es).
-// - Sin selector manual ni persistencia en localStorage.
 // - Carga diferida: cada locale es su propio chunk y solo se descarga el idioma
 //   activo (más el fallback es cuando el activo no es es). Nunca los 9 de golpe.
+
+export const LANG_STORAGE_KEY = "trampto_lang";
 
 export const SUPPORTED_LANGS = [
   "es",
@@ -45,8 +50,10 @@ i18n
     // inalcanzable. La normalización de región la hacemos en
     // convertDetectedLanguage (más abajo).
     detection: {
-      order: ["navigator"],
-      caches: [], // sin persistencia: siempre re-detecta el navegador
+      // localStorage primero (elección manual), navigator después (1.ª visita).
+      order: ["localStorage", "navigator"],
+      lookupLocalStorage: LANG_STORAGE_KEY,
+      caches: ["localStorage"], // recuerda la elección del usuario
       // Normaliza el código del navegador a uno soportado:
       //  - Chino por escritura: TW/HK/MO/Hant → tradicional (zh-TW); resto → zh-CN.
       //  - Los demás: se quita la región (en-US→en, fr-FR→fr, pt-BR→pt, ja-JP→ja…).

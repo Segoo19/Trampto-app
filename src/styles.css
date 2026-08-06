@@ -2116,3 +2116,81 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Selector de idioma (cabecera) ---------- */
+.lang-select {
+  position: relative;
+  display: inline-flex;
+}
+
+.lang-select-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 34px;
+  padding: 0 9px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--navy);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 12.5px;
+}
+
+.lang-select-btn:hover {
+  background: #f3f5f9;
+  border-color: #cfd4e0;
+}
+
+.lang-select-code {
+  letter-spacing: 0.03em;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 70;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  min-width: 168px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lift, 0 18px 44px -18px rgba(13, 27, 75, 0.28));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: rise 0.16s var(--ease, ease);
+}
+
+.lang-menu li {
+  margin: 0;
+}
+
+.lang-menu button {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s var(--ease, ease);
+}
+
+.lang-menu button:hover {
+  background: #f3f5f9;
+}
+
+.lang-menu button.active {
+  background: var(--navy);
+  color: #fff;
+}
