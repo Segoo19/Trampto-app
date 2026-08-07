@@ -135,7 +135,9 @@
     "haveAccount": "Schon ein Konto? Anmelden",
     "noAccount": "Noch kein Konto? Registrieren",
     "networkError": "Server nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.",
-    "genericError": "Etwas ist schiefgelaufen. Versuche es erneut."
+    "genericError": "Etwas ist schiefgelaufen. Versuche es erneut.",
+    "privacyPre": "By continuing, you accept our",
+    "privacyLink": "Privacy Policy"
   },
   "paymentSuccess": {
     "activating": "Dein Pro-Konto wird aktiviert…",
@@ -409,5 +411,14 @@
         "p": "Verantwortlicher: Trampto. Kontakt: tramptooficial@gmail.com."
       }
     ]
+  },
+  "storeNotice": {
+    "subscribeOnWeb": "To subscribe to the Business plan, open {{site}} in your browser. Subscriptions are managed on the web."
+  },
+  "consent": {
+    "title": "Privacy",
+    "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
+    "privacyLink": "Read the Privacy Policy",
+    "accept": "Accept and continue"
   }
 }

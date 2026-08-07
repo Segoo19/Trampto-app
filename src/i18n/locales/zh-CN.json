@@ -135,7 +135,9 @@
     "haveAccount": "已有账户？登录",
     "noAccount": "还没有账户？注册",
     "networkError": "无法连接服务器。请检查你的网络连接后重试。",
-    "genericError": "出错了，请重试。"
+    "genericError": "出错了，请重试。",
+    "privacyPre": "By continuing, you accept our",
+    "privacyLink": "Privacy Policy"
   },
   "paymentSuccess": {
     "activating": "正在激活你的 Pro 账户…",
@@ -409,5 +411,14 @@
         "p": "数据控制者：Trampto。联系方式：tramptooficial@gmail.com。"
       }
     ]
+  },
+  "storeNotice": {
+    "subscribeOnWeb": "To subscribe to the Business plan, open {{site}} in your browser. Subscriptions are managed on the web."
+  },
+  "consent": {
+    "title": "Privacy",
+    "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
+    "privacyLink": "Read the Privacy Policy",
+    "accept": "Accept and continue"
   }
 }

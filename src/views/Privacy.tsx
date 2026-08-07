@@ -35,6 +35,23 @@ const Privacy = ({ navigate }: { navigate: (to: string) => void }) => {
   const paras = (p?: string | string[]): string[] =>
     !p ? [] : Array.isArray(p) ? p : [p];
 
+  // Guarda anti-crash: al abrir /privacidad en frío, el chunk de i18n puede no
+  // haber cargado todavía y `c` no ser aún el objeto con `sections`. Sin esto la
+  // página quedaría EN BLANCO (motivo de rechazo 7.1 de Huawei). En cuanto el
+  // idioma carga, i18n re-renderiza y se muestra el contenido. Para acceso
+  // directo garantizado existe además la versión estática /privacidad.html.
+  if (!c || typeof c !== "object" || !Array.isArray(c.sections)) {
+    return (
+      <div className="info-page">
+        <h1>Política de privacidad</h1>
+        <p className="info-sub">
+          Cargando… Si no aparece, abre{" "}
+          <a href="/privacidad.html">/privacidad.html</a>.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="info-page">
       <h1>{c.title}</h1>

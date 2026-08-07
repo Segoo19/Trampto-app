@@ -16,6 +16,8 @@ import {
 import { toPdf, detectKind, SEAL_ACCEPT, LEGACY_OFFICE_RE } from "../lib/convert";
 import { incrementFreeUsedOnDevice, FREE_LIMIT } from "../lib/usage";
 import { useLocalPrice } from "../lib/currency";
+import { hidePaymentInApp } from "../lib/appContext";
+import WebSubscribeNote from "../components/WebSubscribeNote";
 import { Dropzone, Field } from "../components/Bits";
 import ShareMenu from "../components/ShareMenu";
 import InstallButton from "../components/InstallButton";
@@ -244,15 +246,21 @@ const Home = ({
                 {t("paywall.price", { price: price.display })}{" "}
                 <span>{t("paywall.perMonth")}</span>
               </div>
-              <button
-                className="btn btn-gold btn-lg"
-                onClick={() => navigate("/payment")}
-              >
-                <CrownIcon size={18} /> {t("paywall.cta")}
-              </button>
-              <p className="stripe-note">{t("paywall.stripeNote")}</p>
-              {price.hasLocal && (
-                <p className="stripe-note">{t("payment.approxNote", { eur: price.eurText })}</p>
+              {hidePaymentInApp() ? (
+                <WebSubscribeNote />
+              ) : (
+                <>
+                  <button
+                    className="btn btn-gold btn-lg"
+                    onClick={() => navigate("/payment")}
+                  >
+                    <CrownIcon size={18} /> {t("paywall.cta")}
+                  </button>
+                  <p className="stripe-note">{t("paywall.stripeNote")}</p>
+                  {price.hasLocal && (
+                    <p className="stripe-note">{t("payment.approxNote", { eur: price.eurText })}</p>
+                  )}
+                </>
               )}
             </div>
           ) : (

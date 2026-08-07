@@ -10,6 +10,7 @@ import {
 } from "../lib/usage";
 import AuthForm from "../components/AuthForm";
 import { useLocalPrice } from "../lib/currency";
+import { hidePaymentInApp } from "../lib/appContext";
 import { CrownIcon, UserIcon } from "../components/Icons";
 
 // Perfil integrado en la app, versión minimalista del ProfilePage de la web:
@@ -178,7 +179,7 @@ const Profile = ({ ctx, onLogout }: { ctx: AppCtx; onLogout: () => void }) => {
       )}
 
       <div className="actions mt-24">
-        {!usage?.isPro && (
+        {!usage?.isPro && !hidePaymentInApp() && (
           <button className="btn btn-gold" onClick={() => navigate("/payment")}>
             <CrownIcon size={16} /> {t("profile.goPro")}
           </button>

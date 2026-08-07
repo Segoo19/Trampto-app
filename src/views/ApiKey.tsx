@@ -14,6 +14,8 @@ import {
 } from "../lib/usage";
 import CompanyDemo from "../components/CompanyDemo";
 import { useLocalPrice } from "../lib/currency";
+import { hidePaymentInApp } from "../lib/appContext";
+import WebSubscribeNote from "../components/WebSubscribeNote";
 import { CopyButton } from "../components/Bits";
 import {
   CheckIcon,
@@ -153,7 +155,8 @@ curl ${base}/api-verify/<sha256-fingerprint>
       )}
 
       {/* Sin sesión → directo a suscribirse para conseguir la clave */}
-      {!session && (
+      {!session && hidePaymentInApp() && <WebSubscribeNote />}
+      {!session && !hidePaymentInApp() && (
         <div className="apikey-cta">
           <p className="apikey-cta-title">
             <KeyIcon size={16} /> {t("api.subscribeTitle")}
@@ -184,7 +187,9 @@ curl ${base}/api-verify/<sha256-fingerprint>
       {/* Con sesión pero sin plan activo → checkout */}
       {session && !usage?.isAdmin && !loadingCompany && !hasActiveCompany && !activating && (
         <div className="center">
-          {justPaid ? (
+          {hidePaymentInApp() ? (
+            <WebSubscribeNote />
+          ) : justPaid ? (
             <div className="notice notice-warn" style={{ textAlign: "left" }}>
               <ShieldAlertIcon size={18} />
               <span>{t("api.paidGenerating")}</span>

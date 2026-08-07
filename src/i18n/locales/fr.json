@@ -135,7 +135,9 @@
     "haveAccount": "Vous avez déjà un compte ? Connectez-vous",
     "noAccount": "Pas de compte ? Inscrivez-vous",
     "networkError": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
-    "genericError": "Une erreur s'est produite. Réessayez."
+    "genericError": "Une erreur s'est produite. Réessayez.",
+    "privacyPre": "By continuing, you accept our",
+    "privacyLink": "Privacy Policy"
   },
   "paymentSuccess": {
     "activating": "Activation de votre compte Pro…",
@@ -409,5 +411,14 @@
         "p": "Responsable du traitement : Trampto. Contact : tramptooficial@gmail.com."
       }
     ]
+  },
+  "storeNotice": {
+    "subscribeOnWeb": "To subscribe to the Business plan, open {{site}} in your browser. Subscriptions are managed on the web."
+  },
+  "consent": {
+    "title": "Privacy",
+    "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
+    "privacyLink": "Read the Privacy Policy",
+    "accept": "Accept and continue"
   }
 }

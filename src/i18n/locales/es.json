@@ -134,7 +134,9 @@
     "haveAccount": "¿Ya tienes cuenta? Inicia sesión",
     "noAccount": "¿No tienes cuenta? Regístrate",
     "networkError": "No se pudo conectar con el servidor. Revisa tu conexión e inténtalo de nuevo.",
-    "genericError": "Algo salió mal. Inténtalo de nuevo."
+    "genericError": "Algo salió mal. Inténtalo de nuevo.",
+    "privacyPre": "Al continuar, aceptas nuestra",
+    "privacyLink": "Política de privacidad"
   },
   "paymentSuccess": {
     "activating": "Activando tu cuenta Pro…",
@@ -408,5 +410,14 @@
         "p": "Responsable del tratamiento: Trampto. Contacto: tramptooficial@gmail.com."
       }
     ]
+  },
+  "storeNotice": {
+    "subscribeOnWeb": "Para suscribirte al plan Empresas, entra en {{site}} desde tu navegador. La gestión de la suscripción se realiza en la web."
+  },
+  "consent": {
+    "title": "Privacidad",
+    "body": "Antes de empezar: TRAMPTO sella y verifica documentos calculando su huella SHA-256 en tu dispositivo. Tratamos datos mínimos (tu email si creas una cuenta, y el registro del sello). Al continuar, aceptas nuestra Política de privacidad.",
+    "privacyLink": "Leer la Política de privacidad",
+    "accept": "Aceptar y continuar"
   }
 }

@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
 import OfflineBanner from "./components/OfflineBanner";
 import InstallButton from "./components/InstallButton";
+import ConsentGate from "./components/ConsentGate";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 import { CrownIcon, MenuIcon, UserIcon } from "./components/Icons";
@@ -112,6 +113,7 @@ const App = () => {
 
   return (
     <>
+      <ConsentGate />
       <header className="header">
         <div className="header-inner">
           <div className="header-left">

@@ -128,6 +128,12 @@ const AuthForm = ({ onAuthed }: Props) => {
       >
         {mode === "register" ? t("auth.haveAccount") : t("auth.noAccount")}
       </button>
+      <p className="auth-privacy">
+        {t("auth.privacyPre")}{" "}
+        <a href="/privacidad.html" target="_blank" rel="noreferrer">
+          {t("auth.privacyLink")}
+        </a>
+      </p>
     </form>
   );
 };

@@ -135,7 +135,9 @@
     "haveAccount": "すでにアカウントをお持ちですか？ログイン",
     "noAccount": "アカウントがありませんか？登録",
     "networkError": "サーバーに接続できませんでした。接続を確認して再試行してください。",
-    "genericError": "問題が発生しました。もう一度お試しください。"
+    "genericError": "問題が発生しました。もう一度お試しください。",
+    "privacyPre": "By continuing, you accept our",
+    "privacyLink": "Privacy Policy"
   },
   "paymentSuccess": {
     "activating": "Pro アカウントを有効化しています…",
@@ -409,5 +411,14 @@
         "p": "管理責任者：Trampto。連絡先：tramptooficial@gmail.com。"
       }
     ]
+  },
+  "storeNotice": {
+    "subscribeOnWeb": "To subscribe to the Business plan, open {{site}} in your browser. Subscriptions are managed on the web."
+  },
+  "consent": {
+    "title": "Privacy",
+    "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
+    "privacyLink": "Read the Privacy Policy",
+    "accept": "Accept and continue"
   }
 }

@@ -4,6 +4,8 @@ import type { AppCtx } from "../App";
 import { supabase } from "../lib/supabase";
 import { startCheckout } from "../lib/usage";
 import { useLocalPrice } from "../lib/currency";
+import { hidePaymentInApp } from "../lib/appContext";
+import WebSubscribeNote from "../components/WebSubscribeNote";
 import {
   CheckIcon,
   CrownIcon,
@@ -133,7 +135,9 @@ const Payment = ({ ctx }: { ctx: AppCtx }) => {
         </li>
       </ul>
 
-      {showForm && !session ? (
+      {hidePaymentInApp() ? (
+        <WebSubscribeNote />
+      ) : showForm && !session ? (
         <form
           className="form"
           onSubmit={subscribeWithEmail}
@@ -195,7 +199,9 @@ const Payment = ({ ctx }: { ctx: AppCtx }) => {
         </div>
       )}
 
-      <p className="stripe-note">{t("payment.stripeNote")}</p>
+      {!hidePaymentInApp() && (
+        <p className="stripe-note">{t("payment.stripeNote")}</p>
+      )}
       <button className="btn btn-ghost mt-8" onClick={() => navigate("/")}>
         {t("payment.back")}
       </button>
