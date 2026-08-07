@@ -92,6 +92,10 @@ export default defineConfig({
         // index.html cacheado → la SPA arranca aunque no haya red, evitando el
         // error "can't reach this page" del contenedor de Windows.
         navigateFallback: "/index.html",
+        // Excluir la política de privacidad estática del fallback de navegación:
+        // si no, el SW devuelve index.html (el shell de la app) al abrir
+        // /privacidad.html y nunca se ve la política (rechazo 7.1 de Huawei).
+        navigateFallbackDenylist: [/\/privacidad\.html$/],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         skipWaiting: true,
