@@ -26,9 +26,9 @@
     "close": "Entendido"
   },
   "hero": {
-    "titlePre": "Tu documento, ",
-    "titleEm": "único",
-    "titlePost": " e inalterable",
+    "titlePre": "Sella y verifica ",
+    "titleEm": "tus documentos",
+    "titlePost": "",
     "subPre": "Garantizamos que su contenido no se altera y dejamos constancia de ",
     "subStrong": "quién lo selló y cuándo",
     "subPost": ": huella SHA-256, Seal ID único, fecha y enlace público de verificación."
