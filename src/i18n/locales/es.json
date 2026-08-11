@@ -215,7 +215,8 @@
     "verifiedSub": "Auténtico y sin modificaciones desde su sellado. El Seal ID y la fecha acreditan quién lo selló y cuándo.",
     "sealYourOwn": "Sella tu propio documento",
     "uniqueStrong": "este documento es único en internet",
-    "intro": "Este documento está sellado con TRAMPTO. El sello confirma que es auténtico y que no se ha modificado desde que se selló."
+    "intro": "Este documento está sellado con TRAMPTO. El sello confirma que es auténtico y que no se ha modificado desde que se selló.",
+    "downloadDocument": "Descargar documento"
   },
   "api": {
     "title": "API de integración",
@@ -360,7 +361,7 @@
         "h": "2. Qué datos recogemos",
         "items": [
           "Email de registro: si creas una cuenta, para identificarte y darte acceso.",
-          "Documentos que procesas: al sellar calculamos su huella SHA-256. Según la arquitectura actual, no almacenamos el contenido del PDF: guardamos la huella, el nombre del archivo, el Seal ID y la fecha.",
+          "Documentos que sellas: al sellar calculamos su huella SHA-256 y guardamos el documento sellado para que puedas verificarlo, compartirlo y que el destinatario pueda consultarlo y descargarlo mediante el enlace público. Guardamos también la huella, el nombre del archivo, el Seal ID y la fecha.",
           "Datos de suscripción y pago: el cobro lo procesa Stripe; no almacenamos los datos de tu tarjeta.",
           "Cookie técnica (trampto_free_used) para contar los documentos del plan gratuito en tu dispositivo."
         ]
@@ -396,7 +397,7 @@
       },
       {
         "h": "7. Seguridad",
-        "p": "La aplicación se sirve por HTTPS. El contenido de los documentos que sellas en tu dispositivo no se transmite ni se almacena en nuestros servidores."
+        "p": "La aplicación se sirve por HTTPS. El sellado se realiza en tu dispositivo; el documento sellado se almacena de forma segura para permitir su verificación y descarga a través del enlace público."
       },
       {
         "h": "8. Menores",

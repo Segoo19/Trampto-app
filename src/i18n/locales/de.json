@@ -216,7 +216,8 @@
     "verifiedSub": "Authentisch und seit der Versiegelung unverändert. Seal ID und Datum belegen, wer es versiegelt hat und wann.",
     "sealYourOwn": "Versiegle dein eigenes Dokument",
     "uniqueStrong": "dieses Dokument ist einzigartig im Internet",
-    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed."
+    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed.",
+    "downloadDocument": "Download document"
   },
   "api": {
     "title": "Integrations-API",

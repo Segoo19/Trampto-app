@@ -45,7 +45,7 @@
     <h2>2. Qué datos recogemos</h2>
     <ul>
       <li><strong>Email de registro:</strong> si creas una cuenta, para identificarte y darte acceso.</li>
-      <li><strong>Documentos que procesas:</strong> al sellar calculamos su huella SHA-256. No almacenamos el contenido del PDF: guardamos la huella, el nombre del archivo, el Seal ID y la fecha.</li>
+      <li><strong>Documentos que sellas:</strong> al sellar calculamos su huella SHA-256 y <strong>guardamos el documento sellado</strong> para que puedas verificarlo, compartirlo y que el destinatario pueda consultarlo y descargarlo mediante el enlace público de verificación. Guardamos también la huella, el nombre del archivo, el Seal ID y la fecha.</li>
       <li><strong>Datos de suscripción y pago:</strong> el cobro lo procesa Stripe; no almacenamos los datos de tu tarjeta.</li>
       <li><strong>Cookie técnica</strong> (<code>trampto_free_used</code>) para contar los documentos del plan gratuito en tu dispositivo.</li>
     </ul>
@@ -73,7 +73,7 @@
     <p>Tienes derecho a acceso, rectificación, supresión, oposición, limitación y portabilidad. Para ejercerlos, escríbenos a <a href="mailto:tramptooficial@gmail.com">tramptooficial@gmail.com</a>. También puedes reclamar ante la autoridad de control competente.</p>
 
     <h2>7. Seguridad</h2>
-    <p>La aplicación se sirve por HTTPS. El contenido de los documentos que sellas en tu dispositivo no se transmite ni se almacena en nuestros servidores.</p>
+    <p>La aplicación se sirve por HTTPS. El sellado se realiza en tu dispositivo; el documento sellado se almacena de forma segura para permitir su verificación y descarga a través del enlace público. El enlace contiene la huella (64 caracteres) del documento, imposible de adivinar.</p>
 
     <h2>8. Menores</h2>
     <p>Trampto no está dirigido a menores de edad.</p>
@@ -97,7 +97,7 @@
     <h2>2. Data we collect</h2>
     <ul>
       <li><strong>Registration email:</strong> if you create an account, to identify you and grant access.</li>
-      <li><strong>Documents you process:</strong> when sealing, we compute their SHA-256 fingerprint. We do not store the PDF content: we keep the fingerprint, file name, Seal ID and date.</li>
+      <li><strong>Documents you seal:</strong> when sealing, we compute their SHA-256 fingerprint and <strong>store the sealed document</strong> so you can verify it, share it, and so the recipient can view and download it through the public verification link. We also keep the fingerprint, file name, Seal ID and date.</li>
       <li><strong>Subscription and payment data:</strong> payments are processed by Stripe; we do not store your card data.</li>
       <li><strong>Technical cookie</strong> (<code>trampto_free_used</code>) to count free-plan documents on your device.</li>
     </ul>
@@ -125,7 +125,7 @@
     <p>You have the right to access, rectification, erasure, objection, restriction and portability. To exercise them, contact us at <a href="mailto:tramptooficial@gmail.com">tramptooficial@gmail.com</a>. You may also lodge a complaint with the competent supervisory authority.</p>
 
     <h2>7. Security</h2>
-    <p>The application is served over HTTPS. The content of the documents you seal on your device is neither transmitted nor stored on our servers.</p>
+    <p>The application is served over HTTPS. Sealing happens on your device; the sealed document is stored securely to allow its verification and download through the public link, which contains the document's fingerprint (64 characters) and is impossible to guess.</p>
 
     <h2>8. Minors</h2>
     <p>Trampto is not directed to minors.</p>

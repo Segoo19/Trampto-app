@@ -216,7 +216,8 @@
     "verifiedSub": "Autentico e senza modifiche dalla sigillatura. Il Seal ID e la data attestano chi lo ha sigillato e quando.",
     "sealYourOwn": "Sigilla il tuo documento",
     "uniqueStrong": "questo documento è unico su Internet",
-    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed."
+    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed.",
+    "downloadDocument": "Download document"
   },
   "api": {
     "title": "API di integrazione",

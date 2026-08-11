@@ -4,10 +4,16 @@ import type { AppCtx } from "../App";
 import {
   lookupHash,
   normalizeHash,
+  sealedDocumentUrl,
+  sealedDocumentExists,
   type VerifyResult,
 } from "../lib/seal";
 import { Field } from "../components/Bits";
-import { ShieldAlertIcon, ShieldCheckIcon } from "../components/Icons";
+import {
+  DownloadIcon,
+  ShieldAlertIcon,
+  ShieldCheckIcon,
+} from "../components/Icons";
 
 // Vista del enlace público de verificación: /v/{huella-sha256}
 const PublicVerify = ({ ctx, hash: rawHash }: { ctx: AppCtx; hash: string }) => {
@@ -19,6 +25,7 @@ const PublicVerify = ({ ctx, hash: rawHash }: { ctx: AppCtx; hash: string }) => 
     "loading" | "valid" | "not_found" | "error"
   >("loading");
   const [record, setRecord] = useState<VerifyResult | null>(null);
+  const [docUrl, setDocUrl] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
 
   const formatDate = (iso: string): string =>
@@ -39,11 +46,16 @@ const PublicVerify = ({ ctx, hash: rawHash }: { ctx: AppCtx; hash: string }) => 
       return;
     }
     setStatus("loading");
+    setDocUrl(null);
     lookupHash(hash)
       .then((found) => {
         if (found) {
           setRecord(found);
           setStatus("valid");
+          // ¿Está guardado el documento? Si sí, el receptor podrá verlo/descargarlo.
+          sealedDocumentExists(hash).then((ok) =>
+            setDocUrl(ok ? sealedDocumentUrl(hash) : null)
+          );
         } else {
           setStatus("not_found");
         }
@@ -135,6 +147,26 @@ const PublicVerify = ({ ctx, hash: rawHash }: { ctx: AppCtx; hash: string }) => 
           <Field label={t("verify.labelSealedOn")} value={formatDate(record.createdAt)} />
         )}
       </div>
+
+      {/* Documento sellado: vista previa + descarga (si está guardado). El
+          receptor puede verlo y descargarlo, pero no compartir ni ver datos
+          privados. */}
+      {docUrl && (
+        <div className="doc-preview">
+          <iframe
+            src={`${docUrl}#toolbar=0`}
+            title={record?.filename ?? t("verify.labelDocument")}
+          />
+          <a
+            className="btn btn-primary"
+            href={docUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <DownloadIcon size={17} /> {t("publicVerify.downloadDocument")}
+          </a>
+        </div>
+      )}
 
       <div className="center mt-16">
         <button className="btn btn-outline" onClick={() => navigate("/")}>

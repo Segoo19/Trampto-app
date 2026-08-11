@@ -2269,3 +2269,26 @@ html {
 .verify-intro p {
   margin: 0;
 }
+
+/* ===== Vista previa del documento en la pantalla del receptor ===== */
+.doc-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 4px;
+}
+
+.doc-preview iframe {
+  width: 100%;
+  height: 460px;
+  border: 1px solid #dbe3f4;
+  border-radius: 12px;
+  background: #f7f8fb;
+}
+
+@media (max-width: 560px) {
+  .doc-preview iframe {
+    height: 340px;
+  }
+}

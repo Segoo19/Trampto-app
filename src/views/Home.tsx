@@ -4,6 +4,7 @@ import type { AppCtx } from "../App";
 import {
   sealPdf,
   registerSeal,
+  uploadSealedDocument,
   verifyPdf,
   generateCertificate,
   downloadBytes,
@@ -118,6 +119,9 @@ const Home = ({
       setStep(offset + 2);
       const reg = await registerSeal(sealed);
       if (reg.ok) incrementFreeUsedOnDevice();
+      // Guardar el documento para que el receptor pueda verlo/descargarlo desde
+      // el enlace. En segundo plano: no bloquea el resultado del sellado.
+      void uploadSealedDocument(sealed.stampedHash, sealed.sealedBytes);
       downloadBytes(sealed.sealedBytes, sealedFilename(sealed.filename));
       setResult(sealed);
       setRegistered(reg.ok);

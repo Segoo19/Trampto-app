@@ -329,6 +329,63 @@ export function verificationUrl(stampedHash: string): string {
   return `${VERIFY_BASE}${stampedHash}`;
 }
 
+// ---------- Guardado del documento sellado (Supabase Storage) ----------
+// Para que el RECEPTOR pueda ver/descargar el PDF desde el enlace, guardamos el
+// documento sellado en un bucket público, con clave = su huella de verificación.
+// Requiere el bucket 'sealed-docs' (ver setup-storage.sql). Si no existe todavía,
+// la subida falla en silencio y el enlace sigue funcionando solo como verificación.
+const SEALED_BUCKET = "sealed-docs";
+
+// Sube el PDF sellado. upsert:false a propósito: un documento ya sellado NO se
+// puede sobrescribir → nadie puede cambiar el archivo de una huella válida
+// (integridad). El sellador legítimo sube al instante, antes de compartir el enlace.
+export async function uploadSealedDocument(
+  hash: string,
+  bytes: Uint8Array
+): Promise<boolean> {
+  try {
+    const buffer = bytes.buffer.slice(
+      bytes.byteOffset,
+      bytes.byteOffset + bytes.byteLength
+    ) as ArrayBuffer;
+    const blob = new Blob([buffer], { type: "application/pdf" });
+    const { error } = await supabase.storage
+      .from(SEALED_BUCKET)
+      .upload(`${hash}.pdf`, blob, {
+        contentType: "application/pdf",
+        upsert: false,
+      });
+    // "already exists / duplicate" = ya estaba subido: lo damos por bueno.
+    if (error && !/exists|duplicate|resource already/i.test(error.message)) {
+      console.warn("uploadSealedDocument:", error.message);
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.warn("uploadSealedDocument error:", e);
+    return false;
+  }
+}
+
+// URL pública del documento sellado (si está guardado).
+export function sealedDocumentUrl(hash: string): string {
+  return supabase.storage.from(SEALED_BUCKET).getPublicUrl(`${hash}.pdf`).data
+    .publicUrl;
+}
+
+// ¿Existe el documento guardado para esta huella?
+export async function sealedDocumentExists(hash: string): Promise<boolean> {
+  try {
+    const res = await fetch(sealedDocumentUrl(hash), {
+      method: "HEAD",
+      signal: AbortSignal.timeout(6000),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 // Sustituye caracteres fuera de WinAnsi (las fuentes estándar de PDF no los aceptan)
 function winAnsiSafe(text: string): string {
   // eslint-disable-next-line no-control-regex

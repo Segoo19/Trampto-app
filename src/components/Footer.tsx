@@ -79,9 +79,14 @@ const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
                 </button>
               </li>
               <li>
-                <button className="linklike" onClick={go("/privacidad")}>
+                <a
+                  className="linklike"
+                  href="/privacidad.html"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {t("footer.privacy")}
-                </button>
+                </a>
               </li>
             </ul>
           </div>

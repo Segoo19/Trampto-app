@@ -216,7 +216,8 @@
     "verifiedSub": "本物であり、封印以降変更されていません。Seal ID と日付が、誰がいつ封印したかを証明します。",
     "sealYourOwn": "自分の書類を封印する",
     "uniqueStrong": "この書類はインターネット上で唯一無二です",
-    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed."
+    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed.",
+    "downloadDocument": "Download document"
   },
   "api": {
     "title": "連携 API",
