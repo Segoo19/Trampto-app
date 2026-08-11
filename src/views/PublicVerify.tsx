@@ -4,11 +4,9 @@ import type { AppCtx } from "../App";
 import {
   lookupHash,
   normalizeHash,
-  verificationUrl,
   type VerifyResult,
 } from "../lib/seal";
 import { Field } from "../components/Bits";
-import ShareMenu from "../components/ShareMenu";
 import { ShieldAlertIcon, ShieldCheckIcon } from "../components/Icons";
 
 // Vista del enlace público de verificación: /v/{huella-sha256}
@@ -118,6 +116,17 @@ const PublicVerify = ({ ctx, hash: rawHash }: { ctx: AppCtx; hash: string }) => 
         <p className="sub">{t("publicVerify.verifiedSub")}</p>
       </div>
 
+      {/* Mensaje introductorio, claro y en el idioma del usuario: explica al
+          receptor qué está viendo, sin tecnicismos. */}
+      <div className="verify-intro">
+        <p>{t("publicVerify.intro")}</p>
+      </div>
+
+      {/* Vista del RECEPTOR: datos estrictos (nombre + fecha de sellado). No se
+          muestra la huella, ni el enlace, ni nada del propietario, ni el botón
+          de compartir, para no exponer datos privados ni fomentar la
+          redistribución. La vista completa (huella, enlace, compartir) es la del
+          propietario, en la pantalla de sellado (Home). */}
       <div className="fields">
         {record?.filename && (
           <Field label={t("verify.labelDocument")} value={record.filename} />
@@ -125,22 +134,9 @@ const PublicVerify = ({ ctx, hash: rawHash }: { ctx: AppCtx; hash: string }) => 
         {record?.createdAt && (
           <Field label={t("verify.labelSealedOn")} value={formatDate(record.createdAt)} />
         )}
-        <Field label={t("seal.labelFingerprint")} value={hash} sensitive />
-        <Field
-          label={t("seal.labelPublicLink")}
-          value={verificationUrl(hash)}
-          copyValue={verificationUrl(hash)}
-        />
       </div>
 
-      <div className="actions">
-        <ShareMenu
-          url={verificationUrl(hash)}
-          text={t("share.fileText", {
-            name: record?.filename ?? t("share.fileFallback"),
-          })}
-          label={t("verify.shareVerification")}
-        />
+      <div className="center mt-16">
         <button className="btn btn-outline" onClick={() => navigate("/")}>
           {t("publicVerify.sealYourOwn")}
         </button>

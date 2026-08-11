@@ -215,7 +215,8 @@
     "verifiedTitle": "Documento verificado",
     "verifiedSub": "Autêntico e sem modificações desde o selamento. O Seal ID e a data comprovam quem o selou e quando.",
     "sealYourOwn": "Sele seu próprio documento",
-    "uniqueStrong": "este documento é único na internet"
+    "uniqueStrong": "este documento é único na internet",
+    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed."
   },
   "api": {
     "title": "API de integração",

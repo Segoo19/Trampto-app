@@ -215,7 +215,8 @@
     "verifiedTitle": "文档已验证",
     "verifiedSub": "真实且自封存以来未被修改。Seal ID 和日期可证明由谁封存以及何时封存。",
     "sealYourOwn": "封存你自己的文档",
-    "uniqueStrong": "此文档在互联网上独一无二"
+    "uniqueStrong": "此文档在互联网上独一无二",
+    "intro": "This document is sealed with TRAMPTO. The seal confirms it is authentic and has not been modified since it was sealed."
   },
   "api": {
     "title": "集成 API",

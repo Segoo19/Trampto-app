@@ -2252,3 +2252,20 @@ html {
   color: var(--burgundy);
   text-decoration: underline;
 }
+
+/* ===== Mensaje introductorio de la vista del receptor (/v/{hash}) ===== */
+.verify-intro {
+  background: #eef2fb;
+  border: 1px solid #dbe3f4;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 4px 0 18px;
+  color: var(--navy);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.verify-intro p {
+  margin: 0;
+}
