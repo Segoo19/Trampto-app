@@ -87,9 +87,9 @@
     "share": "Condividi",
     "copyLink": "Copia link",
     "copied": "Link copiato",
-    "subject": "Verifica del documento · TRAMPTO",
-    "defaultText": "Verifica questo documento sigillato con TRAMPTO",
-    "fileText": "Verifica «{{name}}» sigillato con TRAMPTO",
+    "subject": "I’m sharing a verified document with you",
+    "defaultText": "I’m sharing a verified document with you. At this link you can view it, download it and confirm it is authentic:",
+    "fileText": "I’m sharing “{{name}}” with you. At this link you can view it, download it and confirm it is an authentic document that has not been modified:",
     "fileFallback": "questo documento"
   },
   "errors": {

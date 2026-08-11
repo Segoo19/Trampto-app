@@ -87,9 +87,9 @@
     "share": "共有",
     "copyLink": "リンクをコピー",
     "copied": "リンクをコピーしました",
-    "subject": "書類の検証 · TRAMPTO",
-    "defaultText": "TRAMPTO で封印されたこの書類を検証",
-    "fileText": "TRAMPTO で封印された「{{name}}」を検証",
+    "subject": "I’m sharing a verified document with you",
+    "defaultText": "I’m sharing a verified document with you. At this link you can view it, download it and confirm it is authentic:",
+    "fileText": "I’m sharing “{{name}}” with you. At this link you can view it, download it and confirm it is an authentic document that has not been modified:",
     "fileFallback": "この書類"
   },
   "errors": {

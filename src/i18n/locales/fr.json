@@ -87,9 +87,9 @@
     "share": "Partager",
     "copyLink": "Copier le lien",
     "copied": "Lien copié",
-    "subject": "Vérification de document · TRAMPTO",
-    "defaultText": "Vérifiez ce document scellé avec TRAMPTO",
-    "fileText": "Vérifiez « {{name}} » scellé avec TRAMPTO",
+    "subject": "I’m sharing a verified document with you",
+    "defaultText": "I’m sharing a verified document with you. At this link you can view it, download it and confirm it is authentic:",
+    "fileText": "I’m sharing “{{name}}” with you. At this link you can view it, download it and confirm it is an authentic document that has not been modified:",
     "fileFallback": "ce document"
   },
   "errors": {

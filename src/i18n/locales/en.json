@@ -86,9 +86,9 @@
     "share": "Share",
     "copyLink": "Copy link",
     "copied": "Link copied",
-    "subject": "Document verification · TRAMPTO",
-    "defaultText": "Verify this document sealed with TRAMPTO",
-    "fileText": "Verify \"{{name}}\" sealed with TRAMPTO",
+    "subject": "I’m sharing a verified document with you",
+    "defaultText": "I’m sharing a verified document with you. At this link you can view it, download it and confirm it is authentic:",
+    "fileText": "I’m sharing “{{name}}” with you. At this link you can view it, download it and confirm it is an authentic document that has not been modified:",
     "fileFallback": "this document"
   },
   "errors": {

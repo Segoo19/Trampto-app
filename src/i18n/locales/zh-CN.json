@@ -87,9 +87,9 @@
     "share": "分享",
     "copyLink": "复制链接",
     "copied": "链接已复制",
-    "subject": "文档验证 · TRAMPTO",
-    "defaultText": "验证这份使用 TRAMPTO 封存的文档",
-    "fileText": "验证使用 TRAMPTO 封存的“{{name}}”",
+    "subject": "I’m sharing a verified document with you",
+    "defaultText": "I’m sharing a verified document with you. At this link you can view it, download it and confirm it is authentic:",
+    "fileText": "I’m sharing “{{name}}” with you. At this link you can view it, download it and confirm it is an authentic document that has not been modified:",
     "fileFallback": "此文档"
   },
   "errors": {

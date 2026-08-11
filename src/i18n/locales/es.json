@@ -86,9 +86,9 @@
     "share": "Compartir",
     "copyLink": "Copiar enlace",
     "copied": "Enlace copiado",
-    "subject": "Verificación de documento · TRAMPTO",
-    "defaultText": "Verifica este documento sellado con TRAMPTO",
-    "fileText": "Verifica \"{{name}}\" sellado con TRAMPTO",
+    "subject": "Te comparto un documento verificado",
+    "defaultText": "Te comparto un documento verificado. En este enlace puedes verlo, descargarlo y comprobar que es auténtico:",
+    "fileText": "Te comparto “{{name}}”. En este enlace puedes verlo, descargarlo y comprobar que es un documento auténtico que no se ha modificado:",
     "fileFallback": "este documento"
   },
   "errors": {
