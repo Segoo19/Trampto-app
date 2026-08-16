@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "封存并验证你的文档"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "text": "你要找的页面不存在或已被移动。",
+    "cta": "前往首页"
+  },
+  "faq": {
+    "title": "常见问题",
+    "sub": "关于封存与验证的要点。",
+    "menu": "常见问题",
+    "items": [
+      {
+        "q": "用 TRAMPTO 封存文档是什么意思？",
+        "a": "就是计算你文档的 SHA-256 加密指纹，并以唯一的 Seal ID 和日期登记。凭此哈希，你的文档在互联网上独一无二：只要改动一个比特，指纹便不再吻合，会被检测到。"
+      },
+      {
+        "q": "我的文档会上传到服务器吗？",
+        "a": "不会。封存和指纹计算都在你的设备上完成。我们只保存 SHA-256 指纹、文件名、Seal ID 和日期，绝不保存文档内容。"
+      },
+      {
+        "q": "它有法律效力吗？",
+        "a": "TRAMPTO 证明文档的完整性，并记录由谁封存以及何时封存。它与电子签名互为补充；如需合格签名，请与受认可的签名结合使用。"
+      },
+      {
+        "q": "别人如何验证我的文档？",
+        "a": "使用封存时获得的公开验证链接（/v/{hash}），或在“验证”标签上传已封存的 PDF。几秒内即可确认是否真实且未被修改。"
+      },
+      {
+        "q": "多少钱？",
+        "a": "你可以免费封存最初的几份文档。使用 Pro 方案（€1.99/月）可无限封存；实际扣款始终通过 Stripe 以欧元结算。"
+      }
+    ]
   }
 }

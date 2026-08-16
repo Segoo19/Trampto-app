@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "書類を封印して検証"
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "text": "お探しのページは存在しないか、移動されました。",
+    "cta": "ホームへ"
+  },
+  "faq": {
+    "title": "よくある質問",
+    "sub": "封印と検証の要点。",
+    "menu": "よくある質問",
+    "items": [
+      {
+        "q": "TRAMPTO で書類を封印するとは？",
+        "a": "書類の SHA-256 暗号フィンガープリントを計算し、固有の Seal ID と日付とともに登録することです。そのハッシュにより、あなたの書類はインターネット上で唯一無二になります。1 ビットでも変わればフィンガープリントは一致せず、検出されます。"
+      },
+      {
+        "q": "書類はサーバーにアップロードされますか？",
+        "a": "いいえ。封印とフィンガープリントの計算はお使いの端末で行われます。保存するのは SHA-256 フィンガープリント、ファイル名、Seal ID、日付だけで、書類の内容は保存しません。"
+      },
+      {
+        "q": "法的な効力はありますか？",
+        "a": "TRAMPTO は書類の完全性を証明し、誰がいつ封印したかを記録します。電子署名を補完するものです。適格署名が必要な場合は、認定された署名と組み合わせてください。"
+      },
+      {
+        "q": "他の人はどうやって私の書類を検証しますか？",
+        "a": "封印時に得られる公開検証リンク（/v/{hash}）を使うか、封印済み PDF を「検証」タブにアップロードします。数秒で本物かつ未改ざんかを確認できます。"
+      },
+      {
+        "q": "料金は？",
+        "a": "最初の数件は無料で封印できます。Pro プラン（€1.99/月）なら無制限に封印でき、実際の請求は常に Stripe 経由でユーロで行われます。"
+      }
+    ]
   }
 }

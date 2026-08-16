@@ -3,7 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./i18n";
 import "./lib/pwaInstall"; // registra beforeinstallprompt lo antes posible
+import { initAnalytics } from "./lib/analytics";
 import "./styles.css";
+
+initAnalytics(); // no-op si no hay VITE_GA_ID configurado
 
 // Recuperación automática tras un redeploy: si un chunk dinámico (pdf-lib,
 // jszip…) ya no existe porque cambió de hash, el navegador no puede importarlo.

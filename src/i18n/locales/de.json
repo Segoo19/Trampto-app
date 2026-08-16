@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "Versiegle und verifiziere deine Dokumente"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "text": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "cta": "Zur Startseite"
+  },
+  "faq": {
+    "title": "Häufige Fragen",
+    "sub": "Das Wichtigste zu Versiegelung und Verifizierung.",
+    "menu": "FAQ",
+    "items": [
+      {
+        "q": "Was bedeutet, ein Dokument mit TRAMPTO zu versiegeln?",
+        "a": "Es berechnet den kryptografischen SHA-256-Fingerabdruck deines Dokuments und registriert ihn mit einer eindeutigen Seal ID und einem Datum. Ab diesem Hash ist dein Dokument einzigartig im Internet: ändert sich ein einziges Bit, passt der Fingerabdruck nicht mehr und wird erkannt."
+      },
+      {
+        "q": "Wird mein Dokument auf einen Server hochgeladen?",
+        "a": "Nein. Versiegelung und Berechnung des Fingerabdrucks erfolgen auf deinem Gerät. Wir speichern nur den SHA-256-Fingerabdruck, den Dateinamen, die Seal ID und das Datum, niemals den Inhalt."
+      },
+      {
+        "q": "Ist es rechtlich gültig?",
+        "a": "TRAMPTO belegt die Integrität des Dokuments und hält fest, wer es wann versiegelt hat. Es ergänzt elektronische Signaturen; für qualifizierte Signaturen kombiniere es mit einer anerkannten Signatur."
+      },
+      {
+        "q": "Wie verifiziert jemand mein Dokument?",
+        "a": "Über den öffentlichen Verifizierungslink (/v/{hash}) aus der Versiegelung oder durch Hochladen des versiegelten PDF im Tab Verifizieren. In Sekunden wird bestätigt, ob es echt und unverändert ist."
+      },
+      {
+        "q": "Was kostet es?",
+        "a": "Deine ersten Dokumente kannst du kostenlos versiegeln. Mit dem Pro-Tarif (1,99 €/Monat) versiegelst du ohne Limit; die Abbuchung erfolgt immer in Euro über Stripe."
+      }
+    ]
   }
 }

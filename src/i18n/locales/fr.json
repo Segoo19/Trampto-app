@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "Scellez et vérifiez vos documents"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "text": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "cta": "Aller à l'accueil"
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "sub": "L'essentiel sur le scellage et la vérification.",
+    "menu": "FAQ",
+    "items": [
+      {
+        "q": "Que signifie sceller un document avec TRAMPTO ?",
+        "a": "Cela calcule l'empreinte cryptographique SHA-256 de votre document et l'enregistre avec un Seal ID unique et une date. Dès ce hash, votre document est unique sur Internet : si un seul bit change, l'empreinte ne correspond plus et c'est détecté."
+      },
+      {
+        "q": "Mon document est-il téléversé sur un serveur ?",
+        "a": "Non. Le scellage et le calcul de l'empreinte se font sur votre appareil. Nous ne stockons que l'empreinte SHA-256, le nom du fichier, le Seal ID et la date, jamais le contenu du document."
+      },
+      {
+        "q": "A-t-il une valeur légale ?",
+        "a": "TRAMPTO prouve l'intégrité du document et atteste qui l'a scellé et quand. Il complète les signatures électroniques ; pour une signature qualifiée, associez-le à une signature reconnue."
+      },
+      {
+        "q": "Comment quelqu'un vérifie-t-il mon document ?",
+        "a": "Avec le lien public de vérification (/v/{hash}) obtenu au scellage, ou en téléversant le PDF scellé dans l'onglet Vérifier. En quelques secondes, l'authenticité est confirmée."
+      },
+      {
+        "q": "Combien ça coûte ?",
+        "a": "Vous pouvez sceller vos premiers documents gratuitement. Avec l'offre Pro (1,99 €/mois), vous scellez sans limite ; le paiement réel est toujours en euros via Stripe."
+      }
+    ]
   }
 }

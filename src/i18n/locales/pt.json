@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "Sele e verifique seus documentos"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "text": "A página que você procura não existe ou foi movida.",
+    "cta": "Ir para o início"
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "sub": "O essencial sobre selamento e verificação.",
+    "menu": "FAQ",
+    "items": [
+      {
+        "q": "O que é selar um documento com o TRAMPTO?",
+        "a": "É calcular a impressão digital criptográfica SHA-256 do seu documento e registrá-la com um Seal ID único e uma data. A partir desse hash, seu documento é único na internet: se um único bit mudar, a impressão deixa de coincidir e é detectada."
+      },
+      {
+        "q": "Meu documento é enviado a algum servidor?",
+        "a": "Não. O selamento e o cálculo da impressão ocorrem no seu dispositivo. Guardamos apenas a impressão SHA-256, o nome do arquivo, o Seal ID e a data, nunca o conteúdo do documento."
+      },
+      {
+        "q": "Tem validade legal?",
+        "a": "O TRAMPTO comprova a integridade do documento e registra quem o selou e quando. É complementar às assinaturas eletrônicas; para assinatura qualificada, combine-o com uma assinatura reconhecida."
+      },
+      {
+        "q": "Como alguém verifica meu documento?",
+        "a": "Com o link público de verificação (/v/{hash}) obtido ao selar, ou enviando o PDF selado na aba Verificar. Em segundos confirma-se se é autêntico e inalterado."
+      },
+      {
+        "q": "Quanto custa?",
+        "a": "Você pode selar seus primeiros documentos gratuitamente. Com o Plano Pro (1,99 €/mês) sela sem limite; a cobrança real é sempre em euros via Stripe."
+      }
+    ]
   }
 }

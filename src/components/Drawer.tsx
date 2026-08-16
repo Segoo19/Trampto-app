@@ -103,6 +103,7 @@ const Drawer = ({ open, onClose, navigate, path, session, usage, onLogout }: Pro
             <Item to="/use-cases" icon={<FileIcon size={18} />} label={t("drawer.useCases")} />
             <Item to="/blog" icon={<BookIcon size={18} />} label={t("drawer.blog")} />
             <Item to="/about" icon={<BookIcon size={18} />} label={t("drawer.about")} />
+            <Item to="/faq" icon={<BookIcon size={18} />} label={t("faq.menu")} />
           </div>
 
           <div className="drawer-group">

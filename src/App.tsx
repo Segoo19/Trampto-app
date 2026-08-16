@@ -13,12 +13,17 @@ import ApiKey from "./views/ApiKey";
 import Profile from "./views/Profile";
 import Info from "./views/Info";
 import Privacy from "./views/Privacy";
+import Faq from "./views/Faq";
+import NotFound from "./views/NotFound";
 import Footer from "./components/Footer";
 import Drawer from "./components/Drawer";
 import OfflineBanner from "./components/OfflineBanner";
 import InstallButton from "./components/InstallButton";
 import ConsentGate from "./components/ConsentGate";
 import LanguageSwitcher from "./components/LanguageSwitcher";
+import StickyCta from "./components/StickyCta";
+import { routeKind, CONTENT_ROUTES } from "./lib/routes";
+import { useSeo } from "./lib/seo";
 import { useTranslation } from "react-i18next";
 import { CrownIcon, MenuIcon, UserIcon } from "./components/Icons";
 
@@ -89,26 +94,45 @@ const App = () => {
 
   const ctx: AppCtx = { session, usage, refreshUsage, navigate };
 
-  const lower = path.toLowerCase();
+  const kind = routeKind(path);
+  useSeo(path); // título y meta description por página, en el idioma activo
+
   let view;
-  if (lower.startsWith("/v/")) {
-    view = <PublicVerify ctx={ctx} hash={decodeURIComponent(path.slice(3))} />;
-  } else if (lower === "/payment") {
-    view = <Payment ctx={ctx} />;
-  } else if (lower === "/payment-success") {
-    view = <PaymentSuccess ctx={ctx} />;
-  } else if (lower === "/api-key") {
-    view = <ApiKey ctx={ctx} />;
-  } else if (lower === "/perfil" || lower === "/profile" || lower === "/auth") {
-    view = <Profile ctx={ctx} onLogout={logout} />;
-  } else if (lower === "/about" || lower === "/use-cases" || lower === "/blog") {
-    view = <Info page={lower.slice(1)} navigate={navigate} />;
-  } else if (lower === "/privacidad" || lower === "/privacy") {
-    view = <Privacy navigate={navigate} />;
-  } else if (lower === "/verificar") {
-    view = <Home key="verify" ctx={ctx} initialMode="verify" />;
-  } else {
-    view = <Home key="seal" ctx={ctx} initialMode="seal" />;
+  switch (kind) {
+    case "public-verify":
+      view = <PublicVerify ctx={ctx} hash={decodeURIComponent(path.slice(3))} />;
+      break;
+    case "payment":
+      view = <Payment ctx={ctx} />;
+      break;
+    case "payment-success":
+      view = <PaymentSuccess ctx={ctx} />;
+      break;
+    case "api":
+      view = <ApiKey ctx={ctx} />;
+      break;
+    case "profile":
+      view = <Profile ctx={ctx} onLogout={logout} />;
+      break;
+    case "about":
+    case "use-cases":
+    case "blog":
+      view = <Info page={kind} navigate={navigate} />;
+      break;
+    case "privacy":
+      view = <Privacy navigate={navigate} />;
+      break;
+    case "faq":
+      view = <Faq navigate={navigate} />;
+      break;
+    case "verify":
+      view = <Home key="verify" ctx={ctx} initialMode="verify" />;
+      break;
+    case "home":
+      view = <Home key="seal" ctx={ctx} initialMode="seal" />;
+      break;
+    default:
+      view = <NotFound navigate={navigate} />;
   }
 
   return (
@@ -184,6 +208,8 @@ const App = () => {
       <main className="main">{view}</main>
 
       <Footer navigate={navigate} />
+
+      {CONTENT_ROUTES.includes(kind) && <StickyCta navigate={navigate} />}
     </>
   );
 };

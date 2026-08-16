@@ -62,6 +62,11 @@ const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
                   {t("drawer.about")}
                 </button>
               </li>
+              <li>
+                <button className="linklike" onClick={go("/faq")}>
+                  {t("faq.menu")}
+                </button>
+              </li>
             </ul>
           </div>
 

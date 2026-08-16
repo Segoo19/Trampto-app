@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "Sigilla e verifica i tuoi documenti"
+  },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "text": "La pagina che cerchi non esiste o è stata spostata.",
+    "cta": "Vai alla home"
+  },
+  "faq": {
+    "title": "Domande frequenti",
+    "sub": "L'essenziale su sigillatura e verifica.",
+    "menu": "FAQ",
+    "items": [
+      {
+        "q": "Cosa significa sigillare un documento con TRAMPTO?",
+        "a": "Calcola l'impronta crittografica SHA-256 del tuo documento e la registra con un Seal ID univoco e una data. Da quell'hash, il tuo documento è unico su Internet: se cambia un solo bit, l'impronta non corrisponde più e viene rilevato."
+      },
+      {
+        "q": "Il mio documento viene caricato su un server?",
+        "a": "No. La sigillatura e il calcolo dell'impronta avvengono sul tuo dispositivo. Conserviamo solo l'impronta SHA-256, il nome del file, il Seal ID e la data, mai il contenuto del documento."
+      },
+      {
+        "q": "Ha validità legale?",
+        "a": "TRAMPTO prova l'integrità del documento e registra chi lo ha sigillato e quando. È complementare alle firme elettroniche; per la firma qualificata, abbinalo a una firma riconosciuta."
+      },
+      {
+        "q": "Come fa qualcuno a verificare il mio documento?",
+        "a": "Con il link pubblico di verifica (/v/{hash}) ottenuto sigillando, o caricando il PDF sigillato nella scheda Verifica. In pochi secondi si conferma se è autentico e non alterato."
+      },
+      {
+        "q": "Quanto costa?",
+        "a": "Puoi sigillare gratis i primi documenti. Con il piano Pro (1,99 €/mese) sigilli senza limiti; l'addebito reale è sempre in euro tramite Stripe."
+      }
+    ]
   }
 }

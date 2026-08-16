@@ -422,5 +422,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "封存並驗證你的文件"
+  },
+  "notFound": {
+    "title": "找不到頁面",
+    "text": "你要找的頁面不存在或已被移動。",
+    "cta": "前往首頁"
+  },
+  "faq": {
+    "title": "常見問題",
+    "sub": "關於封存與驗證的重點。",
+    "menu": "常見問題",
+    "items": [
+      {
+        "q": "用 TRAMPTO 封存文件是什麼意思？",
+        "a": "就是計算你文件的 SHA-256 加密指紋，並以唯一的 Seal ID 和日期登錄。憑此雜湊值，你的文件在網際網路上獨一無二：只要改動一個位元，指紋便不再吻合，會被偵測到。"
+      },
+      {
+        "q": "我的文件會上傳到伺服器嗎？",
+        "a": "不會。封存與指紋計算都在你的裝置上完成。我們只保存 SHA-256 指紋、檔案名稱、Seal ID 與日期，絕不保存文件內容。"
+      },
+      {
+        "q": "它有法律效力嗎？",
+        "a": "TRAMPTO 證明文件的完整性，並記錄由誰封存以及何時封存。它與電子簽章互為補充；如需合格簽章，請與受認可的簽章結合使用。"
+      },
+      {
+        "q": "別人如何驗證我的文件？",
+        "a": "使用封存時取得的公開驗證連結（/v/{hash}），或在「驗證」分頁上傳已封存的 PDF。幾秒內即可確認是否真實且未被修改。"
+      },
+      {
+        "q": "多少錢？",
+        "a": "你可以免費封存最初的幾份文件。使用 Pro 方案（€1.99/月）可無限封存；實際扣款一律透過 Stripe 以歐元結算。"
+      }
+    ]
   }
 }

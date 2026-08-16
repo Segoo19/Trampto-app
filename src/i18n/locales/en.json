@@ -421,5 +421,40 @@
     "body": "Before you start: TRAMPTO seals and verifies documents by computing their SHA-256 fingerprint on your device. We process minimal data (your email if you create an account, and the seal record). By continuing, you accept our Privacy Policy.",
     "privacyLink": "Read the Privacy Policy",
     "accept": "Accept and continue"
+  },
+  "seo": {
+    "home": "Seal and verify your documents"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you're looking for doesn't exist or has moved.",
+    "cta": "Go to home"
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "sub": "The essentials about sealing and verification.",
+    "menu": "FAQ",
+    "items": [
+      {
+        "q": "What does sealing a document with TRAMPTO mean?",
+        "a": "It computes your document's SHA-256 cryptographic fingerprint and registers it with a unique Seal ID and a date. From that hash on, your document is unique on the internet: if a single bit changes, the fingerprint no longer matches and it's detected."
+      },
+      {
+        "q": "Is my document uploaded to a server?",
+        "a": "No. Sealing and fingerprint computation happen on your device. We only store the SHA-256 fingerprint, the file name, the Seal ID and the date — never the document's content."
+      },
+      {
+        "q": "Is it legally valid?",
+        "a": "TRAMPTO proves the document's integrity and records who sealed it and when. It complements electronic signatures; for qualified-signature requirements, combine it with a recognized signature."
+      },
+      {
+        "q": "How does someone verify my document?",
+        "a": "With the public verification link (/v/{hash}) you get when sealing, or by uploading the sealed PDF to the Verify tab. In seconds it confirms whether it's authentic and unaltered."
+      },
+      {
+        "q": "How much does it cost?",
+        "a": "You can seal your first documents for free. With the Pro plan (€1.99/month) you seal without limits; the actual charge is always in euros via Stripe."
+      }
+    ]
   }
 }

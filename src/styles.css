@@ -2292,3 +2292,94 @@ html {
     height: 340px;
   }
 }
+
+/* ---------- FAQ ---------- */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+.faq-item {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card);
+  overflow: hidden;
+  transition: border-color 0.18s var(--ease, ease), box-shadow 0.18s var(--ease, ease);
+}
+.faq-item[open] {
+  border-color: #cfd4e0;
+  box-shadow: var(--shadow);
+}
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 46px 16px 18px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--navy);
+  position: relative;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  content: "+";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--muted);
+}
+.faq-item[open] summary::after {
+  content: "\2212"; /* − */
+}
+.faq-item p {
+  margin: 0 18px 16px;
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* ---------- Página 404 ---------- */
+.notfound {
+  text-align: center;
+}
+.notfound-code {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+/* ---------- CTA fija en móvil (solo páginas de contenido) ---------- */
+.sticky-cta {
+  display: none;
+}
+@media (max-width: 640px) {
+  .sticky-cta {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    justify-content: center;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--bg) 72%, rgba(246, 247, 249, 0));
+  }
+  .sticky-cta .btn {
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 8px 24px -8px rgba(196, 154, 34, 0.6);
+  }
+  /* Aire para que el CTA fijo no tape el final del contenido */
+  .info-page {
+    padding-bottom: 88px;
+  }
+}
