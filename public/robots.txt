@@ -1,5 +1,5 @@
 # robots.txt — TRAMPTO
-# https://trampto.com
+# https://trampto-app.vercel.app
 
 # ---------------------------------------------------------------
 # Buscadores
@@ -108,4 +108,4 @@ Disallow: /api-key
 # Los enlaces que compartas siguen funcionando con normalidad.
 Disallow: /v/
 
-Sitemap: https://trampto.com/sitemap.xml
+Sitemap: https://trampto-app.vercel.app/sitemap.xml
