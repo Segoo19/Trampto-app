@@ -25,3 +25,16 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <App />
   </React.StrictMode>
 );
+
+// Desvanece el splash del logo cuando React ya ha pintado. Un mínimo de ~650 ms
+// evita el "parpadeo" en arranques muy rápidos; solo es presentación.
+const splashStart = performance.now();
+requestAnimationFrame(() => {
+  const el = document.getElementById("splash");
+  if (!el) return;
+  const wait = Math.max(0, 650 - (performance.now() - splashStart));
+  setTimeout(() => {
+    el.classList.add("hide");
+    setTimeout(() => el.remove(), 500);
+  }, wait);
+});

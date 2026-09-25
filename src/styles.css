@@ -2383,3 +2383,195 @@ html {
     padding-bottom: 88px;
   }
 }
+
+/* ==================================================================
+   REDISEÑO 2026 · "Sello editorial"
+   Solo presentación: mismos componentes, misma lógica, mismos colores
+   de marca (navy #0D1B4B · oro #C49A22 · burdeos #7A1F1F).
+   Capa final de la cascada: sobrescribe lo anterior sin tocar el TSX.
+   ================================================================== */
+:root {
+  --radius: 20px;
+  --radius-sm: 12px;
+  --ink: #0d1b4b;
+  --surface: rgba(255, 255, 255, 0.82);
+  --hairline: rgba(13, 27, 75, 0.09);
+  --shadow: 0 1px 1px rgba(13, 27, 75, 0.04), 0 12px 32px -16px rgba(13, 27, 75, 0.18);
+  --shadow-lift: 0 2px 4px rgba(13, 27, 75, 0.06), 0 24px 56px -22px rgba(13, 27, 75, 0.32);
+}
+
+/* Luz ambiental de marca: lavado navy arriba, cálido dorado abajo */
+body {
+  background:
+    radial-gradient(900px 520px at 12% -8%, rgba(13, 27, 75, 0.07), transparent 60%),
+    radial-gradient(760px 480px at 100% 110%, rgba(196, 154, 34, 0.08), transparent 60%),
+    #f5f6f9;
+  background-attachment: fixed;
+  font-feature-settings: "ss01", "cv11";
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Cabecera translúcida y pegajosa ---- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(1.6) blur(16px);
+  -webkit-backdrop-filter: saturate(1.6) blur(16px);
+  border-bottom: 1px solid var(--hairline);
+  padding-top: env(safe-area-inset-top);
+}
+.brand-name { letter-spacing: 0.14em; font-size: 17px; }
+.menu-btn, .lang-select-btn, .header-login {
+  border-radius: 999px;
+  border-color: var(--hairline);
+  background: rgba(255, 255, 255, 0.9);
+}
+.menu-btn { width: 42px; height: 42px; }
+
+/* ---- Hero: tipografía display con tracking ajustado ---- */
+.hero h1 {
+  font-size: clamp(34px, 7.4vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--burgundy);
+  background: linear-gradient(transparent 68%, rgba(196, 154, 34, 0.32) 68% 92%, transparent 92%);
+  padding: 0 0.06em;
+}
+.hero p {
+  text-wrap: pretty;
+  max-width: 34em;
+  margin-inline: auto;
+}
+
+/* ---- Tarjetas: superficie limpia con canto de luz ---- */
+.card, .faq-item, .info-block {
+  border-radius: var(--radius);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.card { padding: clamp(22px, 5vw, 32px); }
+
+/* ---- Segmentado Sellar/Verificar ---- */
+.segmented {
+  background: rgba(13, 27, 75, 0.06);
+  border: 1px solid var(--hairline);
+  padding: 5px;
+}
+.segmented button { padding: 10px 26px; letter-spacing: 0.01em; }
+.segmented button.active {
+  background: var(--ink);
+  box-shadow: 0 6px 16px -6px rgba(13, 27, 75, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* ---- Zona de sellado: el gran gesto de la app ---- */
+.dropzone {
+  border: 1.5px dashed rgba(13, 27, 75, 0.22);
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(196, 154, 34, 0.06), transparent 60%),
+    rgba(255, 255, 255, 0.86);
+  padding: clamp(44px, 10vw, 64px) 24px;
+}
+.dropzone:hover, .dropzone.drag {
+  border-color: var(--gold);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(196, 154, 34, 0.12), transparent 62%),
+    #fff;
+}
+.dropzone .dz-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, #fbf3dc, #f1e1b3);
+  box-shadow: 0 10px 22px -10px rgba(196, 154, 34, 0.7), inset 0 1px 0 #fff;
+}
+.dropzone h3 { font-size: 18px; letter-spacing: -0.01em; }
+
+/* ---- Botones píldora ---- */
+.btn {
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-weight: 650;
+  letter-spacing: 0.005em;
+  min-height: 46px;
+}
+.btn-sm { min-height: 36px; }
+.btn-primary {
+  background: linear-gradient(180deg, #1a2b66, var(--ink));
+  box-shadow: 0 8px 20px -10px rgba(13, 27, 75, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.btn-gold {
+  background: linear-gradient(180deg, #d2a92f, var(--gold));
+  box-shadow: 0 8px 20px -10px rgba(196, 154, 34, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+.btn-outline, .btn-ghost { border-color: var(--hairline); background: rgba(255, 255, 255, 0.9); }
+
+/* ---- Inputs ---- */
+.form input {
+  border-radius: 14px;
+  border-color: rgba(13, 27, 75, 0.14);
+  background: #fff;
+  min-height: 48px;
+}
+
+/* ---- Resultado del sellado ---- */
+.result-badge {
+  border-radius: 24px;
+  box-shadow: 0 14px 30px -14px rgba(26, 127, 75, 0.55);
+  animation: seal-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes seal-pop {
+  from { transform: scale(0.6) rotate(-8deg); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.steps { gap: 12px; }
+.step-dot { box-shadow: 0 0 0 4px rgba(196, 154, 34, 0.14); }
+
+/* ---- Precio: cifras tabulares ---- */
+.price { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.pill { border-radius: 999px; }
+
+/* ---- Spinner con acento de marca ---- */
+.spinner {
+  border-color: rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+}
+.spinner-dark {
+  border-color: rgba(13, 27, 75, 0.12);
+  border-top-color: var(--gold);
+}
+
+/* ---- Menú lateral ---- */
+.drawer {
+  border-radius: 0 24px 24px 0;
+  padding-top: env(safe-area-inset-top);
+}
+.drawer-backdrop { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+
+/* ---- Footer ---- */
+.bigfooter { background: var(--ink); }
+
+/* ---- Área táctil mínima en móvil ---- */
+@media (pointer: coarse) {
+  .btn, .menu-btn, .lang-select-btn, .header-login, .segmented button { min-height: 44px; }
+}
+
+/* Cabecera compacta en una sola fila en móvil */
+@media (max-width: 640px) {
+  .header-right { flex-wrap: nowrap; gap: 6px; }
+  .header-inner { padding: 10px 14px; }
+  .brand-name { font-size: 15px; letter-spacing: 0.12em; }
+  .brand img { height: 30px; }
+  .header-login { padding: 7px 12px; font-size: 13px; white-space: nowrap; }
+}
+@media (max-width: 350px) {
+  .brand-name { display: none; }
+}
