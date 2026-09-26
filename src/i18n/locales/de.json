@@ -27,12 +27,13 @@
     "close": "Verstanden"
   },
   "hero": {
-    "titlePre": "Dein Dokument, ",
-    "titleEm": "einzigartig",
-    "titlePost": " und unveränderbar",
+    "titlePre": "Versiegle und verifiziere ",
+    "titleEm": "deine Dokumente",
+    "titlePost": ".",
     "subPre": "Wir garantieren, dass sein Inhalt nicht verändert wird, und halten fest, ",
     "subStrong": "wer es versiegelt hat und wann",
-    "subPost": ": SHA-256-Fingerabdruck, eindeutige Seal ID, Datum und öffentlicher Verifizierungslink."
+    "subPost": ": SHA-256-Fingerabdruck, eindeutige Seal ID, Datum und öffentlicher Verifizierungslink.",
+    "claim": "Jedes gesiegelte Dokument ist einzigartig und unveränderlich. Jeder kann es prüfen."
   },
   "tabs": {
     "seal": "Versiegeln",

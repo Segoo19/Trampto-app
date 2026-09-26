@@ -27,12 +27,13 @@
     "close": "Compris"
   },
   "hero": {
-    "titlePre": "Votre document, ",
-    "titleEm": "unique",
-    "titlePost": " et inaltérable",
+    "titlePre": "Scellez et vérifiez ",
+    "titleEm": "vos documents",
+    "titlePost": ".",
     "subPre": "Nous garantissons que son contenu n'est pas altéré et attestons ",
     "subStrong": "qui l'a scellé et quand",
-    "subPost": " : empreinte SHA-256, Seal ID unique, date et lien public de vérification."
+    "subPost": " : empreinte SHA-256, Seal ID unique, date et lien public de vérification.",
+    "claim": "Chaque document scellé est unique et inaltérable. Chacun peut le vérifier."
   },
   "tabs": {
     "seal": "Sceller",

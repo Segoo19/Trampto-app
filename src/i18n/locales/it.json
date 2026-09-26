@@ -27,12 +27,13 @@
     "close": "Ho capito"
   },
   "hero": {
-    "titlePre": "Il tuo documento, ",
-    "titleEm": "unico",
-    "titlePost": " e inalterabile",
+    "titlePre": "Sigilla e verifica ",
+    "titleEm": "i tuoi documenti",
+    "titlePost": ".",
     "subPre": "Garantiamo che il contenuto non venga alterato e registriamo ",
     "subStrong": "chi lo ha sigillato e quando",
-    "subPost": ": impronta SHA-256, Seal ID univoco, data e link pubblico di verifica."
+    "subPost": ": impronta SHA-256, Seal ID univoco, data e link pubblico di verifica.",
+    "claim": "Ogni documento sigillato è unico e inalterabile. Chiunque può verificarlo."
   },
   "tabs": {
     "seal": "Sigilla",

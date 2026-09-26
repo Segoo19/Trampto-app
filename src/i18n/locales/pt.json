@@ -27,12 +27,13 @@
     "close": "Entendi"
   },
   "hero": {
-    "titlePre": "Seu documento, ",
-    "titleEm": "único",
-    "titlePost": " e inalterável",
+    "titlePre": "Sele e verifique ",
+    "titleEm": "seus documentos",
+    "titlePost": ".",
     "subPre": "Garantimos que seu conteúdo não é alterado e registramos ",
     "subStrong": "quem o selou e quando",
-    "subPost": ": impressão digital SHA-256, Seal ID único, data e link público de verificação."
+    "subPost": ": impressão digital SHA-256, Seal ID único, data e link público de verificação.",
+    "claim": "Cada documento selado é único e inalterável. Qualquer pessoa o pode comprovar."
   },
   "tabs": {
     "seal": "Selar",

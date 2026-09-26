@@ -203,11 +203,7 @@ const Home = ({
           <em>{t("hero.titleEm")}</em>
           {t("hero.titlePost")}
         </h1>
-        <p>
-          {t("hero.subPre")}
-          <strong>{t("hero.subStrong")}</strong>
-          {t("hero.subPost")}
-        </p>
+        <p>{t("hero.claim")}</p>
         <div className="hero-install">
           <InstallButton />
         </div>

@@ -27,12 +27,13 @@
     "close": "了解"
   },
   "hero": {
-    "titlePre": "你的文件，",
-    "titleEm": "獨一無二",
-    "titlePost": "且無法竄改",
+    "titlePre": "封存並驗證",
+    "titleEm": "你的文件",
+    "titlePost": "。",
     "subPre": "我們保證其內容不被竄改，並記錄",
     "subStrong": "由誰封存以及何時封存",
-    "subPost": "：SHA-256 指紋、唯一 Seal ID、日期以及公開驗證連結。"
+    "subPost": "：SHA-256 指紋、唯一 Seal ID、日期以及公開驗證連結。",
+    "claim": "每一份封印的文件都獨一無二、不可竄改。任何人都可以驗證。"
   },
   "tabs": {
     "seal": "封存",

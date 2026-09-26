@@ -28,10 +28,11 @@
   "hero": {
     "titlePre": "Sella y verifica ",
     "titleEm": "tus documentos",
-    "titlePost": "",
+    "titlePost": ".",
     "subPre": "Garantizamos que su contenido no se altera y dejamos constancia de ",
     "subStrong": "quién lo selló y cuándo",
-    "subPost": ": huella SHA-256, Seal ID único, fecha y enlace público de verificación."
+    "subPost": ": huella SHA-256, Seal ID único, fecha y enlace público de verificación.",
+    "claim": "Cada documento sellado es único e inalterable. Cualquiera puede comprobarlo."
   },
   "tabs": {
     "seal": "Sellar",

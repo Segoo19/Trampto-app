@@ -2575,3 +2575,56 @@ body {
 @media (max-width: 350px) {
   .brand-name { display: none; }
 }
+
+/* ==================================================================
+   Hero idéntico a la web corporativa (trampto-web · .tp-hero)
+   Banda navy a sangre, H1 blanco en Playfair, "tus documentos" en cursiva
+   con degradado dorado y eslogan en gris azulado.
+   ================================================================== */
+.hero {
+  position: relative;
+  margin: -36px calc(50% - 50vw) 28px;
+  padding: clamp(48px, 9vw, 88px) 20px clamp(40px, 7vw, 64px);
+  text-align: center;
+  color: #fff;
+  background:
+    radial-gradient(60% 40% at 50% 100%, rgba(196, 154, 34, 0.16), transparent 72%),
+    radial-gradient(70% 55% at 50% -10%, #16266a 0%, transparent 62%),
+    #0a1438;
+  overflow: hidden;
+}
+.hero h1 {
+  margin: 0 auto;
+  max-width: 14ch;
+  color: #fff;
+  font-family: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  font-size: clamp(2.6rem, 1.4rem + 5.2vw, 5.2rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+}
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(180deg, #f3e3b3 0%, #c49a22 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding: 0 0.06em 0 0;
+}
+:lang(ja) .hero h1 em, :lang(zh) .hero h1 em { font-style: normal; }
+.hero p {
+  margin: clamp(16px, 2.4vw, 24px) auto 0;
+  max-width: 36ch;
+  color: #c2cade;
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+  line-height: 1.5;
+}
+.hero-install .install-btn {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.45);
+  border-radius: 999px;
+}
+.hero-install .install-btn:hover { background: rgba(255, 255, 255, 0.08); }
+
+html, body { overflow-x: clip; }

@@ -27,12 +27,13 @@
     "close": "知道了"
   },
   "hero": {
-    "titlePre": "你的文档，",
-    "titleEm": "独一无二",
-    "titlePost": "且不可篡改",
+    "titlePre": "封存并验证",
+    "titleEm": "你的文档",
+    "titlePost": "。",
     "subPre": "我们保证其内容不被篡改，并记录",
     "subStrong": "由谁封存以及何时封存",
-    "subPost": "：SHA-256 指纹、唯一 Seal ID、日期以及公开验证链接。"
+    "subPost": "：SHA-256 指纹、唯一 Seal ID、日期以及公开验证链接。",
+    "claim": "每一份封印的文档都独一无二、不可篡改。任何人都可以验证。"
   },
   "tabs": {
     "seal": "封存",

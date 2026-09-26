@@ -26,12 +26,13 @@
     "close": "Got it"
   },
   "hero": {
-    "titlePre": "Your document, ",
-    "titleEm": "unique",
-    "titlePost": " and unalterable",
+    "titlePre": "Seal and verify ",
+    "titleEm": "your documents",
+    "titlePost": ".",
     "subPre": "We guarantee its content is not altered and we record ",
     "subStrong": "who sealed it and when",
-    "subPost": ": SHA-256 fingerprint, unique Seal ID, date and public verification link."
+    "subPost": ": SHA-256 fingerprint, unique Seal ID, date and public verification link.",
+    "claim": "Every sealed document is unique and unalterable. Anyone can verify it."
   },
   "tabs": {
     "seal": "Seal",
