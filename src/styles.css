@@ -2628,3 +2628,67 @@ body {
 .hero-install .install-btn:hover { background: rgba(255, 255, 255, 0.08); }
 
 html, body { overflow-x: clip; }
+
+/* ==================================================================
+   Hero compacto: el titular acompaña, la acción (Sellar/Verificar) manda.
+   + Detalles dorados como en la web.
+   ================================================================== */
+.hero {
+  padding: clamp(22px, 4vw, 34px) 20px clamp(20px, 3.5vw, 30px);
+  margin-bottom: 0;
+  /* filete dorado inferior, como los separadores de la web */
+  box-shadow: inset 0 -2px 0 rgba(196, 154, 34, 0.55);
+}
+.hero h1 {
+  max-width: none;
+  font-size: clamp(1.75rem, 1.2rem + 2.4vw, 2.9rem);
+  line-height: 1.05;
+}
+.hero p {
+  margin-top: 8px;
+  max-width: 44ch;
+  font-size: clamp(0.92rem, 0.88rem + 0.25vw, 1.05rem);
+}
+.hero-install { margin-top: 14px; }
+.hero-install .install-btn { padding: 6px 14px; font-size: 13px; }
+
+/* El selector sube pegado al banner y gana presencia */
+.segmented-wrap { margin-top: -22px; position: relative; z-index: 2; }
+.segmented {
+  background: #fff;
+  border: 1px solid rgba(196, 154, 34, 0.45);
+  box-shadow: 0 14px 30px -14px rgba(13, 27, 75, 0.4), 0 0 0 4px rgba(196, 154, 34, 0.08);
+  margin-bottom: 20px;
+}
+.segmented button { padding: 11px 30px; font-size: 15px; }
+.segmented button.active {
+  box-shadow: 0 6px 16px -6px rgba(13, 27, 75, 0.55), inset 0 -2px 0 #c49a22;
+}
+
+/* ---- Detalles dorados ---- */
+.header { border-bottom: 1px solid rgba(196, 154, 34, 0.35); }
+.dropzone { border-color: rgba(196, 154, 34, 0.45); }
+.dropzone .dz-icon { color: #896c18; }
+.card h2, .info-page h1 { position: relative; }
+.info-page h1::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin: 12px 0 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #c49a22, #ead7a1);
+}
+.result-head h2::after, .paywall h2::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  margin: 10px auto 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #c49a22, #ead7a1);
+}
+.bigfooter { border-top: 2px solid #c49a22; }
+.bigfooter h5 { color: #ead7a1; }
+.pill-free { border-color: rgba(196, 154, 34, 0.5); }
+a:not(.btn):hover { text-decoration-color: #c49a22; }
