@@ -424,7 +424,15 @@
     "accept": "Aceptar y continuar"
   },
   "seo": {
-    "home": "Sella y verifica tus documentos"
+    "home": "Sella y verifica tus documentos",
+    "titles": {
+      "home": "Trampto · Sellar y verificar documentos PDF online con SHA-256",
+      "verify": "Verificar autenticidad de un documento PDF",
+      "about": "Qué es Trampto: integridad documental con sello SHA-256",
+      "use-cases": "Casos de uso: sellar presupuestos, contratos y facturas",
+      "blog": "Guías de integridad documental y PDF a prueba de manipulaciones",
+      "faq": "Preguntas frecuentes sobre sellar y verificar documentos"
+    }
   },
   "notFound": {
     "title": "Página no encontrada",

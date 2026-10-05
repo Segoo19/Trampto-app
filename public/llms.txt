@@ -1,0 +1,25 @@
+# Trampto
+
+> Trampto (TRAMPTO) es una herramienta online para sellar y verificar documentos PDF. Calcula la huella criptográfica SHA-256 del archivo en el dispositivo del usuario (el contenido no se sube) y registra un Seal ID único con fecha y autoría. Cualquiera puede comprobar con un enlace público de verificación que el documento no ha sido modificado.
+
+Datos clave:
+- Web: https://trampto-app.vercel.app/
+- Qué resuelve: demostrar que un PDF no ha cambiado, quién lo selló y cuándo (integridad + autoría).
+- Para quién: autónomos y pymes que envían presupuestos, facturas, contratos, entregas creativas o certificados.
+- Precio: gratis para los primeros documentos; Plan Pro 1,99 €/mes con sellado ilimitado (pago con Stripe).
+- Privacidad: solo se registran la huella SHA-256, el nombre del archivo, el Seal ID y la fecha; nunca el contenido.
+- Relación con la firma electrónica: complementario a DocuSign y similares; no sustituye una firma cualificada.
+- Plataformas: web (PWA), Windows (Microsoft Store), Android e iOS. 9 idiomas.
+- Contacto: tramptooficial@gmail.com
+
+## Páginas
+- [Sellar documento](https://trampto-app.vercel.app/): sube un PDF y obtén su Seal ID, certificado de integridad y enlace de verificación.
+- [Verificar documento](https://trampto-app.vercel.app/verificar): comprueba si un PDF es auténtico comparando su hash SHA-256 con el sello original.
+- [Casos de uso](https://trampto-app.vercel.app/use-cases): presupuestos, facturas, contratos, entregas creativas y certificados.
+- [Guías](https://trampto-app.vercel.app/blog): PDF a prueba de manipulaciones, sello digital vs firma electrónica, unicidad del hash SHA-256.
+- [Preguntas frecuentes](https://trampto-app.vercel.app/faq): privacidad, validez legal, verificación y precio.
+- [Sobre Trampto](https://trampto-app.vercel.app/about)
+
+## Optional
+- [Política de privacidad](https://trampto-app.vercel.app/privacidad.html)
+- [Trampto en Microsoft Store](https://apps.microsoft.com/detail/9nmngk56g2mc)

@@ -29,6 +29,8 @@ const Faq = ({ navigate }: { navigate: (to: string) => void }) => {
         acceptedAnswer: { "@type": "Answer", text: it.a },
       })),
     };
+    // El prerender ya incluye FAQPage en /faq; se sustituye para no duplicar.
+    document.getElementById("faq-jsonld")?.remove();
     const el = document.createElement("script");
     el.type = "application/ld+json";
     el.id = "faq-jsonld";

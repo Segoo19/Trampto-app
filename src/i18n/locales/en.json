@@ -424,7 +424,15 @@
     "accept": "Accept and continue"
   },
   "seo": {
-    "home": "Seal and verify your documents"
+    "home": "Seal and verify your documents",
+    "titles": {
+      "home": "Trampto · Seal and verify PDF documents online with SHA-256",
+      "verify": "Verify the authenticity of a PDF document",
+      "about": "What is Trampto: document integrity with a SHA-256 seal",
+      "use-cases": "Use cases: seal quotes, contracts and invoices",
+      "blog": "Guides on document integrity and tamper-proof PDFs",
+      "faq": "FAQ about sealing and verifying documents"
+    }
   },
   "notFound": {
     "title": "Page not found",

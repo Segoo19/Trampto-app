@@ -69,7 +69,12 @@ export function useSeo(path: string) {
 
   useEffect(() => {
     const kind = routeKind(path);
-    document.title = `${titleFor(kind, t)} · ${BRAND}`;
+    // Títulos orientados a keyword (seo.titles.<ruta>) donde existen; la home ya
+    // empieza por la marca, así que no se le añade el sufijo.
+    const seoKey = `seo.titles.${kind}`;
+    if (kind === "home" && i18n.exists(seoKey)) document.title = t(seoKey);
+    else if (i18n.exists(seoKey)) document.title = `${t(seoKey)} · ${BRAND}`;
+    else document.title = `${titleFor(kind, t)} · ${BRAND}`;
 
     const meta = document.querySelector<HTMLMetaElement>(
       'meta[name="description"]'
@@ -80,5 +85,5 @@ export function useSeo(path: string) {
       meta.content = d ?? baseDescription;
     }
     document.documentElement.lang = lang;
-  }, [path, lang, t]);
+  }, [path, lang, t, i18n]);
 }
