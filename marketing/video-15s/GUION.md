@@ -3,7 +3,9 @@
 > **Máster:** vertical 9:16 · 1080 × 1920 · 30 fps · 15,0 s (450 fotogramas)
 > **Objetivo:** que en 15 segundos se entienda qué hace TRAMPTO y por qué importa, con un antes/después inequívoco.
 > **Público:** autónomos y pymes que envían presupuestos, contratos y facturas en PDF.
-> **En esta carpeta:** este guion · [`animatic.html`](animatic.html) (animática fiel a tiempos y transiciones) · [`render.mjs`](render.mjs) (la exporta a MP4) · [`assets/sello.png`](assets/sello.png) (el sello del logo recortado con transparencia).
+> **En esta carpeta:** este guion · [`trampto-spot-15s-9x16.mp4`](trampto-spot-15s-9x16.mp4) (la animática renderizada, con pista guía) · [`animatic.html`](animatic.html) (la animática navegable) · [`render.mjs`](render.mjs) (la exporta a MP4) · [`pista-guia.py`](pista-guia.py) (música y efectos de referencia) · [`storyboard.jpg`](storyboard.jpg) · [`assets/sello.png`](assets/sello.png) (el sello del logo recortado con transparencia).
+
+![Storyboard del spot de 15 s](storyboard.jpg)
 
 ---
 
@@ -62,7 +64,7 @@ Reparto: problema 27 % · solución 33 % · prueba 20 % · llamada a la acción 
 ### Escena 2 · Antes, sin TRAMPTO — 2,0 → 4,0 s
 
 **Imagen**
-- 2,0 s — **transición de clonado**: el documento se duplica y las dos copias se separan a izquierda y derecha (escala 0,6; giro −4° / +4°) con estela de movimiento.
+- 2,0 s — **transición de clonado**: el documento se duplica y las dos copias se separan a izquierda y derecha (escala 0,56; giro −4° / +4°) con estela de movimiento.
 - La izquierda dice 4.800 €; la derecha, 1.800 €. Sobre las dos, la misma etiqueta en mono: **«¿ORIGINAL?»**. Un «?» rojo parpadea con glitch sobre cada copia.
 - 3,4 s — **anticipación**: la escena se oscurece, una sombra elíptica crece en el centro y el sello 3D entra desde arriba acelerando (rampa de velocidad, estiramiento vertical por velocidad).
 
@@ -73,11 +75,11 @@ Reparto: problema 27 % · solución 33 % · prueba 20 % · llamada a la acción 
 ### Escena 3 · El giro: el sello — 4,0 → 5,0 s
 
 **Imagen**
-- 4,0 s — **IMPACTO** en el centro (*downbeat*, coincide con el *drop*): aplastamiento de 2 fotogramas, sacudida de cámara de 6 fotogramas y destello dorado.
+- 4,0 s — **IMPACTO** en el centro (*downbeat*, coincide con el *drop*): aplastamiento de 2 fotogramas, sacudida de cámara decreciente de unos 10 fotogramas y destello dorado.
 - **Barrido de onda** (*ripple wipe*): tres anillos en el azul del logo (`#076EC1 → #4DA3FF`) se expanden en perspectiva, como las ondas del logotipo. El primero arrastra el color: el mundo gris desaparece y aparece el fondo de marca (navy `#0A1438`, halo `#16266A`, resplandor dorado).
 - Las dos copias dudosas salen despedidas por la onda (giro + desenfoque + fundido).
 - El chip gira en 3D: **● SIN TRAMPTO → ✓ CON TRAMPTO** (oro).
-- 4,4 s — **logo lock**: el sello se eleva y vuela, encogiéndose, hasta el icono del chip. Desde aquí el logo queda fijo arriba como mosca de marca.
+- 4,2 s — el sello se eleva. 4,5 s — **logo lock**: vuela por detrás del titular, encogiéndose, hasta el hueco del icono del chip, que se enciende al recibirlo. Desde aquí el logo queda fijo arriba como mosca de marca.
 
 **Texto en pantalla:** «Con *TRAMPTO*» — TRAMPTO en DM Sans 800 con degradado dorado (`#F3E3B3 → #C49A22`).
 **Locución:** «Con Trampto:»
@@ -90,8 +92,8 @@ Un panel de **cristal líquido** (translúcido, con canto de luz especular) sube
 | Paso | Tiempo | Imagen | Texto en pantalla | Locución |
 |---|---|---|---|---|
 | **1 · Sube** | 5,0 – 6,0 s | Cabecera de la app, selector «Sellar \| Verificar» y la zona «Arrastra tu documento aquí». El presupuesto entra volando y cae dentro: el borde dorado se ilumina y rebota. | «*1* Sube.» / «PDF, Word, PowerPoint o imagen» | «súbelo,» |
-| **2 · Sella** | 6,0 – 7,5 s | El panel cambia a la vista de sellado: una línea de escaneo dorada recorre la página y se marcan los pasos reales de la app (*Calculando la huella SHA-256* ✓ · *Sellando página a página* ✓ · *Registrando el sello público* ✓). La huella se descifra carácter a carácter: `79f29d93…51b51d6a`. A los 7,0 s, el sello burdeos y oro aparece con un rebote elástico y se encoge hasta la esquina inferior derecha de la página: es el **microsello** real, discreto, que no toca el diseño del documento. | «*2* Sella.» / «Huella SHA-256 única + Seal ID» | «séllalo» |
-| **3 · Comparte** | 7,5 – 9,0 s | Resultado «Documento sellado» con el ID de sello `TRP-da0d949d-…` y el enlace público `trampto-app.vercel.app/v/79f29d93…`. A los 8,0 s (*downbeat*) se pulsa «Compartir»: la píldora del enlace sale del panel con un brillo y aparece «Enlace copiado ✓». | «*3* Comparte.» / «Cualquiera lo verifica con el enlace» | «y compártelo.» |
+| **2 · Sella** | 6,0 – 7,5 s | El panel cambia a la vista de sellado: una línea de escaneo dorada recorre la página y se marcan los pasos reales de la app (*Calculando la huella SHA-256* ✓ · *Sellando página a página* ✓ · *Registrando el sello público* ✓). La huella se descifra carácter a carácter (`79f29d93…51b51d6a`) y debajo aparece el ID de sello. A los 7,0 s, el sello burdeos y oro aparece con un rebote elástico y se encoge hasta la esquina inferior derecha de la página: es el **microsello** real, discreto, que no toca el diseño del documento. | «*2* Sella.» / «Huella SHA-256 única + Seal ID» | «séllalo» |
+| **3 · Comparte** | 7,5 – 9,0 s | Resultado «Documento sellado» con el ID de sello `TRP-da0d949d-…` y el enlace público `trampto-app.vercel.app/v/79f29d93…`. A los 8,0 s (*downbeat*) se pulsa «Compartir»: el campo del enlace se ilumina en oro y aparece la píldora verde «✓ Copiado». | «*3* Comparte.» / «Cualquiera lo verifica con el enlace» | «y compártelo.» |
 
 **Transiciones:** el panel sube con el *easing* de la app; entre pasos, su contenido cambia con un *morph* (lo saliente sube y se desenfoca, lo entrante aparece desde abajo). Los números de los pasos van en Playfair cursiva con degradado dorado.
 **Sonido:** golpe suave de «soltar archivo» (5,6 s) · barrido de escaneo con tecleo digital (6,0–7,0 s) · *pop* cristalino del sello (7,0 s) · *tap* + *swoosh* del enlace (8,0 s).
@@ -100,10 +102,10 @@ Un panel de **cristal líquido** (translúcido, con canto de luz especular) sube
 
 **Imagen**
 - 9,0 s — **blur-zoom**: el panel se aleja desenfocándose y vuelven las dos copias **en la misma posición que en la escena 2**, ahora con el microsello en la esquina.
-- 9,3 s — el mismo cursor intenta el mismo cambio en la copia de la derecha: «4» → «1», con el mismo glitch.
-- 9,8 s — **detección instantánea**: la copia derecha se tiñe de rojo (`#B3261E`) y vibra; su etiqueta pasa de «¿ORIGINAL?» a **«RETOCADO»** (efecto *scramble*) y aparece el badge **✕ Sello no válido**.
-- 10,0 s (*downbeat*) — la copia izquierda se ilumina en verde (`#1A7F4B`): etiqueta **«ORIGINAL»** y badge **✓ Documento auténtico**.
-- Bajo cada copia, su huella: izquierda `79f29d93…51b51d6a · coincide ✓` · derecha `ee02568a…b64bfd19 · no coincide ✕`.
+- Bajo cada copia, su huella. Al principio las dos muestran la misma: `79f29d93…51b51d6a`.
+- 9,1 – 9,5 s — el mismo cursor intenta el mismo cambio en la copia de la derecha: «4» → «1», con el mismo glitch.
+- 9,8 s — **detección instantánea**: la copia derecha se tiñe de rojo (`#B3261E`) y vibra; su huella se transforma en `ee02568a…b64bfd19` («✕ no coincide»), su etiqueta pasa de «¿ORIGINAL?» a **«RETOCADO»** (efecto *scramble*) y aparece el badge **✕ Sello no válido**.
+- 10,0 s (*downbeat*) — la copia izquierda se ilumina en verde (`#1A7F4B`): etiqueta **«ORIGINAL»**, «✓ coincide» y badge **✓ Documento auténtico**. Las dos copias se enderezan (de ±4° a 0°): el orden vuelve.
 - 11,6 s — **iris de onda**: un anillo azul se expande desde el centro y abre el cierre.
 
 **Texto en pantalla:** «¿Alguien lo retoca?» (9,0–9,8 s) → «Si cambia un solo dato, / el sello *lo delata*.» (*lo delata* en cursiva dorada).
@@ -114,8 +116,8 @@ Un panel de **cristal líquido** (translúcido, con canto de luz especular) sube
 
 **Imagen**
 - Fondo idéntico a la banda *hero* de la web y la app (navy `#0A1438`, halo `#16266A` arriba, resplandor dorado abajo) con ondas concéntricas tenues que laten desde el logo.
-- 12,0 s — el icono de la app (el sello sobre baldosa blanca redondeada) aparece con rebote elástico; las ondas azules laten a los 12,0 y 14,0 s.
-- 12,3 s — **TRAMPTO** en DM Sans 700; el espaciado se cierra de 0,7 em a 0,32 em, como en la pantalla de carga de la app.
+- 11,7 s — el icono de la app (el sello sobre baldosa blanca redondeada) aparece con rebote elástico; las ondas azules laten a los 12,0 y 14,0 s.
+- 12,2 s — **TRAMPTO** en DM Sans 700; el espaciado se cierra de 0,75 em a 0,32 em, como en la pantalla de carga de la app.
 - 12,5 s — «Sella y verifica / *tus documentos*.» en Playfair Display; *tus documentos* en cursiva con degradado dorado, igual que el titular de la app.
 - 13,1 s — filete dorado + píldora burdeos **«Gratis tus 3 primeros documentos»**; destello que la recorre a los 13,8 s.
 - 13,4 s — dominio `trampto-app.vercel.app` en oro claro (`#EAD7A1`).
@@ -213,12 +215,12 @@ Antes del impacto el mundo está deliberadamente apagado, pero la marca nunca de
 | 3 | 2,0 s | Clonado | Un documento se divide en dos con estela |
 | 4 | 3,4 – 4,0 s | Rampa de velocidad | Caída acelerada del sello con estiramiento por velocidad |
 | 5 | **4,0 s** | **Barrido de onda** | Las ondas del logo revelan el mundo de marca (transición firma) |
-| 6 | 4,4 s | *Logo lock* | El sello vuela y se convierte en el icono del chip |
+| 6 | 4,5 s | *Logo lock* | El sello vuela y se convierte en el icono del chip |
 | 7 | 4,6 / 6,0 / 7,5 s | Cristal líquido + *morph* | El panel sube y su contenido se transforma paso a paso |
 | 8 | 9,0 s | *Blur-zoom* | El panel se aleja desenfocándose y vuelve la composición dividida |
 | 9 | 9,0 s | Rima compositiva | Mismo encuadre que el «antes», ahora con respuesta |
 | 10 | 11,6 s | Iris de onda | Un anillo azul abre el cierre desde el centro |
-| 11 | 12,3 / 13,8 s | *Tracking-in* + destello | El nombre se cierra como en la pantalla de carga; brillo en el CTA |
+| 11 | 12,2 / 13,8 s | *Tracking-in* + destello | El nombre se cierra como en la pantalla de carga; brillo en el CTA |
 
 ---
 
@@ -244,7 +246,7 @@ El logo y el nombre están en pantalla el 100 % del tiempo.
 | 1:1 · 1080 × 1080 | Feed de Instagram, LinkedIn | Titulares encima a 0,8×; las copias se reducen a 0,75× |
 | 16:9 · 1920 × 1080 | YouTube, web, presentaciones | Las copias del antes/después ganan aire en horizontal; titulares en el tercio izquierdo |
 
-- **Zonas seguras (9:16):** deja libres unos 250 px arriba, 420 px abajo y 140 px a la derecha (interfaz de TikTok y Reels). La animática respeta estos márgenes; actívalos con la tecla `S`.
+- **Zonas seguras (9:16):** deja libres unos 250 px arriba, 420 px abajo y, entre los 800 y 1500 px de altura, 140 px a la derecha (botones de TikTok y Reels). Los textos y elementos clave de la animática quedan dentro; actívalas con la tecla `S` para comprobarlo.
 - **Exportación:** H.264 High, 1080 × 1920, 30 fps, 12–16 Mbps, `yuv420p`; audio AAC 48 kHz 320 kbps.
 - **Miniatura:** el último fotograma (cierre completo).
 
@@ -274,15 +276,19 @@ El logo y el nombre están en pantalla el 100 % del tiempo.
 
 ## 9. Producción
 
-**La animática** (`animatic.html`) reproduce el spot completo en el navegador con el logo, los colores, las tipografías y los tiempos de este guion. Sirve de referencia exacta para edición o *motion* (After Effects, Cavalry, Premiere, CapCut) y como versión 0 publicable una vez se le añadan música y voz.
+**El vídeo** [`trampto-spot-15s-9x16.mp4`](trampto-spot-15s-9x16.mp4) es la animática renderizada a 1080 × 1920 y 30 fps con una **pista guía**: música sintetizada a 120 BPM (Re – La – Si m – Sol) y los efectos de la tabla de sonido, a −14 LUFS. Va comprimido para que pese poco en el repositorio; el máster final se exporta con la especificación del apartado 8. Sirve para revisar ritmo y transiciones y como versión 0; para publicar, cambia la pista por música con licencia y añade la locución.
+
+**La animática** (`animatic.html`) reproduce el spot en el navegador con el logo, los colores, las tipografías y los tiempos de este guion. Es la referencia exacta para edición o *motion* (After Effects, Cavalry, Premiere, CapCut).
 
 - Ábrela en Chrome desde el repositorio (usa `../../public/icon-512.png` y `assets/sello.png`).
 - Controles: `Espacio` reproduce o pausa · `←` / `→` avanzan un fotograma · `S` muestra las zonas seguras · la barra inferior permite ir a cualquier punto.
-- **Exportar a MP4** (requiere ffmpeg en el `PATH`):
+- **Volver a exportar** (requiere ffmpeg en el `PATH`; la pista guía, Python 3 con numpy):
 
   ```bash
   npm i --no-save playwright && npx playwright install chromium
-  node marketing/video-15s/render.mjs          # → marketing/video-15s/trampto-spot-15s-9x16.mp4
+  python3 marketing/video-15s/pista-guia.py                   # opcional: genera pista-guia.wav
+  node marketing/video-15s/render.mjs                         # → trampto-spot-15s-9x16.mp4 (con la pista si existe)
+  node marketing/video-15s/render.mjs --stills 4.1,10.6,14.6  # fotogramas sueltos en PNG
   ```
 
 - El dominio del cierre es una constante (`DOMAIN`) al principio del script de la animática. Si `trampto.com` apunta a la app, úsalo: es más corto y se recuerda mejor.
