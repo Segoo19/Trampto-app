@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="vendor/gsap.min.js"></script>
+<link href="vendor/fonts.css" rel="stylesheet" />
+<style>
+  :root{--navy:#0D1B4B;--gold:#C49A22;--gold2:#EAD7A1;--bur:#7A1F1F;--paper:#F7F4EC;--ok:#1E7A4C}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:var(--navy)}
+  #root{position:relative;width:100%;height:100%;font-family:"DM Sans",system-ui,sans-serif;color:#fff}
+  .clip{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .bg{background:radial-gradient(110% 80% at 50% 0%,#1a2d6b 0%,var(--navy) 60%,#08112f 100%)}
+  .light{background:radial-gradient(120% 90% at 50% 0%,#fff 0%,var(--paper) 70%);color:var(--navy)}
+  h1,h2{font-family:"Playfair Display",serif;font-weight:800;letter-spacing:-.02em;text-align:center}
+  h1{font-size:112px;line-height:1.05} h2{font-size:84px;line-height:1.1}
+  em{font-style:normal;color:var(--gold)}
+  .kicker{font-size:30px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold2);margin-bottom:28px}
+  .logo{width:200px;height:200px;border-radius:52px;background:#fff url(logo.png) center/86% no-repeat;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+  .brand{font-weight:700;font-size:44px;letter-spacing:.4em;margin-top:36px;padding-left:.4em}
+  .doc{width:520px;height:680px;background:#fff;border-radius:18px;box-shadow:0 40px 90px -30px rgba(13,27,75,.45);padding:56px 52px;color:var(--navy);position:relative}
+  .doc .t{font-family:"Playfair Display";font-size:40px;font-weight:800;margin-bottom:30px}
+  .doc .ln{height:14px;border-radius:7px;background:#E3E6EE;margin:16px 0}
+  .doc .amt{margin-top:46px;font-size:30px;display:flex;justify-content:space-between;border-top:2px solid #E3E6EE;padding-top:24px}
+  .doc .v{font-weight:700;font-size:44px;position:relative;white-space:nowrap}
+  .row{display:flex;gap:110px;align-items:center}
+  .alert{font-size:40px;font-weight:700;color:var(--bur);max-width:640px;line-height:1.3}
+  .steps{display:flex;gap:56px;margin-top:70px}
+  .step{width:440px;padding:46px 40px;border-radius:26px;background:rgba(255,255,255,.06);border:1px solid rgba(234,215,161,.35)}
+  .step b{display:block;font-family:"Playfair Display";font-size:64px;color:var(--gold)}
+  .step span{display:block;font-size:40px;font-weight:700;margin:10px 0 12px}
+  .step p{font-size:26px;color:#C9D0E4;line-height:1.4}
+  .hash{font-family:"JetBrains Mono",monospace;font-size:34px;color:var(--gold2);margin-top:60px;letter-spacing:.04em}
+  .verdicts{display:flex;gap:70px;margin-top:70px}
+  .card{width:620px;border-radius:28px;padding:50px;background:#fff;box-shadow:0 30px 80px -30px rgba(13,27,75,.4);text-align:center}
+  .card .ic{width:120px;height:120px;border-radius:50%;margin:0 auto 26px;display:flex;align-items:center;justify-content:center;font-size:72px;color:#fff;font-weight:700}
+  .card .h{font-family:"Playfair Display";font-size:52px;font-weight:800}
+  .card p{font-size:28px;color:#4a5068;margin-top:12px}
+  .cta{margin-top:56px;font-size:40px;padding:26px 60px;border-radius:999px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);font-weight:700}
+  .url{margin-top:34px;font-size:32px;color:#C9D0E4}
+  .bar{position:absolute;left:0;bottom:0;height:8px;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:left}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="32" data-width="1920" data-height="1080">
+
+  <!-- 1 · Gancho -->
+  <section id="s1" class="clip bg" data-start="0" data-duration="5" data-track-index="0">
+    <div class="logo" id="s1logo"></div>
+    <div class="brand" id="s1brand">TRAMPTO</div>
+  </section>
+
+  <!-- 2 · Problema -->
+  <section id="s2" class="clip light" data-start="5" data-duration="7" data-track-index="0">
+    <div class="row">
+      <div class="doc" id="doc">
+        <div class="t">Presupuesto</div>
+        <div class="ln" style="width:90%"></div><div class="ln" style="width:75%"></div>
+        <div class="ln" style="width:84%"></div><div class="ln" style="width:60%"></div>
+        <div class="ln" style="width:80%"></div>
+        <div class="amt"><span>Total</span><span class="v"><span id="a1">1.200 €</span><span id="a2" style="position:absolute;right:0;opacity:0;color:var(--bur)">1.900 €</span></span></div>
+      </div>
+      <div>
+        <h2 id="q" style="text-align:left">¿Y si alguien<br/><em>cambia tu PDF?</em></h2>
+        <p class="alert" id="alert" style="margin-top:40px">Sin una prueba, es tu palabra contra la suya.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Solución -->
+  <section id="s3" class="clip bg" data-start="12" data-duration="9" data-track-index="0">
+    <div class="kicker" id="k3">Así funciona Trampto</div>
+    <h2 id="h3">Sella tu documento <em>en segundos</em></h2>
+    <div class="steps">
+      <div class="step"><b>1</b><span>Sube tu PDF</span><p>Se procesa en tu dispositivo. No se sube el contenido.</p></div>
+      <div class="step"><b>2</b><span>Séllalo</span><p>Huella SHA-256 única, Seal ID, fecha y autoría.</p></div>
+      <div class="step"><b>3</b><span>Compártelo</span><p>Certificado de integridad y enlace público de verificación.</p></div>
+    </div>
+    <div class="hash" id="hash">SHA-256 · 9f2c4e8a…b71d03e6</div>
+  </section>
+
+  <!-- 4 · Verificación -->
+  <section id="s4" class="clip light" data-start="21" data-duration="6" data-track-index="0">
+    <h2 id="h4">Cualquiera puede <em>verificarlo</em></h2>
+    <div class="verdicts">
+      <div class="card" id="c1"><div class="ic" style="background:var(--ok)">✓</div><div class="h">Auténtico</div><p>Idéntico al documento sellado.</p></div>
+      <div class="card" id="c2"><div class="ic" style="background:var(--bur)">✕</div><div class="h">Alterado</div><p>Un solo bit cambiado y se detecta.</p></div>
+    </div>
+  </section>
+
+  <!-- 5 · CTA -->
+  <section id="s5" class="clip bg" data-start="27" data-duration="5" data-track-index="0">
+    <div class="logo" id="s5logo" style="width:150px;height:150px;border-radius:40px"></div>
+    <h1 id="h5" style="margin-top:44px">Tu documento,<br/><em>único e inalterable.</em></h1>
+    <div class="cta" id="cta">Sella gratis con Trampto</div>
+    <div class="url" id="url">trampto-app.vercel.app</div>
+    <div class="bar" id="bar"></div>
+  </section>
+</div>
+<script>
+  const tl = gsap.timeline({ paused: true });
+  const E = "power3.out";
+  // 1
+  tl.fromTo("#s1logo",{scale:.7,opacity:0},{scale:1,opacity:1,duration:.9,ease:"back.out(1.6)"},0.2)
+    .fromTo("#s1brand",{opacity:0,y:24},{opacity:1,y:0,duration:1,ease:E},0.7);
+  // 2
+  tl.fromTo("#doc",{y:60,opacity:0,rotate:-3},{y:0,opacity:1,rotate:-2,duration:.8,ease:E},5.2)
+    .fromTo("#q",{x:40,opacity:0},{x:0,opacity:1,duration:.8,ease:E},5.6)
+    .to("#a1",{opacity:0,duration:.3},8.0)
+    .to("#a2",{opacity:1,duration:.3},8.0)
+    .fromTo("#doc",{x:0},{x:12,duration:.07,repeat:5,yoyo:true},8.0)
+    .fromTo("#alert",{opacity:0,y:20},{opacity:1,y:0,duration:.6,ease:E},8.7);
+  // 3
+  tl.fromTo(["#k3","#h3"],{opacity:0,y:30},{opacity:1,y:0,duration:.8,stagger:.15,ease:E},12.2)
+    .fromTo("#s3 .step",{opacity:0,y:60},{opacity:1,y:0,duration:.7,stagger:.45,ease:E},13.2)
+    .fromTo("#hash",{opacity:0,clipPath:"inset(0 100% 0 0)"},{opacity:1,clipPath:"inset(0 0% 0 0)",duration:1.6,ease:"none"},16.0);
+  // 4
+  tl.fromTo("#h4",{opacity:0,y:30},{opacity:1,y:0,duration:.8,ease:E},21.2)
+    .fromTo("#c1",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.7,ease:"back.out(1.5)"},22.0)
+    .fromTo("#c2",{opacity:0,scale:.85},{opacity:1,scale:1,duration:.7,ease:"back.out(1.5)"},23.2);
+  // 5
+  tl.fromTo("#s5logo",{opacity:0,scale:.8},{opacity:1,scale:1,duration:.7,ease:E},27.1)
+    .fromTo("#h5",{opacity:0,y:30},{opacity:1,y:0,duration:.8,ease:E},27.4)
+    .fromTo("#cta",{opacity:0,y:20},{opacity:1,y:0,duration:.6,ease:E},28.3)
+    .fromTo("#url",{opacity:0},{opacity:1,duration:.6},28.8)
+    .fromTo("#bar",{scaleX:0},{scaleX:1,duration:3,ease:"none"},29.0);
+  window.__timelines["main"] = tl;
+  tl.seek(0);
+</script>
+</body>
+</html>

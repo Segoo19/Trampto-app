@@ -1,0 +1,7 @@
+[
+  { "start": 0.4,  "text": "Esto es Trampto." },
+  { "start": 5.4,  "text": "Envías un presupuesto de mil doscientos euros… y te lo devuelven con otra cifra. Sin una prueba, es tu palabra contra la suya." },
+  { "start": 12.4, "text": "Con Trampto, subes tu PDF, lo sellas con una huella SHA-256 única, y compartes su enlace de verificación. Tu documento nunca sale de tu dispositivo." },
+  { "start": 21.4, "text": "Cualquiera puede verificarlo en segundos. Si cambia un solo bit, se detecta." },
+  { "start": 27.4, "text": "Tu documento, único e inalterable. Sella gratis en Trampto." }
+]
