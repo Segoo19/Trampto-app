@@ -117,6 +117,8 @@ const App = () => {
     case "about":
     case "use-cases":
     case "blog":
+    case "compare":
+    case "glossary":
       view = <Info page={kind} navigate={navigate} />;
       break;
     case "privacy":

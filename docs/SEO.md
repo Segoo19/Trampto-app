@@ -30,3 +30,14 @@ Próximo paso de contenido: convertir cada bloque del blog en su propia URL (`/b
 4. Menciones y enlaces: directorios SaaS (Capterra, G2, AlternativeTo, SaaSHub), artículos comparativos "alternativas a DocuSign", foros (Reddit, Forocoches, comunidades de autónomos). Las IAs citan marcas que aparecen en muchas fuentes de terceros.
 5. Reseñas reales en Microsoft Store / G2: cuando existan, añadir `aggregateRating` al SoftwareApplication (nunca inventarlas).
 6. Medir visibilidad en IA: preguntar periódicamente a ChatGPT, Perplexity, Gemini y Claude "¿cómo sellar un PDF para demostrar que no se ha modificado?" y "¿qué es Trampto?" y anotar si se cita la marca.
+
+## GEO (Generative Engine Optimization)
+Objetivo: que ChatGPT, Perplexity, Gemini, Copilot y Claude **citen a Trampto** cuando alguien pregunte cómo proteger o verificar un PDF.
+- **Páginas citables nuevas**: `/comparativa` (Trampto vs DocuSign, sello de tiempo eIDAS y blockchain, con tabla) y `/glosario` (`DefinedTermSet`). Los LLM citan sobre todo comparativas, definiciones y datos concretos.
+- **Datos verificables**: precios, tiempos, estándar FIPS 180-4, 2^256 huellas. Las cifras y fuentes aumentan la probabilidad de cita.
+- **Entidad consistente**: misma descripción de una frase en schema, `llms.txt`, títulos y párrafo `.seo-summary`. Repetirla igual en perfiles externos.
+- **`/llms-full.txt`** generado en el build con todo el contenido público en texto plano.
+- **Frescura**: `dateModified` en el schema y fecha visible en cada página (`UPDATED` en `scripts/seo-meta.mjs`; actualizarla al cambiar contenido).
+- **Enlaces rastreables** en el footer (`<a href>` reales).
+- **IndexNow**: tras cada despliegue, `node scripts/indexnow.mjs` avisa a Bing (fuente de ChatGPT search y Copilot).
+- **Vídeo**: subir `media/trampto-promo.mp4` a YouTube con título "Cómo sellar un PDF con Trampto" y enlazarlo desde la web; YouTube es de las fuentes más citadas por los motores generativos.

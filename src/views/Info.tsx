@@ -34,6 +34,8 @@ const PAGE_KEY: Record<string, string> = {
   about: "about",
   "use-cases": "useCases",
   blog: "blog",
+  compare: "compare",
+  glossary: "glossary",
 };
 
 const Info = ({

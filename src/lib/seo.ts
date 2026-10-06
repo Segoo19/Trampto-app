@@ -17,6 +17,10 @@ function titleFor(kind: RouteKind, t: (k: string) => string): string {
       return t("info.useCases.title");
     case "blog":
       return t("info.blog.title");
+    case "compare":
+      return t("info.compare.title");
+    case "glossary":
+      return t("info.glossary.title");
     case "privacy":
       return t("privacy.title");
     case "faq":
@@ -48,6 +52,10 @@ function descFor(kind: RouteKind, t: (k: string) => string): string | null {
       return t("info.useCases.sub");
     case "blog":
       return t("info.blog.sub");
+    case "compare":
+      return t("info.compare.sub");
+    case "glossary":
+      return t("info.glossary.sub");
     case "api":
       return t("api.lead");
     case "notfound":

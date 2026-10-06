@@ -344,6 +344,95 @@
           "p": "SHA-256 produce 2²⁵⁶ huellas posibles: más que átomos hay en el universo observable. La probabilidad de que dos documentos distintos compartan huella es, a efectos prácticos, cero."
         }
       ]
+    },
+    "compare": {
+      "title": "Trampto vs firma electrónica, sello de tiempo y blockchain",
+      "sub": "Qué método usar para demostrar que un documento no ha sido modificado, quién lo emitió y cuándo.",
+      "blocks": [
+        {
+          "h": "Resumen",
+          "p": "Trampto sella un PDF con su huella SHA-256, un Seal ID y la fecha, y da un enlace público para verificarlo en segundos. La firma electrónica (DocuSign, Signaturit) acredita quién acepta un documento; el sello de tiempo cualificado (TSA, eIDAS) acredita la fecha con valor legal reforzado; la notarización blockchain ancla el hash en una cadena pública. Trampto es la opción más rápida y barata para probar integridad y autoría en el día a día, y es compatible con las demás."
+        },
+        {
+          "h": "Trampto (sellado SHA-256)",
+          "list": [
+            "Prueba: integridad del contenido, autoría y fecha.",
+            "Verificación: enlace público o subiendo el PDF, sin cuenta.",
+            "Privacidad: el documento no sale del dispositivo; solo se registra el hash.",
+            "Coste: gratis los primeros sellos; Plan Pro 1,99 €/mes ilimitado.",
+            "Tiempo: menos de un minuto."
+          ]
+        },
+        {
+          "h": "Firma electrónica (DocuSign, Adobe Sign, Signaturit)",
+          "list": [
+            "Prueba: consentimiento de los firmantes.",
+            "Verificación: dentro del PDF o en la plataforma del proveedor.",
+            "Coste: desde unos 10–25 € por usuario y mes.",
+            "Cuándo elegirla: contratos que requieren aceptación de varias partes."
+          ]
+        },
+        {
+          "h": "Sello de tiempo cualificado (TSA, eIDAS)",
+          "list": [
+            "Prueba: fecha cierta con presunción legal en la UE.",
+            "Verificación: con software especializado.",
+            "Coste: por sello o por paquete, a través de un prestador cualificado.",
+            "Cuándo elegirlo: procedimientos que exigen sellado cualificado."
+          ]
+        },
+        {
+          "h": "Notarización blockchain",
+          "list": [
+            "Prueba: existencia del hash en una fecha, anclada en una cadena pública.",
+            "Verificación: técnica, requiere conocimientos o un explorador.",
+            "Coste: variable según la red.",
+            "Cuándo elegirla: cuando se necesita un registro descentralizado."
+          ]
+        },
+        {
+          "h": "Cuál elegir",
+          "p": "Para presupuestos, facturas, entregas y certificados del día a día, Trampto. Para recoger firmas, una firma electrónica, y después sellar el PDF firmado con Trampto para detectar cualquier cambio posterior. Para requisitos legales de fecha cualificada, un prestador TSA."
+        }
+      ]
+    },
+    "glossary": {
+      "title": "Glosario de integridad documental",
+      "sub": "Definiciones claras de los conceptos que usa Trampto: hash, SHA-256, Seal ID, sello digital y verificación.",
+      "blocks": [
+        {
+          "h": "Hash criptográfico",
+          "p": "Resumen de longitud fija calculado a partir de un archivo. Si cambia un solo bit del archivo, el hash cambia por completo, por eso sirve como huella digital del documento."
+        },
+        {
+          "h": "SHA-256",
+          "p": "Función hash estándar publicada por el NIST (FIPS 180-4) que produce huellas de 256 bits. Admite 2^256 valores posibles, por lo que encontrar dos documentos distintos con la misma huella es inviable en la práctica."
+        },
+        {
+          "h": "Sello digital de un documento",
+          "p": "Registro de la huella de un documento junto con la fecha y quién lo selló. Permite demostrar después que el documento no ha cambiado. En Trampto se genera en menos de un minuto."
+        },
+        {
+          "h": "Seal ID",
+          "p": "Identificador único que Trampto asigna a cada sello. Enlaza la huella SHA-256, la fecha, el nombre del archivo y la cuenta que lo selló."
+        },
+        {
+          "h": "Integridad documental",
+          "p": "Garantía de que el contenido de un documento es exactamente el mismo que en el momento de sellarlo, sin ninguna alteración."
+        },
+        {
+          "h": "Enlace público de verificación",
+          "p": "URL con la forma /v/{hash} que Trampto genera al sellar. Cualquier persona puede abrirla para comprobar la autenticidad del documento, sin registrarse."
+        },
+        {
+          "h": "Firma electrónica",
+          "p": "Mecanismo que acredita que una persona acepta un documento. Responde a «quién firmó»; el sello de Trampto responde además a «si el contenido ha cambiado»."
+        },
+        {
+          "h": "Sello de tiempo (timestamp)",
+          "p": "Prueba de que un dato existía en una fecha concreta. Un sello de tiempo cualificado según el reglamento eIDAS lo emite un prestador de confianza (TSA)."
+        }
+      ]
     }
   },
   "privacy": {
@@ -431,7 +520,9 @@
       "about": "Qué es Trampto: integridad documental con sello SHA-256",
       "use-cases": "Casos de uso: sellar presupuestos, contratos y facturas",
       "blog": "Guías de integridad documental y PDF a prueba de manipulaciones",
-      "faq": "Preguntas frecuentes sobre sellar y verificar documentos"
+      "faq": "Preguntas frecuentes sobre sellar y verificar documentos",
+      "compare": "Trampto vs firma electrónica, sello de tiempo y blockchain",
+      "glossary": "Glosario de integridad documental"
     }
   },
   "notFound": {

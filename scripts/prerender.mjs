@@ -8,7 +8,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { ROUTES, SITE } from "./seo-meta.mjs";
+import { ROUTES, SITE, UPDATED } from "./seo-meta.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = join(root, "dist");
@@ -142,6 +142,8 @@ function graphFor(r) {
     isPartOf: { "@id": SITE_ID },
     about: { "@id": APP_ID },
     primaryImageOfPage: { "@type": "ImageObject", url: `${SITE}/og-image.png` },
+    dateModified: UPDATED,
+    author: { "@id": ORG_ID },
     speakable: { "@type": "SpeakableSpecification", cssSelector: ["h1", ".seo-summary"] },
   };
   const graph = [organization, website, software, page];
@@ -157,6 +159,37 @@ function graphFor(r) {
     });
   }
   if (r.path === "/") graph.push(howTo);
+  if (r.path === "/glosario") {
+    graph.push({
+      "@type": "DefinedTermSet",
+      "@id": `${url(r.path)}#terms`,
+      name: es.info.glossary.title,
+      hasDefinedTerm: es.info.glossary.blocks.map((b) => ({
+        "@type": "DefinedTerm",
+        name: b.h,
+        description: b.p,
+        inDefinedTermSet: `${url(r.path)}#terms`,
+      })),
+    });
+    page.mainEntity = { "@id": `${url(r.path)}#terms` };
+  }
+  if (r.path === "/comparativa") {
+    page.mainEntity = {
+      "@type": "Article",
+      headline: es.info.compare.title,
+      description: es.info.compare.sub,
+      dateModified: UPDATED,
+      author: { "@id": ORG_ID },
+      publisher: { "@id": ORG_ID },
+      about: ["Firma electrónica", "Sello de tiempo", "Notarización blockchain", "Hash SHA-256"],
+      mentions: [
+        { "@type": "SoftwareApplication", name: "DocuSign" },
+        { "@type": "SoftwareApplication", name: "Adobe Acrobat Sign" },
+        { "@type": "Thing", name: "Reglamento eIDAS", sameAs: "https://es.wikipedia.org/wiki/Reglamento_eIDAS" },
+        { "@type": "Thing", name: "SHA-256", sameAs: "https://es.wikipedia.org/wiki/SHA-2" },
+      ],
+    };
+  }
   if (r.path === "/blog") {
     page.hasPart = es.info.blog.blocks.map((b) => ({
       "@type": "Article",
@@ -175,6 +208,8 @@ const NAV = [
   ["/verificar", "Verificar documento"],
   ["/use-cases", "Casos de uso"],
   ["/blog", "Guías"],
+  ["/comparativa", "Comparativa"],
+  ["/glosario", "Glosario"],
   ["/faq", "Preguntas frecuentes"],
   ["/about", "Sobre Trampto"],
   ["/privacidad", "Privacidad"],
@@ -213,6 +248,18 @@ function body(r) {
       return `<p class="seo-summary">${esc(es.info.useCases.sub)}</p>${blocks(es.info.useCases.blocks)}`;
     case "/blog":
       return `<p class="seo-summary">${esc(es.info.blog.sub)}</p>${blocks(es.info.blog.blocks).replace(/<h2>/g, "<article><h2>").replace(/<\/section>/g, "</article></section>")}`;
+    case "/comparativa":
+      return `<p class="seo-summary">${esc(es.info.compare.blocks[0].p)}</p>
+<table><caption>Comparativa de métodos para proteger documentos</caption><thead><tr><th>Método</th><th>Qué prueba</th><th>Verificación</th><th>Coste</th></tr></thead><tbody>
+<tr><td>Trampto</td><td>Integridad, autoría y fecha</td><td>Enlace público, sin cuenta</td><td>Gratis / 1,99 €/mes</td></tr>
+<tr><td>Firma electrónica</td><td>Consentimiento del firmante</td><td>Plataforma del proveedor</td><td>≈10–25 €/usuario/mes</td></tr>
+<tr><td>Sello de tiempo eIDAS</td><td>Fecha con valor legal</td><td>Software especializado</td><td>Por sello o paquete</td></tr>
+<tr><td>Blockchain</td><td>Existencia del hash en una fecha</td><td>Explorador de la cadena</td><td>Variable</td></tr>
+</tbody></table>${blocks(es.info.compare.blocks.slice(1))}`;
+    case "/glosario":
+      return `<p class="seo-summary">${esc(es.info.glossary.sub)}</p><dl>${es.info.glossary.blocks
+        .map((b) => `<dt><dfn>${esc(b.h)}</dfn></dt><dd>${esc(b.p)}</dd>`)
+        .join("")}</dl>`;
     case "/faq":
       return `<p class="seo-summary">${esc(es.faq.sub)}</p>${faqHtml(es.faq.items)}`;
   }
@@ -222,7 +269,7 @@ function body(r) {
 function staticRoot(r) {
   return `<div id="root"><div class="seo-static"><header><a href="/"><strong>TRAMPTO</strong></a>${nav}</header><main><h1>${esc(
     r.h1
-  )}</h1>${body(r)}<p><a href="/">Sellar un documento gratis con Trampto</a></p></main><footer><p>${esc(
+  )}</h1>${body(r)}<p><small>Última actualización: <time datetime="${UPDATED}">${UPDATED}</time> · Equipo Trampto</small></p><p><a href="/">Sellar un documento gratis con Trampto</a></p></main><footer><p>${esc(
     es.footer.tagline
   )}</p><p>Contacto: <a href="mailto:tramptooficial@gmail.com">tramptooficial@gmail.com</a></p></footer></div></div>`;
 }
@@ -258,3 +305,22 @@ for (const r of ROUTES) {
   writeFileSync(out, html);
   console.log(`prerender: ${r.path} → ${out.replace(root + "/", "")}`);
 }
+
+// ------------------------------------------------------- llms-full.txt (GEO)
+// Todo el contenido público en texto plano: lo que un LLM necesita para
+// describir y citar Trampto con precisión.
+const sec = (title, bs) =>
+  `## ${title}\n\n` +
+  bs.map((b) => `### ${b.h}\n${b.p ?? ""}${b.list ? b.list.map((x) => `- ${x}`).join("\n") : ""}`).join("\n\n");
+const full = [
+  readFileSync(join(root, "public/llms.txt"), "utf8").trim(),
+  `Última actualización: ${UPDATED}`,
+  sec(es.info.about.title, es.info.about.blocks),
+  sec(es.info.compare.title, es.info.compare.blocks),
+  sec(es.info.useCases.title, es.info.useCases.blocks),
+  sec(es.info.glossary.title, es.info.glossary.blocks),
+  sec(es.info.blog.title, es.info.blog.blocks),
+  `## ${es.faq.title}\n\n` + es.faq.items.map((i) => `### ${i.q}\n${i.a}`).join("\n\n"),
+].join("\n\n");
+writeFileSync(join(dist, "llms-full.txt"), full + "\n");
+console.log("prerender: llms-full.txt");

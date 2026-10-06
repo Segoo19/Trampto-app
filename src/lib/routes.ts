@@ -6,6 +6,8 @@ export type RouteKind =
   | "about"
   | "use-cases"
   | "blog"
+  | "compare"
+  | "glossary"
   | "privacy"
   | "faq"
   | "api"
@@ -23,6 +25,8 @@ export function routeKind(path: string): RouteKind {
   if (l === "/about") return "about";
   if (l === "/use-cases") return "use-cases";
   if (l === "/blog") return "blog";
+  if (l === "/comparativa") return "compare";
+  if (l === "/glosario") return "glossary";
   if (l === "/privacidad" || l === "/privacy") return "privacy";
   if (l === "/faq") return "faq";
   if (l === "/api-key") return "api";
@@ -38,6 +42,8 @@ export const CONTENT_ROUTES: RouteKind[] = [
   "about",
   "use-cases",
   "blog",
+  "compare",
+  "glossary",
   "privacy",
   "faq",
 ];

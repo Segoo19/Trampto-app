@@ -22,6 +22,14 @@
       "destination": "/faq/index.html"
     },
     {
+      "source": "/comparativa",
+      "destination": "/comparativa/index.html"
+    },
+    {
+      "source": "/glosario",
+      "destination": "/glosario/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/spa.html"
     }
@@ -37,7 +45,7 @@
       ]
     },
     {
-      "source": "/(llms.txt|robots.txt|sitemap.xml)",
+      "source": "/(llms.txt|llms-full.txt|robots.txt|sitemap.xml)",
       "headers": [
         {
           "key": "Cache-Control",

@@ -1,10 +1,17 @@
+import type React from "react";
 import { useTranslation } from "react-i18next";
 import { MailIcon } from "./Icons";
 
 // Footer multicolumna como el de la web, en versión minimalista
 const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
   const { t } = useTranslation();
-  const go = (to: string) => () => navigate(to);
+  // Enlaces <a href> reales para que buscadores y crawlers de IA sigan la
+  // navegación; el clic normal sigue usando el router SPA.
+  const go = (to: string) => (e: React.MouseEvent) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+    e.preventDefault();
+    navigate(to);
+  };
 
   return (
     <footer className="bigfooter">
@@ -22,24 +29,24 @@ const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
             <h5>{t("footer.product")}</h5>
             <ul>
               <li>
-                <button className="linklike" onClick={go("/")}>
+                <a className="linklike" href="/" onClick={go("/")}>
                   {t("footer.sealDocument")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/verificar")}>
+                <a className="linklike" href="/verificar" onClick={go("/verificar")}>
                   {t("footer.verifyDocument")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/payment")}>
+                <a className="linklike" href="/payment" onClick={go("/payment")}>
                   {t("footer.pricing")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/api-key")}>
+                <a className="linklike" href="/api-key" onClick={go("/api-key")}>
                   {t("drawer.apiForBusiness")}
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -48,24 +55,34 @@ const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
             <h5>{t("footer.resources")}</h5>
             <ul>
               <li>
-                <button className="linklike" onClick={go("/use-cases")}>
+                <a className="linklike" href="/use-cases" onClick={go("/use-cases")}>
                   {t("drawer.useCases")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/blog")}>
+                <a className="linklike" href="/blog" onClick={go("/blog")}>
                   {t("drawer.blog")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/about")}>
+                <a className="linklike" href="/about" onClick={go("/about")}>
                   {t("drawer.about")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/faq")}>
+                <a className="linklike" href="/comparativa" onClick={go("/comparativa")}>
+                  {t("info.compare.title")}
+                </a>
+              </li>
+              <li>
+                <a className="linklike" href="/glosario" onClick={go("/glosario")}>
+                  {t("info.glossary.title")}
+                </a>
+              </li>
+              <li>
+                <a className="linklike" href="/faq" onClick={go("/faq")}>
                   {t("faq.menu")}
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -74,14 +91,14 @@ const Footer = ({ navigate }: { navigate: (to: string) => void }) => {
             <h5>{t("footer.account")}</h5>
             <ul>
               <li>
-                <button className="linklike" onClick={go("/perfil")}>
+                <a className="linklike" href="/perfil" onClick={go("/perfil")}>
                   {t("header.signIn")}
-                </button>
+                </a>
               </li>
               <li>
-                <button className="linklike" onClick={go("/perfil")}>
+                <a className="linklike" href="/perfil" onClick={go("/perfil")}>
                   {t("footer.myProfile")}
-                </button>
+                </a>
               </li>
               <li>
                 <a

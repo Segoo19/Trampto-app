@@ -3,6 +3,8 @@
 // siempre en el título para dominar las búsquedas de "Trampto".
 export const SITE = "https://trampto-app.vercel.app";
 export const BRAND = "Trampto";
+// Fecha de última revisión del contenido (dateModified en schema y sitemap).
+export const UPDATED = "2026-10-06";
 
 export const ROUTES = [
   {
@@ -44,6 +46,22 @@ export const ROUTES = [
       "Guías breves: cómo proteger un PDF contra manipulaciones, sello digital vs firma electrónica y por qué el hash SHA-256 hace único a tu documento.",
     h1: "Guías sobre integridad documental",
     crumb: "Blog",
+  },
+  {
+    path: "/comparativa",
+    title: "Trampto vs firma electrónica, sello de tiempo y blockchain · Comparativa",
+    description:
+      "Comparativa: Trampto, DocuSign, sello de tiempo eIDAS y notarización blockchain. Qué prueba cada uno, coste, verificación y cuál elegir para tus PDF.",
+    h1: "Trampto vs firma electrónica, sello de tiempo y blockchain",
+    crumb: "Comparativa",
+  },
+  {
+    path: "/glosario",
+    title: "Glosario: hash SHA-256, sello digital y Seal ID · Trampto",
+    description:
+      "Qué es un hash, SHA-256, un sello digital, un Seal ID, la integridad documental y un sello de tiempo. Definiciones claras y breves.",
+    h1: "Glosario de integridad documental",
+    crumb: "Glosario",
   },
   {
     path: "/faq",

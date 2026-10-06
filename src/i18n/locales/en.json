@@ -344,6 +344,95 @@
           "p": "SHA-256 produces 2²⁵⁶ possible fingerprints: more than there are atoms in the observable universe. The odds of two different documents sharing a fingerprint are, in practice, zero."
         }
       ]
+    },
+    "compare": {
+      "title": "Trampto vs e-signature, timestamping and blockchain",
+      "sub": "Which method to use to prove a document has not been modified, who issued it and when.",
+      "blocks": [
+        {
+          "h": "Summary",
+          "p": "Trampto seals a PDF with its SHA-256 fingerprint, a Seal ID and the date, and gives a public link to verify it in seconds. E-signatures (DocuSign, Signaturit) prove who agrees to a document; qualified timestamps (TSA, eIDAS) prove the date with stronger legal standing; blockchain notarization anchors the hash on a public chain. Trampto is the fastest and cheapest way to prove integrity and authorship day to day, and works alongside the others."
+        },
+        {
+          "h": "Trampto (SHA-256 sealing)",
+          "list": [
+            "Proves: content integrity, authorship and date.",
+            "Verification: public link or by uploading the PDF, no account needed.",
+            "Privacy: the document never leaves the device; only the hash is stored.",
+            "Cost: first seals free; Pro plan €1.99/month unlimited.",
+            "Time: under a minute."
+          ]
+        },
+        {
+          "h": "E-signature (DocuSign, Adobe Sign, Signaturit)",
+          "list": [
+            "Proves: signer consent.",
+            "Verification: inside the PDF or on the provider's platform.",
+            "Cost: from about €10–25 per user per month.",
+            "Choose it for: contracts that several parties must accept."
+          ]
+        },
+        {
+          "h": "Qualified timestamp (TSA, eIDAS)",
+          "list": [
+            "Proves: a certain date with legal presumption in the EU.",
+            "Verification: with specialised software.",
+            "Cost: per stamp or bundle via a qualified provider.",
+            "Choose it for: procedures that require qualified timestamping."
+          ]
+        },
+        {
+          "h": "Blockchain notarization",
+          "list": [
+            "Proves: the hash existed at a date, anchored on a public chain.",
+            "Verification: technical, needs know-how or an explorer.",
+            "Cost: varies by network.",
+            "Choose it for: when a decentralised record is required."
+          ]
+        },
+        {
+          "h": "Which to choose",
+          "p": "For everyday quotes, invoices, deliverables and certificates, Trampto. To collect signatures, an e-signature, then seal the signed PDF with Trampto to detect any later change. For legal qualified-date requirements, a TSA provider."
+        }
+      ]
+    },
+    "glossary": {
+      "title": "Document integrity glossary",
+      "sub": "Clear definitions of the concepts Trampto uses: hash, SHA-256, Seal ID, digital seal and verification.",
+      "blocks": [
+        {
+          "h": "Cryptographic hash",
+          "p": "A fixed-length digest computed from a file. If a single bit of the file changes, the hash changes completely, which is why it works as the document's digital fingerprint."
+        },
+        {
+          "h": "SHA-256",
+          "p": "Standard hash function published by NIST (FIPS 180-4) that produces 256-bit fingerprints. It allows 2^256 possible values, so finding two different documents with the same fingerprint is practically impossible."
+        },
+        {
+          "h": "Digital document seal",
+          "p": "A record of a document's fingerprint together with the date and who sealed it. It lets you prove later that the document has not changed. Trampto creates one in under a minute."
+        },
+        {
+          "h": "Seal ID",
+          "p": "Unique identifier Trampto assigns to each seal. It links the SHA-256 fingerprint, the date, the file name and the account that sealed it."
+        },
+        {
+          "h": "Document integrity",
+          "p": "Assurance that a document's content is exactly the same as when it was sealed, with no alteration."
+        },
+        {
+          "h": "Public verification link",
+          "p": "A URL of the form /v/{hash} that Trampto creates when sealing. Anyone can open it to check the document's authenticity without signing up."
+        },
+        {
+          "h": "E-signature",
+          "p": "A mechanism that proves a person accepts a document. It answers \"who signed\"; a Trampto seal also answers \"has the content changed\"."
+        },
+        {
+          "h": "Timestamp",
+          "p": "Proof that data existed at a specific date. A qualified timestamp under the eIDAS regulation is issued by a trusted provider (TSA)."
+        }
+      ]
     }
   },
   "privacy": {
@@ -431,7 +520,9 @@
       "about": "What is Trampto: document integrity with a SHA-256 seal",
       "use-cases": "Use cases: seal quotes, contracts and invoices",
       "blog": "Guides on document integrity and tamper-proof PDFs",
-      "faq": "FAQ about sealing and verifying documents"
+      "faq": "FAQ about sealing and verifying documents",
+      "compare": "Trampto vs e-signature, timestamping and blockchain",
+      "glossary": "Document integrity glossary"
     }
   },
   "notFound": {
