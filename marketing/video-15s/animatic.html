@@ -1,0 +1,1072 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TRAMPTO · Spot 15 s · Animática</title>
+<!--
+  Animática del spot de 15 s (ver GUION.md). 1080×1920, 30 fps.
+  Todo se dibuja en función del tiempo (render(t)), así que cada fotograma es
+  reproducible: render.mjs lo recorre fotograma a fotograma y lo exporta a MP4.
+  Controles: Espacio = play/pausa · ←/→ = fotograma · S = zonas seguras.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600;9..40,700;9..40,800&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&display=block" />
+<style>
+  :root {
+    --night: #0a1438;
+    --navy: #0d1b4b;
+    --halo: #16266a;
+    --gold: #c49a22;
+    --gold-light: #ead7a1;
+    --gold-pale: #f3e3b3;
+    --burgundy: #7a1f1f;
+    --wave: #076ec1;
+    --wave-light: #4da3ff;
+    --green: #1a7f4b;
+    --red: #b3261e;
+    --ink: #16203e;
+    --muted: #5c6577;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #04060c; overflow: hidden; }
+  body { font-family: "DM Sans", system-ui, sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+
+  #viewport { position: fixed; inset: 0 0 64px 0; overflow: hidden; }
+  body.render #viewport { inset: 0; }
+  #stage { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; transform-origin: 0 0; background: var(--night); }
+  .layer { position: absolute; inset: 0; }
+
+  /* ---------- Fondos: mundo apagado (antes) y mundo de marca (después) ---------- */
+  #bgBefore {
+    background:
+      radial-gradient(70% 45% at 50% 40%, rgba(70, 82, 110, 0.32), transparent 70%),
+      linear-gradient(180deg, #0b1020 0%, #131b2d 55%, #090d16 100%);
+  }
+  #bgAfter {
+    background:
+      radial-gradient(62% 34% at 50% 102%, rgba(196, 154, 34, 0.24), transparent 72%),
+      radial-gradient(85% 46% at 50% -6%, #1d3184 0%, transparent 64%),
+      var(--night);
+  }
+  #aurora { position: absolute; width: 1400px; height: 1400px; left: -160px; top: 380px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(77, 163, 255, 0.11), transparent 72%); }
+
+  /* ---------- Documento (presupuesto) · espacio de documento 640×905 ---------- */
+  .dwrap { position: absolute; left: 0; top: 0; width: 640px; height: 905px; transform-origin: 320px 452.5px; visibility: hidden; }
+  .doc { position: absolute; left: 0; top: 0; width: 640px; height: 905px; background: #fff; border-radius: 16px;
+    padding: 50px 48px; color: #1d2433; overflow: hidden;
+    box-shadow: 0 60px 100px -40px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.35); }
+  .d-head { display: flex; justify-content: space-between; align-items: flex-start; }
+  .d-co { display: flex; gap: 14px; align-items: center; }
+  .d-logo { width: 58px; height: 58px; border-radius: 16px; background: linear-gradient(135deg, #4a5268, #1f2533);
+    color: #fff; font: 800 21px/58px "DM Sans"; text-align: center; letter-spacing: 0.04em; }
+  .d-name { font: 700 22px/1.2 "DM Sans"; }
+  .d-addr { font: 500 14.5px/1.3 "DM Sans"; color: #7a8294; margin-top: 3px; }
+  .d-title { text-align: right; }
+  .d-t { font: 800 24px/1 "DM Sans"; letter-spacing: 0.14em; }
+  .d-n { font: 500 14px/1 "JetBrains Mono"; color: #7a8294; margin-top: 10px; }
+  .d-rule { height: 3px; background: #1d2433; margin: 30px 0 24px; border-radius: 2px; }
+  .d-client { font: 600 19px/1 "DM Sans"; }
+  .d-client span { font: 700 13px/1 "DM Sans"; letter-spacing: 0.16em; text-transform: uppercase; color: #8a91a1; margin-right: 12px; }
+  .d-table { margin-top: 30px; }
+  .d-th { display: flex; justify-content: space-between; font: 700 13px/1 "JetBrains Mono"; letter-spacing: 0.16em;
+    color: #8a91a1; padding-bottom: 12px; border-bottom: 1.5px solid #e3e6ec; }
+  .d-tr { display: flex; justify-content: space-between; font: 500 20px/1 "DM Sans"; padding: 17px 0; border-bottom: 1px solid #eef0f4; }
+  .d-tr span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .d-total { margin-top: 28px; display: flex; justify-content: space-between; align-items: center; padding: 20px 24px;
+    background: #f3f4f7; border-radius: 16px; }
+  .d-lbl { font: 800 19px/1 "DM Sans"; letter-spacing: 0.18em; color: #4a5263; }
+  .d-val { position: relative; font: 800 52px/1 "DM Sans"; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; color: #0f1626; white-space: nowrap; }
+  .d-val b { font-weight: 800; position: relative; display: inline-block; }
+  .d-sel { position: absolute; left: -4px; top: -6px; height: calc(100% + 12px); width: 0; background: rgba(59, 130, 246, 0.3); border-radius: 6px; }
+  .d-caret { position: absolute; left: -7px; top: -6px; width: 4px; height: calc(100% + 12px); background: #2563eb; border-radius: 2px; opacity: 0; }
+  .d-terms { margin-top: 18px; font: 500 15px/1.3 "DM Sans"; color: #7a8294; }
+  .d-lines { margin-top: 22px; display: grid; gap: 12px; }
+  .d-lines i { display: block; height: 10px; border-radius: 6px; background: #eceef3; }
+  .d-foot { position: absolute; left: 48px; bottom: 50px; width: 230px; }
+  .d-sign { width: 200px; height: 70px; display: block; }
+  .d-foot span { display: block; border-top: 1.5px solid #c9cdd6; padding-top: 8px; font: 700 13px/1 "DM Sans";
+    letter-spacing: 0.16em; text-transform: uppercase; color: #8a91a1; }
+  .d-micro { position: absolute; right: 22px; bottom: 20px; width: 50px; height: 50px; opacity: 0; }
+  .d-micro .bad { opacity: 0; }
+  .d-scan { position: absolute; left: 0; right: 0; top: 0; height: 0; opacity: 0;
+    background: linear-gradient(180deg, rgba(196, 154, 34, 0), rgba(196, 154, 34, 0.1) 70%, rgba(196, 154, 34, 0.28)); }
+  .d-scan i { position: absolute; left: 0; right: 0; bottom: -7px; height: 14px; border-radius: 7px;
+    background: linear-gradient(90deg, rgba(234, 215, 161, 0), #ead7a1 20%, #c49a22 50%, #ead7a1 80%, rgba(234, 215, 161, 0));
+    box-shadow: 0 0 30px 8px rgba(196, 154, 34, 0.55); }
+  .d-tint { position: absolute; inset: 0; background: rgba(179, 38, 30, 0.13); opacity: 0; }
+  .d-bars i { position: absolute; left: -30px; right: -30px; height: 22px; opacity: 0;
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.05), rgba(0, 229, 255, 0.45) 30%, rgba(255, 0, 72, 0.45) 70%, rgba(255, 0, 72, 0.05)); }
+
+  /* Etiquetas, «?», veredictos y huellas (en espacio de documento: se escalan con él) */
+  .lbl-top { position: absolute; left: -60px; right: -60px; top: -112px; text-align: center; opacity: 0;
+    font: 700 44px/1 "JetBrains Mono"; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.82); white-space: nowrap; }
+  .qmark { position: absolute; left: 50%; top: 150px; width: 240px; height: 240px; margin-left: -120px; border-radius: 50%;
+    border: 12px solid #e5484d; color: #e5484d; display: grid; place-items: center; opacity: 0;
+    font: 800 170px/1 "Playfair Display"; background: rgba(229, 72, 77, 0.08); box-shadow: 0 0 60px rgba(229, 72, 77, 0.35); }
+  .verdict { position: absolute; left: 50%; top: 948px; transform-origin: 50% 50%; display: flex; align-items: center; gap: 18px;
+    white-space: nowrap; padding: 0 40px; height: 104px; border-radius: 999px; font: 800 46px/1 "DM Sans"; letter-spacing: -0.01em; opacity: 0; }
+  .verdict svg { width: 50px; height: 50px; flex: none; }
+  .verdict.ok { background: var(--green); box-shadow: 0 24px 50px -20px rgba(26, 127, 75, 0.9), inset 0 2px 0 rgba(255, 255, 255, 0.25); }
+  .verdict.bad { background: var(--red); box-shadow: 0 24px 50px -20px rgba(179, 38, 30, 0.9), inset 0 2px 0 rgba(255, 255, 255, 0.25); }
+  .hline { position: absolute; left: -40px; right: -40px; top: 1080px; text-align: center; opacity: 0; white-space: nowrap;
+    font: 500 34px/1.35 "JetBrains Mono"; color: rgba(255, 255, 255, 0.7); }
+  .hline b { font-weight: 700; }
+
+  /* ---------- Sello 3D, sombra, ondas y destello ---------- */
+  #stamp { position: absolute; left: 0; top: 0; width: 470px; height: 548px; transform-origin: 50% 100%; opacity: 0; }
+  #stamp img { width: 100%; height: 100%; display: block; }
+  #stampShadow { position: absolute; left: 260px; top: 1125px; width: 560px; height: 130px; border-radius: 50%; opacity: 0;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.25) 60%, transparent); }
+  #flash { opacity: 0; mix-blend-mode: screen;
+    background: radial-gradient(circle at 540px 1190px, rgba(255, 250, 235, 0.95) 0, rgba(246, 220, 150, 0.55) 170px, rgba(196, 154, 34, 0) 560px); }
+  #dim { background: rgba(2, 4, 10, 0.5); opacity: 0; }
+
+  /* ---------- Chip de marca SIN / CON TRAMPTO ---------- */
+  #chip { position: absolute; left: 320px; top: 258px; width: 440px; height: 84px; perspective: 900px; opacity: 0; }
+  .chip-face { position: absolute; inset: 0; border-radius: 999px; display: flex; align-items: center; gap: 18px; padding: 0 14px 0 12px;
+    backface-visibility: hidden; transform-origin: 50% 50%; }
+  .chip-face.before { background: rgba(255, 255, 255, 0.06); border: 1.5px solid rgba(255, 255, 255, 0.15); }
+  .chip-face.after { background: linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05)); border: 1.5px solid rgba(196, 154, 34, 0.65);
+    box-shadow: 0 0 0 6px rgba(196, 154, 34, 0.08), 0 20px 40px -20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25); opacity: 0; }
+  .chip-icon { width: 60px; height: 60px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); display: grid; place-items: center; flex: none; }
+  .chip-icon img { height: 48px; display: block; }
+  .before .chip-icon img { filter: grayscale(1) brightness(1.25); opacity: 0.5; }
+  .after .chip-icon { box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.5); }
+  .chip-txt { flex: 1; font: 800 27px/1 "DM Sans"; letter-spacing: 0.2em; white-space: nowrap; }
+  .before .chip-txt { color: rgba(255, 255, 255, 0.62); }
+  .chip-state { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+  .before .chip-state i { width: 14px; height: 14px; border-radius: 50%; background: #e5484d; box-shadow: 0 0 0 7px rgba(229, 72, 77, 0.2); }
+  .after .chip-state { background: linear-gradient(180deg, #d9b23c, var(--gold)); color: var(--navy); box-shadow: 0 6px 14px -6px rgba(196, 154, 34, 0.9); }
+  .after .chip-state svg { width: 24px; height: 24px; }
+
+  /* ---------- Titulares ---------- */
+  #captions { position: absolute; left: 50px; right: 50px; top: 392px; height: 320px; }
+  .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; visibility: hidden; }
+  .ln { display: block; overflow: hidden; padding: 0 0.14em 0.16em; margin-bottom: -0.12em; }
+  .ln > .in { display: inline-block; }
+  .h1 { font: 700 94px/1.04 "Playfair Display", Georgia, serif; letter-spacing: -0.022em; color: #fff; }
+  .h1.sm { font-size: 80px; }
+  .h1 em { font-style: italic; }
+  .gold { background: linear-gradient(180deg, var(--gold-pale) 0%, var(--gold) 78%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { font: 600 40px/1.25 "DM Sans"; letter-spacing: -0.005em; color: #c2cade; }
+  .sub.warn { color: #f2a7a1; }
+  .brandword { font: 800 0.92em/1 "DM Sans"; letter-spacing: 0.08em; }
+  .num { font-style: italic; font-weight: 800; margin-right: 0.2em; }
+
+  /* ---------- Panel de cristal líquido con la app ---------- */
+  #progress { position: absolute; left: 190px; top: 702px; width: 700px; height: 8px; display: flex; gap: 14px; opacity: 0; }
+  #progress .seg { flex: 1; border-radius: 99px; background: rgba(255, 255, 255, 0.16); overflow: hidden; }
+  #progress .seg i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: inherit; }
+  #panel { position: absolute; left: 110px; top: 730px; width: 860px; height: 760px; border-radius: 64px; padding: 16px; opacity: 0; visibility: hidden;
+    background: linear-gradient(155deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.07) 42%, rgba(255, 255, 255, 0.12));
+    border: 1.5px solid rgba(255, 255, 255, 0.34);
+    box-shadow: 0 70px 130px -50px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(255, 255, 255, 0.12), 0 0 0 1px rgba(196, 154, 34, 0.18); }
+  #spec { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; }
+  #spec i { position: absolute; top: -20%; bottom: -20%; width: 180px; left: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)); transform: translateX(-300px) skewX(-18deg); }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 50px; overflow: hidden; color: var(--ink);
+    background: radial-gradient(700px 420px at 12% -8%, rgba(13, 27, 75, 0.07), transparent 60%),
+      radial-gradient(600px 380px at 100% 110%, rgba(196, 154, 34, 0.1), transparent 60%), #f5f6f9; }
+  .app-head { height: 84px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
+    background: rgba(255, 255, 255, 0.86); border-bottom: 1px solid rgba(196, 154, 34, 0.35); }
+  .app-brand { display: flex; align-items: center; gap: 12px; }
+  .app-brand img { height: 46px; display: block; }
+  .app-brand span { font: 700 24px/1 "DM Sans"; letter-spacing: 0.14em; color: var(--navy); }
+  .app-menu { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(13, 27, 75, 0.12); display: grid; place-items: center; color: var(--navy); background: #fff; }
+  .app-hero { height: 136px; display: grid; place-items: center; padding-bottom: 20px;
+    background: radial-gradient(60% 40% at 50% 100%, rgba(196, 154, 34, 0.16), transparent 72%), radial-gradient(70% 55% at 50% -10%, #16266a, transparent 62%), var(--night);
+    box-shadow: inset 0 -2px 0 rgba(196, 154, 34, 0.55); }
+  .app-hero h3 { font: 700 40px/1.05 "Playfair Display"; letter-spacing: -0.03em; color: #fff; }
+  .app-hero h3 em { font-style: italic; }
+  .seg2 { position: absolute; left: 50%; top: 194px; transform: translateX(-50%); display: flex; padding: 5px; background: #fff;
+    border: 1px solid rgba(196, 154, 34, 0.45); border-radius: 999px; box-shadow: 0 14px 30px -14px rgba(13, 27, 75, 0.4), 0 0 0 4px rgba(196, 154, 34, 0.08); }
+  .seg2 span { font: 700 20px/1 "DM Sans"; padding: 13px 34px; border-radius: 999px; color: var(--muted); }
+  .seg2 span.on { background: var(--navy); color: #fff; box-shadow: 0 6px 16px -6px rgba(13, 27, 75, 0.55), inset 0 -2px 0 var(--gold); }
+  .view { position: absolute; left: 28px; right: 28px; top: 284px; bottom: 28px; }
+
+  .dz { position: absolute; inset: 0; border: 3px dashed rgba(196, 154, 34, 0.55); border-radius: 30px;
+    background: radial-gradient(120% 90% at 50% 0%, rgba(196, 154, 34, 0.07), transparent 60%), rgba(255, 255, 255, 0.92);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; }
+  .dz-icon { width: 96px; height: 96px; border-radius: 28px; background: linear-gradient(160deg, #fbf3dc, #f1e1b3); color: #896c18;
+    box-shadow: 0 14px 28px -12px rgba(196, 154, 34, 0.75), inset 0 1px 0 #fff; display: grid; place-items: center; margin-bottom: 6px; }
+  .dz h4 { font: 700 32px/1.1 "DM Sans"; color: var(--navy); letter-spacing: -0.01em; }
+  .dz p { font: 500 19px/1.3 "DM Sans"; color: var(--muted); }
+
+  .seal-doc { transform-origin: 0 0; box-shadow: 0 30px 50px -25px rgba(13, 27, 75, 0.45), 0 0 0 1px rgba(13, 27, 75, 0.08); }
+  .steps { position: absolute; left: 322px; top: 4px; right: 0; display: grid; gap: 18px; list-style: none; }
+  .steps li { display: flex; align-items: center; gap: 14px; font: 600 21px/1.2 "DM Sans"; color: #8a91a1; }
+  .steps li.cur, .steps li.done { color: var(--ink); }
+  .dot { width: 38px; height: 38px; border-radius: 50%; position: relative; flex: none; background: #e9ecf2; color: #7a8294; display: grid; place-items: center; }
+  .dot b { font: 700 16px/1 "DM Sans"; }
+  .dot .spin { position: absolute; inset: 4px; border-radius: 50%; border: 3px solid rgba(13, 27, 75, 0.12); border-top-color: var(--gold); opacity: 0; }
+  .dot svg { position: absolute; width: 20px; height: 20px; opacity: 0; color: #fff; }
+  li.cur .dot { background: #fff; box-shadow: 0 0 0 4px rgba(196, 154, 34, 0.16); }
+  li.cur .dot b, li.done .dot b { opacity: 0; }
+  li.cur .dot .spin { opacity: 1; }
+  li.done .dot { background: linear-gradient(180deg, #d2a92f, var(--gold)); box-shadow: 0 0 0 4px rgba(196, 154, 34, 0.16); }
+  li.done .dot svg { opacity: 1; }
+  .hashbox { position: absolute; left: 322px; right: 0; top: 196px; padding: 18px 20px; background: #fff; border-radius: 18px;
+    border: 1px solid rgba(13, 27, 75, 0.09); box-shadow: 0 16px 30px -22px rgba(13, 27, 75, 0.45); }
+  .hashbox .k { font: 700 13px/1 "JetBrains Mono"; letter-spacing: 0.16em; color: var(--muted); }
+  .hashbox .k b { color: var(--gold); }
+  .hashbox .v { margin-top: 10px; font: 500 19px/1.5 "JetBrains Mono"; color: var(--navy); word-break: break-all; min-height: 57px; }
+  .hashbox .sid { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(13, 27, 75, 0.14); font: 500 17px/1.2 "JetBrains Mono"; color: var(--navy); opacity: 0; }
+  .hashbox .sid span { font-weight: 700; color: var(--burgundy); }
+  #bigSeal { position: absolute; left: 0; top: 0; width: 170px; height: 170px; opacity: 0; transform-origin: 50% 50%;
+    filter: drop-shadow(0 14px 22px rgba(122, 31, 31, 0.45)); }
+
+  .res { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .res h4 { font: 700 44px/1.05 "Playfair Display"; color: var(--navy); letter-spacing: -0.02em; }
+  .res h4::after { content: ""; display: block; width: 44px; height: 4px; border-radius: 99px; margin: 12px auto 0; background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .filechip { margin-top: 14px; display: inline-flex; gap: 10px; align-items: center; padding: 9px 18px; border-radius: 999px; background: rgba(13, 27, 75, 0.05); font: 600 18px/1 "DM Sans"; color: var(--ink); }
+  .filechip svg { width: 20px; height: 20px; color: var(--burgundy); }
+  .field { position: relative; width: 100%; margin-top: 14px; text-align: left; padding: 14px 18px; border-radius: 16px; background: #fff; border: 1.5px solid rgba(13, 27, 75, 0.1); }
+  .field .k { font: 700 13px/1 "JetBrains Mono"; letter-spacing: 0.14em; color: var(--muted); }
+  .field .v { margin-top: 9px; font: 500 19px/1.2 "JetBrains Mono"; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 150px; }
+  .field .v.full { padding-right: 0; }
+  .copied { position: absolute; right: 14px; top: 50%; margin-top: -22px; height: 44px; padding: 0 18px; border-radius: 999px; display: flex; align-items: center; gap: 8px;
+    background: var(--green); color: #fff; font: 700 18px/1 "DM Sans"; opacity: 0; box-shadow: 0 10px 20px -10px rgba(26, 127, 75, 0.9); }
+  .copied svg { width: 18px; height: 18px; }
+  .btns { margin-top: 18px; display: flex; gap: 14px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; height: 60px; padding: 0 30px; border-radius: 999px; font: 700 21px/1 "DM Sans"; color: #fff; }
+  .btn svg { width: 22px; height: 22px; }
+  .btn.navy { background: linear-gradient(180deg, #1a2b66, var(--navy)); box-shadow: 0 8px 20px -10px rgba(13, 27, 75, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+  .btn.gold { background: linear-gradient(180deg, #d2a92f, var(--gold)); box-shadow: 0 8px 20px -10px rgba(196, 154, 34, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
+
+  /* ---------- Cierre ---------- */
+  #end { visibility: hidden;
+    background: radial-gradient(64% 36% at 50% 104%, rgba(196, 154, 34, 0.3), transparent 72%),
+      radial-gradient(85% 50% at 50% -8%, #1d3184 0%, transparent 64%), var(--night); }
+  #endInner { position: absolute; inset: 0; transform-origin: 540px 800px; }
+  #endRings { position: absolute; inset: 0; }
+  #tile { position: absolute; left: 390px; top: 490px; width: 300px; height: 300px; border-radius: 80px; background: #fff; overflow: hidden; opacity: 0;
+    box-shadow: 0 60px 110px -40px rgba(0, 0, 0, 0.8), 0 0 0 10px rgba(196, 154, 34, 0.14), 0 0 90px rgba(77, 163, 255, 0.22); }
+  #tile img { width: 100%; height: 100%; display: block; }
+  #wordmark { position: absolute; left: 0; right: 0; top: 842px; text-align: center; font: 700 76px/1 "DM Sans"; color: #fff; opacity: 0; white-space: nowrap; }
+  #tagline { position: absolute; left: 40px; right: 40px; top: 950px; text-align: center; }
+  #divider { position: absolute; left: 504px; top: 1196px; width: 72px; height: 5px; border-radius: 99px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transform: scaleX(0); }
+  #cta { position: absolute; left: 540px; top: 1236px; height: 98px; padding: 0 58px; border-radius: 999px; display: flex; align-items: center; white-space: nowrap; overflow: hidden; opacity: 0;
+    font: 700 38px/1 "DM Sans"; color: #fff; letter-spacing: -0.005em;
+    background: linear-gradient(180deg, #962c2c, var(--burgundy) 60%, #6a1919); border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 26px 50px -22px rgba(122, 31, 31, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -2px 0 rgba(0, 0, 0, 0.2); }
+  #cta b { font-weight: 800; color: var(--gold-light); }
+  #shine { position: absolute; top: -30%; bottom: -30%; width: 120px; left: 0; background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); transform: translateX(-220px) skewX(-20deg); }
+  #domain { position: absolute; left: 0; right: 0; top: 1374px; text-align: center; font: 600 34px/1 "DM Sans"; letter-spacing: 0.02em; color: var(--gold-light); opacity: 0; }
+  #iris { position: absolute; left: 540px; top: 640px; width: 0; height: 0; border-radius: 50%; border: 10px solid var(--wave-light); opacity: 0;
+    box-shadow: 0 0 40px 6px rgba(77, 163, 255, 0.55), inset 0 0 40px 6px rgba(77, 163, 255, 0.4); }
+
+  /* ---------- Acabado: viñeta y grano ---------- */
+  #vignette { background: radial-gradient(ellipse 80% 62% at 50% 48%, transparent 58%, rgba(0, 0, 0, 0.55) 100%); pointer-events: none; }
+  #grain { mix-blend-mode: overlay; opacity: 0.12; background-size: 320px 320px; pointer-events: none; }
+
+  /* ---------- Zonas seguras (solo vista previa) ---------- */
+  #safe { display: none; pointer-events: none; }
+  #safe.on { display: block; }
+  #safe .z { position: absolute; background: rgba(255, 40, 80, 0.16); outline: 3px dashed rgba(255, 90, 120, 0.8); outline-offset: -3px;
+    font: 700 24px/1.2 "DM Sans"; color: #ffd1da; padding: 14px 18px; }
+
+  /* ---------- Controles de la vista previa ---------- */
+  #controls { position: fixed; left: 0; right: 0; bottom: 0; height: 64px; display: flex; align-items: center; gap: 14px; padding: 0 18px;
+    background: #0b1020; border-top: 1px solid rgba(255, 255, 255, 0.08); font: 500 14px/1 "DM Sans"; color: #c2cade; }
+  body.render #controls { display: none; }
+  #controls button { font: 700 14px/1 "DM Sans"; color: #fff; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px; height: 38px; padding: 0 16px; cursor: pointer; }
+  #controls button:hover { border-color: var(--gold); }
+  #controls .time { font: 500 14px/1 "JetBrains Mono"; min-width: 150px; color: #ead7a1; }
+  #scrub { flex: 1; accent-color: var(--gold); }
+  @media (max-width: 560px) { #controls .hide-sm { display: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- Desenfoque vertical para la caída del sello (motion blur direccional) -->
+  <filter id="vblur" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur id="vblurDev" stdDeviation="0 0" /></filter>
+</svg>
+
+<div id="viewport">
+<div id="stage">
+  <div id="bgBefore" class="layer"></div>
+  <div id="bgAfter" class="layer"><div id="aurora"></div></div>
+
+  <div id="shake" class="layer">
+    <div id="cam" class="layer">
+      <svg id="ripples" class="layer" width="1080" height="1920" viewBox="0 0 1080 1920">
+        <defs>
+          <filter id="glow" x="-20%" y="-60%" width="140%" height="220%">
+            <feGaussianBlur stdDeviation="9" result="b" />
+            <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+        <g filter="url(#glow)">
+          <ellipse class="rp" cx="540" cy="1190" rx="0" ry="0" fill="none" stroke="#4da3ff" opacity="0" />
+          <ellipse class="rp" cx="540" cy="1190" rx="0" ry="0" fill="none" stroke="#2a8be6" opacity="0" />
+          <ellipse class="rp" cx="540" cy="1190" rx="0" ry="0" fill="none" stroke="#076ec1" opacity="0" />
+        </g>
+      </svg>
+
+      <div class="dwrap" id="wA">
+        <div class="lbl-top"></div>
+        <div class="doc"></div>
+        <div class="qmark">?</div>
+        <div class="verdict ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" /></svg>Documento auténtico</div>
+        <div class="hline"></div>
+      </div>
+      <div class="dwrap" id="wB">
+        <div class="lbl-top"></div>
+        <div class="doc"></div>
+        <div class="qmark">?</div>
+        <div class="verdict bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5" /></svg>Sello no válido</div>
+        <div class="hline"></div>
+      </div>
+
+      <div id="progress"><div class="seg"><i></i></div><div class="seg"><i></i></div><div class="seg"><i></i></div></div>
+      <div id="panel">
+        <div class="screen">
+          <div class="app-head">
+            <div class="app-brand"><img src="assets/sello.png" alt="" /><span>TRAMPTO</span></div>
+            <div class="app-menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg></div>
+          </div>
+          <div class="app-hero"><h3>Sella y verifica <em class="gold">tus documentos</em>.</h3></div>
+          <div class="seg2"><span class="on">Sellar</span><span>Verificar</span></div>
+
+          <div class="view" id="v1">
+            <div class="dz" id="dz">
+              <div class="dz-icon"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4" /><path d="m7 9 5-5 5 5" /><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></div>
+              <h4>Arrastra tu documento aquí</h4>
+              <p>PDF, Word, PowerPoint, imágenes o TXT · máx. 50 MB</p>
+            </div>
+          </div>
+
+          <div class="view" id="v2">
+            <div class="doc seal-doc" id="docS"></div>
+            <ul class="steps">
+              <li><span class="dot"><b>1</b><i class="spin"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" /></svg></span>Calculando la huella SHA-256</li>
+              <li><span class="dot"><b>2</b><i class="spin"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" /></svg></span>Sellando página a página</li>
+              <li><span class="dot"><b>3</b><i class="spin"></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" /></svg></span>Registrando el sello público</li>
+            </ul>
+            <div class="hashbox">
+              <div class="k">HUELLA <b>SHA-256</b></div>
+              <div class="v" id="hashVal"></div>
+              <div class="sid" id="sidVal">ID <span>TRP-da0d949d-909d…</span></div>
+            </div>
+            <svg id="bigSeal" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="56" fill="#fff" />
+              <circle cx="60" cy="60" r="51" fill="none" stroke="#7a1f1f" stroke-width="6" />
+              <circle cx="60" cy="60" r="43" fill="none" stroke="#7a1f1f" stroke-width="1.6" />
+              <text x="60" y="47" text-anchor="middle" font-family="DM Sans" font-weight="800" font-size="13" letter-spacing="1.6" fill="#7a1f1f">TRAMPTO</text>
+              <path d="M41 63 54 76 80 50" fill="none" stroke="#c49a22" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <div class="view" id="v3">
+            <div class="res">
+              <h4>Documento sellado</h4>
+              <span class="filechip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /></svg>presupuesto-2026-014.pdf</span>
+              <div class="field"><div class="k">ID DE SELLO</div><div class="v full" id="sealIdVal"></div></div>
+              <div class="field" id="linkField"><div class="k">ENLACE PÚBLICO DE VERIFICACIÓN</div><div class="v" id="linkVal"></div>
+                <span class="copied" id="copied"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" /></svg>Copiado</span></div>
+              <div class="btns">
+                <span class="btn navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11" /><path d="m7 10 5 5 5-5" /><path d="M5 20h14" /></svg>PDF sellado</span>
+                <span class="btn gold" id="shareBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6" /><circle cx="6" cy="12" r="2.6" /><circle cx="18" cy="19" r="2.6" /><path d="m8.4 10.7 7.2-4.2M8.4 13.3l7.2 4.2" /></svg>Compartir</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="spec"><i></i></div>
+      </div>
+
+      <!-- Documento que vuela hasta la zona de carga (paso 1) -->
+      <div class="dwrap" id="wT"><div class="doc"></div></div>
+    </div>
+
+    <div id="dim" class="layer"></div>
+
+    <!-- El sello va por debajo del chip y los titulares: al volar pasa por detrás del texto y «entra» en el chip -->
+    <div id="stampShadow"></div>
+    <div id="stamp"><img id="stampImg" src="assets/sello.png" alt="" /></div>
+
+    <div id="chip">
+      <div class="chip-face before">
+        <div class="chip-icon"><img src="assets/sello.png" alt="" /></div>
+        <div class="chip-txt">SIN TRAMPTO</div>
+        <div class="chip-state"><i></i></div>
+      </div>
+      <div class="chip-face after">
+        <div class="chip-icon"><img id="chipLogo" src="assets/sello.png" alt="" /></div>
+        <div class="chip-txt">CON <span class="gold">TRAMPTO</span></div>
+        <div class="chip-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17.5 19.5 7" /></svg></div>
+      </div>
+    </div>
+
+    <div id="captions">
+      <div class="cap h1" data-in="0.12" data-out="1.86">
+        <span class="ln"><span class="in">Un PDF se edita</span></span>
+        <span class="ln"><span class="in">en <em>segundos</em>.</span></span>
+      </div>
+      <div class="cap h1" data-in="2.04" data-out="3.78">
+        <span class="ln"><span class="in">¿Cuál es</span></span>
+        <span class="ln"><span class="in">el <em>original</em>?</span></span>
+        <span class="ln sub warn" data-d="0.7"><span class="in">¿Y cómo lo demuestras?</span></span>
+      </div>
+      <div class="cap h1" data-in="4.1" data-out="4.86">
+        <span class="ln"><span class="in"><em>Con</em> <span class="brandword gold">TRAMPTO</span></span></span>
+      </div>
+      <div class="cap h1" data-in="5.02" data-out="5.9">
+        <span class="ln"><span class="in"><span class="num gold">1</span>Sube.</span></span>
+        <span class="ln sub" data-d="0.1"><span class="in">PDF, Word, PowerPoint o imagen</span></span>
+      </div>
+      <div class="cap h1" data-in="6.02" data-out="7.4">
+        <span class="ln"><span class="in"><span class="num gold">2</span>Sella.</span></span>
+        <span class="ln sub" data-d="0.1"><span class="in">Huella SHA-256 única + Seal ID</span></span>
+      </div>
+      <div class="cap h1" data-in="7.52" data-out="8.9">
+        <span class="ln"><span class="in"><span class="num gold">3</span>Comparte.</span></span>
+        <span class="ln sub" data-d="0.1"><span class="in">Cualquiera lo verifica con el enlace</span></span>
+      </div>
+      <div class="cap h1" data-in="9.04" data-out="9.76">
+        <span class="ln"><span class="in">¿Alguien lo <em>retoca</em>?</span></span>
+      </div>
+      <div class="cap h1 sm" data-in="9.86" data-out="11.42">
+        <span class="ln"><span class="in">Si cambia un solo dato,</span></span>
+        <span class="ln"><span class="in">el sello <em class="gold">lo delata</em>.</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="flash" class="layer"></div>
+
+  <div id="end" class="layer">
+    <div id="endInner">
+      <svg id="endRings" width="1080" height="1920" viewBox="0 0 1080 1920">
+        <g id="ambientRings" fill="none" stroke="rgba(77,163,255,0.1)" stroke-width="2"></g>
+        <g id="pulseRings" fill="none" stroke="#4da3ff"></g>
+      </svg>
+      <div id="tile"><img src="../../public/icon-512.png" alt="Logo de TRAMPTO" /></div>
+      <div id="wordmark">TRAMPTO</div>
+      <div id="tagline" class="h1">
+        <span class="ln"><span class="in">Sella y verifica</span></span>
+        <span class="ln"><span class="in"><em class="gold">tus documentos</em>.</span></span>
+      </div>
+      <div id="divider"></div>
+      <div id="cta">Gratis tus&nbsp;<b>3</b>&nbsp;primeros documentos<i id="shine"></i></div>
+      <div id="domain"></div>
+    </div>
+  </div>
+  <div id="iris"></div>
+
+  <div id="vignette" class="layer"></div>
+  <div id="grain" class="layer"></div>
+
+  <div id="safe" class="layer">
+    <div class="z" style="left:0;top:0;width:1080px;height:250px">Interfaz de la plataforma (arriba)</div>
+    <div class="z" style="left:0;top:1500px;width:1080px;height:420px">Descripción y botones (abajo)</div>
+    <div class="z" style="left:940px;top:250px;width:140px;height:1250px"></div>
+  </div>
+</div>
+</div>
+
+<div id="controls">
+  <button id="play">Pausa</button>
+  <span class="time" id="time">0.00 s · f 0</span>
+  <input id="scrub" type="range" min="0" max="449" step="1" value="0" />
+  <button id="safeBtn" class="hide-sm">Zonas seguras (S)</button>
+</div>
+
+<script>
+(() => {
+  // ---------- Datos editables ----------
+  const DOMAIN = "trampto-app.vercel.app"; // si trampto.com apunta a la app, usa ese dominio
+  const HASH_OK = "79f29d93bbfbacc4160f9dc5d9e431d31ad6ea8469543a00c402c40951b51d6a";
+  const HASH_BAD = "ee02568a9fe5aa8ee3a4bed49d7252ca000d4e2609388f243e7b26bbb64bfd19";
+  const SEAL_ID = "TRP-da0d949d-909d-47a6-b5fa-b1d7abd0a874";
+  const FPS = 30;
+  const DUR = 15;
+  const RENDER = new URLSearchParams(location.search).has("render");
+
+  // ---------- Tiempo y curvas (las mismas que usa la app) ----------
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const prog = (t, a, b) => clamp((t - a) / (b - a));
+  function bezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const sx = (u) => ((ax * u + bx) * u + cx) * u;
+    const sy = (u) => ((ay * u + by) * u + cy) * u;
+    return (x) => {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      let lo = 0, hi = 1, u = x;
+      for (let i = 0; i < 40; i++) {
+        const v = sx(u);
+        if (Math.abs(v - x) < 1e-6) break;
+        if (v < x) lo = u; else hi = u;
+        u = (lo + hi) / 2;
+      }
+      return sy(u);
+    };
+  }
+  const E = {
+    out: bezier(0.22, 1, 0.36, 1), // entradas/salidas de la UI y del splash
+    pop: bezier(0.34, 1.56, 0.64, 1), // rebote del «seal-pop»
+    inOut: bezier(0.65, 0, 0.35, 1),
+    in2: (p) => p * p,
+    outCubic: (p) => 1 - Math.pow(1 - p, 3),
+  };
+  const rnd = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+  const pulse = (t, a, b) => Math.sin(Math.PI * prog(t, a, b)); // 0 → 1 → 0
+
+  // ---------- DOM ----------
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const memo = new WeakMap();
+  function S(el, props) {
+    let c = memo.get(el);
+    if (!c) { c = {}; memo.set(el, c); }
+    for (const k in props) {
+      const v = props[k];
+      if (c[k] !== v) { c[k] = v; el.style[k] = v; }
+    }
+  }
+  function T(el, txt) { if (el.__txt !== txt) { el.__txt = txt; el.textContent = txt; } }
+  function C(el, cls) { if (el.__cls !== cls) { el.__cls = cls; el.className = cls; } }
+  function A(el, name, v) { const key = "__a_" + name; if (el[key] !== v) { el[key] = v; el.setAttribute(name, v); } }
+
+  const DOC_HTML = `
+    <div class="d-head">
+      <div class="d-co"><div class="d-logo">EN</div><div><div class="d-name">Estudio Norte S.L.</div><div class="d-addr">C/ Mayor 12 · 28013 Madrid</div></div></div>
+      <div class="d-title"><div class="d-t">PRESUPUESTO</div><div class="d-n">Nº 2026-014 · 06/10/2026</div></div>
+    </div>
+    <div class="d-rule"></div>
+    <div class="d-client"><span>Cliente</span>Taller Ruiz · Ana Ruiz</div>
+    <div class="d-table">
+      <div class="d-th"><span>CONCEPTO</span><span>IMPORTE</span></div>
+      <div class="d-tr"><span>Diseño de identidad</span><span>1.900,00 €</span></div>
+      <div class="d-tr"><span>Desarrollo web</span><span>2.400,00 €</span></div>
+      <div class="d-tr"><span>Mantenimiento · 6 meses</span><span>500,00 €</span></div>
+    </div>
+    <div class="d-total"><span class="d-lbl">TOTAL</span><span class="d-val"><i class="d-sel"></i><i class="d-caret"></i><b class="d1">4</b>.800,00 €</span></div>
+    <div class="d-terms">Validez: 30 días · Pago: 50 % a la aceptación</div>
+    <div class="d-lines"><i style="width:94%"></i><i style="width:81%"></i><i style="width:88%"></i><i style="width:56%"></i></div>
+    <div class="d-foot"><svg viewBox="0 0 200 70" class="d-sign"><path d="M8 52C30 10 44 10 46 40s24 22 38-10 28-22 34 12 32 16 74-20" fill="none" stroke="#2b3550" stroke-width="3" stroke-linecap="round"/></svg><span>Firma</span></div>
+    <div class="d-scan"><i></i></div>
+    <div class="d-tint"></div>
+    <div class="d-bars"><i></i><i></i><i></i></div>
+    <svg class="d-micro" viewBox="0 0 48 48">
+      <g class="ok"><circle cx="24" cy="24" r="20.5" fill="#fff" fill-opacity=".92" stroke="#7a1f1f" stroke-width="3"/><circle cx="24" cy="24" r="16" fill="none" stroke="#7a1f1f" stroke-width="1.2"/><path d="M15.5 24.5 21.5 30.5 33 18.5" fill="none" stroke="#c49a22" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <g class="bad"><circle cx="24" cy="24" r="20.5" fill="#fff" stroke="#b3261e" stroke-width="3"/><path d="M17 17 31 31M31 17 17 31" stroke="#b3261e" stroke-width="4.2" stroke-linecap="round"/></g>
+    </svg>`;
+
+  function docRefs(doc) {
+    doc.innerHTML = DOC_HTML;
+    return {
+      doc,
+      d1: $(".d1", doc), val: $(".d-val", doc), sel: $(".d-sel", doc), caret: $(".d-caret", doc),
+      micro: $(".d-micro", doc), ok: $(".d-micro .ok", doc), bad: $(".d-micro .bad", doc),
+      scan: $(".d-scan", doc), tint: $(".d-tint", doc), bars: $$(".d-bars i", doc),
+    };
+  }
+  function wrapRefs(id) {
+    const w = $(id);
+    return { w, lbl: $(".lbl-top", w), q: $(".qmark", w), verdict: $(".verdict", w), hline: $(".hline", w), ...docRefs($(".doc", w)) };
+  }
+
+  const stage = $("#stage");
+  const bgAfter = $("#bgAfter"), aurora = $("#aurora"), shake = $("#shake"), cam = $("#cam");
+  const rings = $$("#ripples .rp");
+  const wA = wrapRefs("#wA"), wB = wrapRefs("#wB"), wT = wrapRefs("#wT");
+  const dS = docRefs($("#docS"));
+  const dim = $("#dim"), flash = $("#flash"), stamp = $("#stamp"), stampImg = $("#stampImg"), stampShadow = $("#stampShadow"), vblurDev = $("#vblurDev");
+  const chip = $("#chip"), chipBefore = $(".chip-face.before"), chipAfter = $(".chip-face.after"), chipLogo = $("#chipLogo"), chipSlot = $(".after .chip-icon"), chipDot = $(".before .chip-state i");
+  const caps = $$("#captions .cap").map((el) => ({ el, tin: +el.dataset.in, tout: +el.dataset.out, lines: $$(".ln", el).map((ln) => ({ ln, inner: $(".in", ln), d: ln.dataset.d })) }));
+  const progress = $("#progress"), fills = $$("#progress .seg i"), panel = $("#panel"), specBand = $("#spec i");
+  const v1 = $("#v1"), v2 = $("#v2"), v3 = $("#v3"), dz = $("#dz"), dzIcon = $(".dz-icon");
+  const stepLis = $$(".steps li"), spins = $$(".steps .spin"), hashVal = $("#hashVal"), sidVal = $("#sidVal"), bigSeal = $("#bigSeal");
+  const sealIdVal = $("#sealIdVal"), linkVal = $("#linkVal"), linkField = $("#linkField"), copied = $("#copied"), shareBtn = $("#shareBtn");
+  const end = $("#end"), endInner = $("#endInner"), tile = $("#tile"), wordmark = $("#wordmark"), divider = $("#divider"), cta = $("#cta"), shine = $("#shine"), domainEl = $("#domain"), iris = $("#iris");
+  const taglineLines = $$("#tagline .ln").map((ln) => $(".in", ln));
+  const vignette = $("#vignette"), grain = $("#grain");
+
+  T(sealIdVal, SEAL_ID);
+  T(linkVal, `${DOMAIN}/v/${HASH_OK}`);
+  T(domainEl, DOMAIN);
+
+  // Anillos del cierre: ambiente fijo + dos latidos (12 s y 14 s)
+  const NS = "http://www.w3.org/2000/svg";
+  for (const r of [235, 330, 445, 580, 735, 910]) {
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", "540"); c.setAttribute("cy", "640"); c.setAttribute("r", String(r));
+    $("#ambientRings").appendChild(c);
+  }
+  const pulseRings = [];
+  for (const start of [11.95, 13.95]) {
+    for (let i = 0; i < 3; i++) {
+      const c = document.createElementNS(NS, "circle");
+      c.setAttribute("cx", "540"); c.setAttribute("cy", "640"); c.setAttribute("opacity", "0");
+      $("#pulseRings").appendChild(c);
+      pulseRings.push({ c, t0: start + i * 0.13 });
+    }
+  }
+
+  // Grano de película: textura de ruido con semilla fija (determinista)
+  (() => {
+    const cv = document.createElement("canvas");
+    cv.width = cv.height = 320;
+    const g = cv.getContext("2d");
+    const img = g.createImageData(320, 320);
+    let s = 1234567;
+    for (let i = 0; i < img.data.length; i += 4) {
+      s = (s * 1103515245 + 12345) & 0x7fffffff;
+      const v = 128 + ((s >> 8) % 128) - 64;
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+      img.data[i + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+    grain.style.backgroundImage = `url(${cv.toDataURL()})`;
+  })();
+
+  // ---------- Posiciones de los documentos ----------
+  const P_SOLO = { x: 540, y: 1110, s: 0.85, r: 0 };
+  const P_A = { x: 285, y: 1080, s: 0.56, r: -4 };
+  const P_B = { x: 775, y: 1080, s: 0.56, r: 4 };
+  let FOCUS = { x: 512, y: 1134 }; // centro del dígito que se manipula (se mide al cargar)
+  const ICON = { x: 362, y: 300 }; // centro del icono del chip
+
+  function placeDoc(w, x, y, s, r) {
+    S(w, { transform: `translate(${(x - 320).toFixed(2)}px, ${(y - 452.5).toFixed(2)}px) rotate(${r.toFixed(3)}deg) scale(${s.toFixed(4)})` });
+  }
+  const mix = (P, Q, p) => ({ x: lerp(P.x, Q.x, p), y: lerp(P.y, Q.y, p), s: lerp(P.s, Q.s, p), r: lerp(P.r, Q.r, p) });
+
+  // Efecto «scramble»: los caracteres se resuelven de izquierda a derecha
+  const HEX = "0123456789abcdef";
+  const UP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  function scramble(target, p, f, glyphs, seed = 0) {
+    let out = "";
+    for (let i = 0; i < target.length; i++) {
+      const ch = target[i];
+      if (ch === " " || p >= 1 || i / target.length < p - 0.02) out += ch;
+      else out += glyphs[Math.floor(rnd(f * 31 + i * 7 + seed) * glyphs.length)];
+    }
+    return out;
+  }
+  const short = (h) => `${h.slice(0, 8)}…${h.slice(-8)}`;
+
+  // ---------- Titulares con máscara ----------
+  function captions(t) {
+    for (const c of caps) {
+      const vis = t >= c.tin - 0.02 && t <= c.tout + 0.4;
+      S(c.el, { visibility: vis ? "visible" : "hidden" });
+      if (!vis) continue;
+      c.lines.forEach((l, i) => {
+        const d = l.d !== undefined ? +l.d : i * 0.12;
+        const a = c.tin + d;
+        const pi = E.out(prog(t, a, a + 0.55));
+        const po = E.in2(prog(t, c.tout + i * 0.03, c.tout + i * 0.03 + 0.2));
+        S(l.inner, { transform: `translateY(${((1 - pi) * 108 - po * 108).toFixed(2)}%)`, opacity: String(Math.min(prog(t, a, a + 0.2), 1 - po)) });
+      });
+    }
+  }
+
+  // ---------- Manipulación del total (cursor, selección y glitch) ----------
+  function tamper(w, t, f, t0) {
+    // t0 = instante en que el «4» pasa a «1»
+    const caretBefore = t >= t0 - 0.38 && t < t0;
+    const caretAfter = t >= t0 && t < t0 + 0.3;
+    const blink = Math.floor((t - (t0 - 0.38)) * 7) % 2 === 0;
+    S(w.caret, { opacity: (caretBefore || caretAfter) && blink ? "1" : "0", left: caretAfter ? "29px" : "-7px" });
+    const ps = E.out(prog(t, t0 - 0.24, t0 - 0.12));
+    S(w.sel, { width: t >= t0 - 0.24 && t < t0 ? `${(36 * ps).toFixed(1)}px` : "0px" });
+    const g = t >= t0 && t < t0 + 0.17; // 5 fotogramas de glitch
+    if (g) {
+      const k = f;
+      const dx = 7 + rnd(k) * 9;
+      S(w.w, { filter: `drop-shadow(${dx.toFixed(1)}px 0 0 rgba(255,0,72,.6)) drop-shadow(${(-dx).toFixed(1)}px 0 0 rgba(0,229,255,.6))` });
+      S(w.val, { transform: `translateX(${((rnd(k + 3) * 2 - 1) * 14).toFixed(1)}px) skewX(${((rnd(k + 5) * 2 - 1) * 8).toFixed(1)}deg)`, textShadow: "5px 0 rgba(255,0,72,.8), -5px 0 rgba(0,229,255,.8)" });
+      w.bars.forEach((b, i) => S(b, { opacity: "1", top: `${(rnd(k * 3 + i) * 860).toFixed(0)}px`, height: `${(10 + rnd(k * 5 + i) * 40).toFixed(0)}px`, transform: `translateX(${((rnd(k * 7 + i) * 2 - 1) * 40).toFixed(0)}px)` }));
+    } else {
+      S(w.w, { filter: "none" });
+      S(w.val, { transform: "none", textShadow: "none" });
+      w.bars.forEach((b) => S(b, { opacity: "0" }));
+    }
+  }
+
+  // ---------- Documentos: antes (escenas 1–3) y después (escena 5) ----------
+  function docs(t, f) {
+    let a = null, b = null, aOp = 0, bOp = 0, aBlur = 0, bBlur = 0;
+
+    if (t < 2.0) {
+      const pe = E.out(prog(t, 0, 0.6));
+      b = { ...P_SOLO, s: P_SOLO.s * lerp(1.06, 1, pe), y: P_SOLO.y + 40 * (1 - pe) };
+      bOp = clamp(pe * 1.6); bBlur = 24 * (1 - pe);
+    } else if (t < 4.4) {
+      const p = E.out(prog(t, 2.0, 2.45));
+      const raw = prog(t, 2.0, 2.45);
+      const mb = raw > 0 && raw < 1 ? 9 * Math.pow(1 - raw, 2) * Math.min(1, raw * 12) : 0;
+      a = mix(P_SOLO, P_A, p); b = mix(P_SOLO, P_B, p);
+      aOp = bOp = 1; aBlur = bBlur = mb;
+      const pa = E.out(prog(t, 3.4, 3.95)); // se apartan para dejar sitio al sello
+      a.x -= 18 * pa; b.x += 18 * pa;
+      const pb = E.out(prog(t, 4.0, 4.4)); // la onda los despide
+      if (t >= 4.0) {
+        a = { x: a.x - 560 * pb, y: a.y + 80 * pb, s: a.s * lerp(1, 0.9, pb), r: a.r - 22 * pb };
+        b = { x: b.x + 560 * pb, y: b.y + 80 * pb, s: b.s * lerp(1, 0.9, pb), r: b.r + 22 * pb };
+        aOp = bOp = 1 - Math.pow(pb, 0.7); aBlur = bBlur = 14 * pb;
+      }
+    } else if (t >= 9.0 && t < 12.1) {
+      const pz = E.out(prog(t, 9.05, 9.42));
+      const settle = E.out(prog(t, 10.0, 10.4));
+      a = { ...P_A, s: P_A.s * lerp(0.82, 1, pz), r: lerp(P_A.r, 0, settle) };
+      b = { ...P_B, s: P_B.s * lerp(0.82, 1, pz), r: lerp(P_B.r, 0, settle) };
+      const ps = prog(t, 9.8, 10.12);
+      if (t >= 9.8 && ps < 1) b.x += (rnd(f) * 2 - 1) * 14 * Math.pow(1 - ps, 2);
+      const fo = E.in2(prog(t, 11.78, 12.02)); // el iris las cubre antes de que desaparezcan
+      aOp = bOp = clamp(pz * 1.5) * (1 - fo);
+      aBlur = bBlur = 14 * (1 - pz);
+    }
+
+    for (const [w, P, op, bl] of [[wA, a, aOp, aBlur], [wB, b, bOp, bBlur]]) {
+      const vis = P && op > 0.001;
+      S(w.w, { visibility: vis ? "visible" : "hidden", opacity: String(op) });
+      if (!vis) continue;
+      placeDoc(w.w, P.x, P.y, P.s, P.r);
+      S(w.doc, { filter: bl > 0.05 ? `blur(${bl.toFixed(2)}px)` : "none" });
+    }
+
+    // Valor del total: A siempre es el original; B es la copia manipulada
+    T(wA.d1, "4");
+    T(wB.d1, t < 1.1 || (t >= 9.0 && t < 9.5) ? "4" : "1");
+    tamper(wA, -1, f, 99); // A nunca se toca: cursor, selección y glitch apagados
+    tamper(wB, t, f, t < 5 ? 1.1 : 9.5);
+
+    const sealed = t >= 9.0;
+    for (const w of [wA, wB]) S(w.micro, { opacity: sealed ? "1" : "0" });
+    S(wB.ok, { opacity: t >= 9.8 ? "0" : "1" });
+    S(wB.bad, { opacity: t >= 9.8 ? "1" : "0" });
+
+    // «?» parpadeante sobre las dos copias (escena 2)
+    for (const [w, seed] of [[wA, 1], [wB, 2]]) {
+      const pin = prog(t, 2.45, 2.62);
+      const on = t >= 2.45 && t < 4.4 ? (rnd(Math.floor(t * 15) + seed * 50) > 0.16 ? 1 : 0.2) : 0;
+      S(w.q, { opacity: String(on * clamp(pin * 1.2)), transform: `scale(${lerp(0.6, 1, E.pop(pin)).toFixed(3)})` });
+    }
+
+    // Etiquetas superiores
+    const lblIn2 = E.out(prog(t, 2.25, 2.5));
+    const lblIn5 = E.out(prog(t, 9.15, 9.38));
+    if (t < 5) {
+      for (const w of [wA, wB]) {
+        T(w.lbl, "¿ORIGINAL?");
+        S(w.lbl, { opacity: String(lblIn2), transform: `translateY(${(1 - lblIn2) * 20}px)`, color: "rgba(255,255,255,.82)" });
+      }
+    } else {
+      const pa = prog(t, 10.0, 10.24), pb = prog(t, 9.8, 10.06);
+      T(wA.lbl, t < 10.0 ? "¿ORIGINAL?" : scramble("ORIGINAL", pa, f, UP, 3));
+      T(wB.lbl, t < 9.8 ? "¿ORIGINAL?" : scramble("RETOCADO", pb, f, UP, 9));
+      S(wA.lbl, { opacity: String(lblIn5), transform: `translateY(${(1 - lblIn5) * 20}px)`, color: t >= 10.0 ? "#7ee2aa" : "rgba(255,255,255,.82)" });
+      S(wB.lbl, { opacity: String(lblIn5), transform: `translateY(${(1 - lblIn5) * 20}px)`, color: t >= 9.8 ? "#ff9a92" : "rgba(255,255,255,.82)" });
+    }
+
+    // Veredictos y huellas
+    const vb = prog(t, 9.86, 10.2), va = prog(t, 10.02, 10.36);
+    S(wB.verdict, { opacity: String(clamp(vb * 3)), transform: `translateX(-50%) scale(${lerp(0.55, 1, E.pop(vb)).toFixed(3)})` });
+    S(wA.verdict, { opacity: String(clamp(va * 3)), transform: `translateX(-50%) scale(${lerp(0.55, 1, E.pop(va)).toFixed(3)})` });
+    const ph = E.out(prog(t, 9.42, 9.7));
+    const hbP = prog(t, 9.8, 10.1);
+    const hashB = t < 9.8 ? short(HASH_OK) : short(scramble(HASH_BAD, hbP, f, HEX, 21));
+    setHline(wA.hline, short(HASH_OK), t >= 10.05 ? "✓ coincide" : "", "#7ee2aa", t >= 10.05);
+    setHline(wB.hline, hashB, t >= 9.9 ? "✕ no coincide" : "", "#ff9a92", t >= 9.8);
+    S(wA.hline, { opacity: String(ph) });
+    S(wB.hline, { opacity: String(ph) });
+
+    // Brillo de veredicto alrededor del documento
+    S(wB.tint, { opacity: String(E.out(prog(t, 9.8, 9.95))) });
+    const gB = E.out(prog(t, 9.8, 9.95)), gA = E.out(prog(t, 10.0, 10.15));
+    S(wB.doc, { boxShadow: t >= 9.8 ? `0 60px 100px -40px rgba(0,0,0,.75), 0 0 0 ${(8 * gB).toFixed(1)}px rgba(179,38,30,.95), 0 0 120px ${(18 * gB).toFixed(0)}px rgba(179,38,30,.45)` : "" });
+    S(wA.doc, { boxShadow: t >= 10.0 ? `0 60px 100px -40px rgba(0,0,0,.75), 0 0 0 ${(8 * gA).toFixed(1)}px rgba(26,127,75,.95), 0 0 120px ${(18 * gA).toFixed(0)}px rgba(26,127,75,.42)` : "" });
+  }
+
+  function setHline(el, hash, verdict, color, colored) {
+    const html = `<b style="color:${colored ? color : "rgba(255,255,255,.75)"}">${hash}</b>${verdict ? `<br><span style="color:${color}">${verdict}</span>` : "<br>&nbsp;"}`;
+    if (el.__html !== html) { el.__html = html; el.innerHTML = html; }
+  }
+
+  // ---------- Fondo, cámara y sacudida ----------
+  function world(t, f) {
+    // Barrido de onda: el mundo de marca aparece desde el punto de impacto
+    const pw = prog(t, 4.0, 4.95);
+    if (t < 4.0) S(bgAfter, { visibility: "hidden", webkitMaskImage: "none", maskImage: "none" });
+    else if (pw < 1) {
+      const rx = lerp(110, 1500, E.outCubic(pw)) * 1.02;
+      const ry = rx * lerp(0.27, 1.3, E.in2(pw));
+      const m = `radial-gradient(${rx.toFixed(0)}px ${ry.toFixed(0)}px at 540px 1190px, #000 0, #000 88%, transparent 100%)`;
+      S(bgAfter, { visibility: "visible", webkitMaskImage: m, maskImage: m });
+    } else S(bgAfter, { visibility: "visible", webkitMaskImage: "none", maskImage: "none" });
+    S(aurora, { transform: `translate(${(Math.sin(t * 0.5) * 70).toFixed(1)}px, ${(Math.cos(t * 0.4) * 50).toFixed(1)}px)` });
+
+    // Cámara: empuje hacia el total en el gancho + deriva constante (parallax)
+    let z = 0;
+    if (t < 2.0) z = E.inOut(prog(t, 0.62, 1.0)) * (1 - E.inOut(prog(t, 1.38, 1.92)));
+    const camS = 1 + 0.18 * z + 0.025 * prog(t, 1.0, 1.38) * (1 - E.inOut(prog(t, 1.38, 1.92)));
+    const dx = Math.sin(t * 0.8) * 4, dy = Math.cos(t * 0.65) * 4 + 40 * z;
+    S(cam, { transformOrigin: `${FOCUS.x.toFixed(1)}px ${FOCUS.y.toFixed(1)}px`, transform: `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px) scale(${camS.toFixed(4)})` });
+
+    // Sacudida del impacto
+    let sx = 0, sy = 0;
+    const ps = prog(t, 4.0, 4.32);
+    if (t >= 4.0 && ps < 1) {
+      const amp = 20 * Math.pow(1 - ps, 2);
+      sx = (rnd(f) * 2 - 1) * amp; sy = (rnd(f + 99) * 2 - 1) * amp;
+    }
+    S(shake, { transform: `translate(${sx.toFixed(2)}px, ${sy.toFixed(2)}px)` });
+
+    S(dim, { opacity: String(0.75 * E.out(prog(t, 3.35, 3.95)) * (1 - E.out(prog(t, 4.0, 4.2)))) });
+    S(vignette, { opacity: String(lerp(1, 0.55, prog(t, 4.0, 4.6))) });
+    S(grain, { opacity: t < 4.0 ? "0.16" : "0.09", backgroundPosition: `${(rnd(f) * 320).toFixed(0)}px ${(rnd(f + 7) * 320).toFixed(0)}px` });
+  }
+
+  // ---------- El sello: caída, impacto, ondas y «logo lock» ----------
+  function seal(t, f) {
+    const W = 470, H = 548;
+    let vis = t >= 3.45 && t < 4.96;
+    let bx = 540, by = 1190, sx = 1, sy = 1, rot = 0, blurY = 0;
+    if (t < 4.0) {
+      const p = prog(t, 3.45, 4.0);
+      by = lerp(-90, 1190, Math.pow(p, 2.3));
+      sy = lerp(1.0, 1.1, p); sx = lerp(1.0, 0.95, p);
+      blurY = 24 * p * p;
+      rot = lerp(-7, 0, E.out(p));
+    } else if (t < 4.2) {
+      const p = prog(t, 4.0, 4.2);
+      const sq = p < 0.3 ? E.out(p / 0.3) : 1 - E.pop((p - 0.3) / 0.7);
+      sy = 1 - 0.1 * sq; sx = 1 + 0.06 * sq;
+    } else if (t < 4.5) {
+      const p = E.out(prog(t, 4.2, 4.5));
+      by = 1190 - 230 * p; sx = sy = 1 - 0.1 * p;
+    } else {
+      const p = E.inOut(prog(t, 4.5, 4.95));
+      const s = lerp(0.9, 0.088, p);
+      const cx = lerp(540, ICON.x, p);
+      const cy = lerp(960 - (H * 0.9) / 2, ICON.y, p) - Math.sin(p * Math.PI) * 110;
+      sx = sy = s; bx = cx; by = cy + (H * s) / 2;
+      rot = -9 * Math.sin(p * Math.PI);
+    }
+    S(stamp, { opacity: vis ? "1" : "0", transform: `translate(${(bx - W / 2).toFixed(2)}px, ${(by - H).toFixed(2)}px) rotate(${rot.toFixed(2)}deg) scale(${sx.toFixed(4)}, ${sy.toFixed(4)})` });
+    A(vblurDev, "stdDeviation", `0 ${blurY.toFixed(1)}`);
+    S(stampImg, { filter: blurY > 0.3 ? "url(#vblur) drop-shadow(0 30px 40px rgba(0,0,0,.45))" : "drop-shadow(0 30px 40px rgba(0,0,0,.45))" });
+
+    const sp = t < 4.0 ? E.in2(prog(t, 3.45, 4.0)) : 1 - E.out(prog(t, 4.2, 4.5));
+    S(stampShadow, { opacity: String(t >= 3.45 && t < 4.5 ? 0.7 * sp : 0), transform: `scale(${lerp(0.35, 1, sp).toFixed(3)})`, filter: `blur(${lerp(30, 6, sp).toFixed(1)}px)` });
+
+    // Destello y ondas del logo
+    const pf = t < 4.0 ? 0 : t < 4.03 ? prog(t, 4.0, 4.03) : 1 - E.out(prog(t, 4.03, 4.32));
+    S(flash, { opacity: String(0.85 * pf) });
+    rings.forEach((el, i) => {
+      const t0 = 4.0 + i * 0.075;
+      const p = prog(t, t0, t0 + 0.95);
+      if (t < t0 || p >= 1) { A(el, "opacity", "0"); return; }
+      const e = E.outCubic(p);
+      const rx = lerp(110, 1500 + i * 140, e);
+      A(el, "rx", rx.toFixed(1)); A(el, "ry", (rx * 0.27).toFixed(1));
+      A(el, "stroke-width", lerp(18, 2.5, e).toFixed(2));
+      A(el, "opacity", Math.pow(1 - p, 1.15).toFixed(3));
+    });
+  }
+
+  // ---------- Chip SIN / CON TRAMPTO ----------
+  function chipBadge(t) {
+    const pin = E.out(prog(t, 0.15, 0.6)), pout = prog(t, 11.5, 11.75);
+    S(chip, { opacity: String(pin * (1 - pout)), transform: `translateY(${((1 - pin) * -24).toFixed(1)}px)` });
+    const p1 = E.in2(prog(t, 4.04, 4.18)), p2 = E.pop(prog(t, 4.18, 4.42));
+    S(chipBefore, { opacity: t < 4.18 ? "1" : "0", transform: `rotateX(${(90 * p1).toFixed(2)}deg)` });
+    S(chipAfter, { opacity: t < 4.18 ? "0" : "1", transform: `rotateX(${(-90 * (1 - p2)).toFixed(2)}deg)` });
+    // El hueco del icono espera vacío (cristal) hasta que llega el sello volando
+    const pi = prog(t, 4.93, 5.18);
+    S(chipLogo, { opacity: t < 4.94 ? "0" : "1", transform: `scale(${t < 4.94 ? 0.6 : lerp(1.4, 1, E.pop(pi)).toFixed(3)})` });
+    S(chipSlot, { background: t < 4.94 ? "rgba(255,255,255,.12)" : "#fff", transform: `scale(${(1 + 0.18 * pulse(t, 4.94, 5.2)).toFixed(3)})` });
+    S(chipDot, { transform: `scale(${(1 + 0.18 * Math.sin(t * 7)).toFixed(3)})` });
+  }
+
+  // ---------- Panel de la app (escena 4) ----------
+  function app(t, f) {
+    const pe = E.out(prog(t, 4.55, 5.1)), px = E.inOut(prog(t, 8.95, 9.28));
+    const vis = t > 4.5 && t < 9.3;
+    S(panel, { visibility: vis ? "visible" : "hidden", opacity: String(clamp(pe * 1.5) * (1 - px)), transform: `translateY(${((1 - pe) * 640).toFixed(1)}px) scale(${(lerp(0.92, 1, pe) * lerp(1, 1.12, px)).toFixed(4)})`, filter: px > 0.001 ? `blur(${(18 * px).toFixed(1)}px)` : "none" });
+    S(progress, { opacity: String(clamp(prog(t, 4.85, 5.1)) * (1 - prog(t, 8.95, 9.15))) });
+    S(fills[0], { width: `${(100 * prog(t, 5.0, 6.0)).toFixed(1)}%` });
+    S(fills[1], { width: `${(100 * prog(t, 6.0, 7.5)).toFixed(1)}%` });
+    S(fills[2], { width: `${(100 * prog(t, 7.5, 9.0)).toFixed(1)}%` });
+    const sp = Math.max(prog(t, 4.9, 5.7), 0);
+    S(specBand, { transform: `translateX(${lerp(-300, 1100, E.inOut(sp)).toFixed(0)}px) skewX(-18deg)` });
+
+    // Paso 1: el documento vuela y cae en la zona de carga (vive fuera del panel)
+    const pt = prog(t, 5.06, 5.56), pd = prog(t, 5.56, 5.78);
+    const tVis = t >= 5.06 && t < 5.8;
+    S(wT.w, { visibility: tVis ? "visible" : "hidden", opacity: String(1 - pd) });
+    if (tVis) {
+      const e = E.out(pt);
+      placeDoc(wT.w, lerp(980, 540, e), lerp(560, 1238, e) - Math.sin(pt * Math.PI) * 70, lerp(0.36, 0.3, pt) * lerp(1, 0.75, E.in2(pd)), lerp(16, -3, e));
+    }
+    if (!vis) return;
+
+    // Transición entre vistas: la saliente sube y se desenfoca, la entrante llega desde abajo
+    const v1o = E.in2(prog(t, 5.95, 6.2)), v2i = E.out(prog(t, 6.05, 6.42)), v2o = E.in2(prog(t, 7.45, 7.7)), v3i = E.out(prog(t, 7.55, 7.92));
+    const vstyle = (o, y, b) => ({ opacity: String(o), transform: `translateY(${y.toFixed(1)}px)`, filter: b > 0.05 ? `blur(${b.toFixed(1)}px)` : "none", visibility: o > 0.001 ? "visible" : "hidden" });
+    S(v1, vstyle(1 - v1o, -40 * v1o, 8 * v1o));
+    S(v2, vstyle(v2i * (1 - v2o), 40 * (1 - v2i) - 40 * v2o, 8 * (1 - v2i) + 8 * v2o));
+    S(v3, vstyle(v3i, 40 * (1 - v3i), 8 * (1 - v3i)));
+
+    // La zona de carga se ilumina al recibir el documento
+    const hot = E.out(prog(t, 5.56, 5.7)) * (1 - E.out(prog(t, 5.8, 6.1)));
+    S(dz, { borderStyle: t >= 5.56 ? "solid" : "dashed", borderColor: t >= 5.56 ? "rgba(196,154,34,.95)" : "rgba(196,154,34,.55)", boxShadow: `0 0 0 ${(10 * hot).toFixed(1)}px rgba(196,154,34,.16), 0 30px 60px -30px rgba(196,154,34,${(0.9 * hot).toFixed(2)})` });
+    S(dzIcon, { transform: `translateY(${(-14 * pulse(t, 5.56, 5.82)).toFixed(1)}px) scale(${(1 + 0.08 * pulse(t, 5.56, 5.82)).toFixed(3)})` });
+
+    // Paso 2: escaneo, pasos reales de la app y huella
+    S(dS.doc, { transform: "scale(.455)" });
+    const sc = prog(t, 6.1, 6.95);
+    S(dS.scan, { opacity: String(t >= 6.1 ? 1 - E.in2(prog(t, 6.95, 7.2)) : 0), height: `${(lerp(0, 905, E.inOut(sc))).toFixed(0)}px` });
+    const marks = [6.12, 6.42, 6.72, 7.0];
+    stepLis.forEach((li, i) => C(li, t >= marks[i + 1] ? "done" : t >= marks[i] ? "cur" : ""));
+    spins.forEach((s) => S(s, { transform: `rotate(${(t * 720) % 360}deg)` }));
+    const ph = prog(t, 6.15, 6.95);
+    T(hashVal, t < 6.15 ? "" : scramble(HASH_OK, ph, f, HEX, 5));
+    S(sidVal, { opacity: String(E.out(prog(t, 6.95, 7.2))) });
+    // El sello aparece y se convierte en el microsello de la esquina
+    const pp = prog(t, 7.0, 7.18), pm = E.inOut(prog(t, 7.24, 7.44));
+    const docCx = 320 * 0.455, docCy = 452.5 * 0.455, microX = (640 - 22 - 25) * 0.455, microY = (905 - 20 - 25) * 0.455;
+    const bsx = lerp(docCx, microX, pm), bsy = lerp(docCy, microY, pm);
+    const bss = lerp(0.55 + 0.45 * E.pop(pp), (50 * 0.455) / 170, pm);
+    S(bigSeal, { opacity: t >= 7.0 && t < 7.44 ? String(clamp(pp * 4)) : "0", transform: `translate(${(bsx - 85).toFixed(1)}px, ${(bsy - 85).toFixed(1)}px) rotate(${lerp(-14, 0, E.out(pp)).toFixed(1)}deg) scale(${bss.toFixed(4)})` });
+    S(dS.micro, { opacity: t >= 7.42 ? "1" : "0", transform: `scale(${(1 + 0.5 * pulse(t, 7.42, 7.62)).toFixed(3)})` });
+
+    // Paso 3: compartir el enlace
+    const press = pulse(t, 8.0, 8.12);
+    S(shareBtn, { transform: `scale(${(1 - 0.07 * press).toFixed(3)})` });
+    const lf = E.out(prog(t, 8.04, 8.25));
+    S(linkField, { borderColor: t >= 8.04 ? `rgba(196,154,34,${(0.35 + 0.6 * lf).toFixed(2)})` : "rgba(13,27,75,.1)", boxShadow: t >= 8.04 ? `0 0 0 ${(6 * lf).toFixed(1)}px rgba(196,154,34,.14), 0 18px 36px -20px rgba(196,154,34,.8)` : "none", transform: `scale(${(1 + 0.025 * lf).toFixed(4)})` });
+    const pc = prog(t, 8.12, 8.36);
+    S(copied, { opacity: String(clamp(pc * 3)), transform: `scale(${lerp(0.6, 1, E.pop(pc)).toFixed(3)})` });
+  }
+
+  // ---------- Cierre ----------
+  function endCard(t, f) {
+    const pr = E.inOut(prog(t, 11.55, 12.05));
+    S(end, { visibility: t >= 11.55 ? "visible" : "hidden", clipPath: pr < 1 ? `circle(${lerp(0, 1500, pr).toFixed(1)}px at 540px 640px)` : "none" });
+    const R = lerp(0, 1500, pr);
+    S(iris, { opacity: String(t >= 11.55 && pr < 1 ? Math.min(1, pr * 12) * (1 - pr) : 0), width: `${(2 * R).toFixed(1)}px`, height: `${(2 * R).toFixed(1)}px`, marginLeft: `${(-R).toFixed(1)}px`, marginTop: `${(-R).toFixed(1)}px` });
+    if (t < 11.55) return;
+
+    S(endInner, { transform: `scale(${(1 + 0.025 * prog(t, 12, 15)).toFixed(4)})` });
+    const pt = prog(t, 11.72, 12.3);
+    const beat = 0.04 * pulse(t, 14.0, 14.45);
+    S(tile, { opacity: String(clamp(pt * 3)), transform: `rotate(${lerp(-10, 0, E.out(pt)).toFixed(2)}deg) scale(${(lerp(0.55, 1, E.pop(pt)) + beat).toFixed(4)})` });
+    pulseRings.forEach(({ c, t0 }) => {
+      const p = prog(t, t0, t0 + 1.5);
+      if (t < t0 || p >= 1) { A(c, "opacity", "0"); return; }
+      const e = E.outCubic(p);
+      A(c, "r", lerp(150, 780, e).toFixed(1));
+      A(c, "stroke-width", lerp(8, 1.5, e).toFixed(2));
+      A(c, "opacity", (0.7 * Math.pow(1 - p, 1.3)).toFixed(3));
+    });
+    const pw = E.out(prog(t, 12.2, 12.9));
+    const ls = lerp(0.75, 0.32, pw);
+    S(wordmark, { opacity: String(clamp(prog(t, 12.2, 12.5))), letterSpacing: `${ls.toFixed(3)}em`, textIndent: `${ls.toFixed(3)}em` });
+    taglineLines.forEach((el, i) => {
+      const a = 12.45 + i * 0.12;
+      const p = E.out(prog(t, a, a + 0.55));
+      S(el, { transform: `translateY(${((1 - p) * 108).toFixed(2)}%)`, opacity: String(prog(t, a, a + 0.2)) });
+    });
+    S(divider, { transform: `scaleX(${E.out(prog(t, 12.95, 13.3)).toFixed(3)})` });
+    const pc = prog(t, 13.05, 13.45);
+    S(cta, { opacity: String(clamp(pc * 2.5)), transform: `translateX(-50%) translateY(${((1 - E.out(pc)) * 24).toFixed(1)}px) scale(${lerp(0.86, 1, E.pop(pc)).toFixed(4)})` });
+    S(shine, { transform: `translateX(${lerp(-220, 980, E.inOut(prog(t, 13.75, 14.35))).toFixed(0)}px) skewX(-20deg)` });
+    const pd = E.out(prog(t, 13.35, 13.8));
+    S(domainEl, { opacity: String(pd), transform: `translateY(${((1 - pd) * 16).toFixed(1)}px)` });
+  }
+
+  // ---------- Render de un instante ----------
+  function render(t) {
+    t = clamp(t, 0, DUR - 1e-6);
+    const f = Math.round(t * FPS);
+    world(t, f);
+    docs(t, f);
+    seal(t, f);
+    chipBadge(t);
+    captions(t);
+    app(t, f);
+    endCard(t, f);
+  }
+
+  // Mide dónde queda el dígito manipulado para centrar el empuje de cámara en él
+  function measureFocus() {
+    render(0.6);
+    const sr = stage.getBoundingClientRect(), r = wB.d1.getBoundingClientRect();
+    const k = sr.width / 1080;
+    FOCUS = { x: (r.left + r.width / 2 - sr.left) / k, y: (r.top + r.height / 2 - sr.top) / k };
+  }
+
+  // ---------- Vista previa / exportación ----------
+  function fit() {
+    if (RENDER) { stage.style.transform = "none"; return; }
+    const vp = $("#viewport").getBoundingClientRect();
+    const k = Math.min(vp.width / 1080, vp.height / 1920);
+    stage.style.transform = `translate(${((vp.width - 1080 * k) / 2).toFixed(1)}px, ${((vp.height - 1920 * k) / 2).toFixed(1)}px) scale(${k})`;
+  }
+
+  const ready = (async () => {
+    await document.fonts.ready;
+    await Promise.all([
+      '700 94px "Playfair Display"', 'italic 700 94px "Playfair Display"', 'italic 800 94px "Playfair Display"',
+      '500 20px "DM Sans"', '600 20px "DM Sans"', '700 20px "DM Sans"', '800 20px "DM Sans"',
+      '500 20px "JetBrains Mono"', '700 20px "JetBrains Mono"',
+    ].map((spec) => document.fonts.load(spec)));
+    await Promise.all($$("img").map((img) => (img.complete ? Promise.resolve() : img.decode().catch(() => {}))));
+    fit();
+    measureFocus();
+  })();
+
+  window.__ready = ready;
+  window.__seek = async (t) => {
+    render(t);
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  };
+
+  if (RENDER) { document.body.classList.add("render"); return; }
+
+  let playing = true, t0 = performance.now(), cur = 0;
+  const playBtn = $("#play"), timeEl = $("#time"), scrub = $("#scrub");
+  function show(t) {
+    cur = t;
+    render(t);
+    const f = Math.min(DUR * FPS - 1, Math.floor(t * FPS));
+    timeEl.textContent = `${t.toFixed(2)} s · f ${f}`;
+    scrub.value = String(f);
+  }
+  function loop(now) {
+    if (playing) show(((now - t0) / 1000) % DUR);
+    requestAnimationFrame(loop);
+  }
+  function setPlaying(p) {
+    playing = p;
+    playBtn.textContent = p ? "Pausa" : "Reproducir";
+    if (p) t0 = performance.now() - cur * 1000;
+  }
+  playBtn.onclick = () => setPlaying(!playing);
+  scrub.oninput = () => { setPlaying(false); show(+scrub.value / FPS); };
+  $("#safeBtn").onclick = () => $("#safe").classList.toggle("on");
+  addEventListener("keydown", (e) => {
+    if (e.code === "Space") { e.preventDefault(); setPlaying(!playing); }
+    else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+      setPlaying(false);
+      const f = Math.round(cur * FPS) + (e.key === "ArrowRight" ? 1 : -1);
+      show(clamp(f, 0, DUR * FPS - 1) / FPS);
+    } else if (e.key === "s" || e.key === "S") $("#safe").classList.toggle("on");
+  });
+  addEventListener("resize", fit);
+  ready.then(() => { t0 = performance.now(); requestAnimationFrame(loop); });
+})();
+</script>
+</body>
+</html>
