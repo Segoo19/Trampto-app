@@ -314,3 +314,13 @@ El logo y el nombre están en pantalla el 100 % del tiempo.
 - Que el documento «nunca sale de tu dispositivo»: el sellado se calcula en local, pero el PDF sellado se guarda para que el enlace público permita verlo y descargarlo.
 - Que tiene «validez legal» por sí solo: TRAMPTO acredita integridad, autoría y fecha y complementa a la firma electrónica, pero no la sustituye.
 - Que el sello visible es grande: el golpe del sello es la metáfora de marca; en el documento real queda el microsello discreto, y eso es lo que muestra el plano final.
+
+---
+
+## 11. Versión horizontal 16:9 para la web
+
+Mismo argumento, mismos tiempos y la misma pista que el máster vertical, recompuesto para pantalla ancha (1920 × 1080): el chip y los titulares van en una columna a la izquierda y toda la acción (documento, sello, panel de la app, antes/después) a la derecha. El cierre centra icono, nombre, titular en una sola línea, CTA y `trampto.com`.
+
+- [`trampto-spot-15s-16x9.mp4`](trampto-spot-15s-16x9.mp4) (español) · [`trampto-spot-15s-16x9-en.mp4`](trampto-spot-15s-16x9-en.mp4) (inglés)
+- Vista previa: `animatic.html?format=wide` (añade `&lang=en` para inglés). Exportar: `node marketing/video-15s/render.mjs --wide [--en]`.
+- Para la web: incrústalo con `<video autoplay muted loop playsinline>`; el spot se entiende sin sonido y el último fotograma sirve de póster.

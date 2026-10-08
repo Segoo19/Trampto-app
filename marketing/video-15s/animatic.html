@@ -258,6 +258,28 @@
   #iris { position: absolute; left: 540px; top: 640px; width: 0; height: 0; border-radius: 50%; border: 10px solid var(--wave-light); opacity: 0;
     box-shadow: 0 0 40px 6px rgba(77, 163, 255, 0.55), inset 0 0 40px 6px rgba(77, 163, 255, 0.4); }
 
+  /* ---------- Versión horizontal 16:9 (?format=wide) para la web ---------- */
+  body.wide #stage { width: 1920px; height: 1080px; }
+  body.wide #chip { left: 260px; top: 220px; }
+  body.wide #captions { left: 90px; right: auto; width: 780px; top: 350px; }
+  body.wide .h1 { font-size: 84px; }
+  body.wide .h1.sm { font-size: 66px; }
+  body.wide .sub { font-size: 34px; }
+  body.wide #progress { left: 990px; top: 162px; }
+  body.wide #panel { left: 910px; top: 190px; }
+  body.wide #flash { background: radial-gradient(circle at 1340px 770px, rgba(255, 250, 235, 0.95) 0, rgba(246, 220, 150, 0.55) 170px, rgba(196, 154, 34, 0) 560px); }
+  body.wide #stampShadow { left: 1060px; top: 705px; }
+  body.wide #endInner { transform-origin: 960px 540px; }
+  body.wide #tile { left: 840px; top: 96px; width: 240px; height: 240px; border-radius: 64px; }
+  body.wide #wordmark { top: 380px; font-size: 64px; }
+  body.wide #tagline { top: 470px; }
+  body.wide #tagline .ln { display: inline-block; padding: 0 0.05em 0.16em; }
+  body.wide #divider { left: 924px; top: 612px; }
+  body.wide #cta { left: 960px; top: 650px; }
+  body.wide #domain { top: 786px; }
+  body.wide #iris { left: 960px; top: 216px; }
+  body.wide #vignette { background: radial-gradient(ellipse 70% 75% at 50% 50%, transparent 58%, rgba(0, 0, 0, 0.55) 100%); }
+
   /* ---------- Acabado: viñeta y grano ---------- */
   #vignette { background: radial-gradient(ellipse 80% 62% at 50% 48%, transparent 58%, rgba(0, 0, 0, 0.55) 100%); pointer-events: none; }
   #grain { mix-blend-mode: overlay; opacity: 0.12; background-size: 320px 320px; pointer-events: none; }
@@ -481,6 +503,17 @@
   // ---------- Datos editables ----------
   const DOMAIN = "trampto.com";
   const EN = new URLSearchParams(location.search).get("lang") === "en";
+  const WIDE = new URLSearchParams(location.search).get("format") === "wide";
+  const SW = WIDE ? 1920 : 1080, SH = WIDE ? 1080 : 1920;
+  if (WIDE) document.body.classList.add("wide");
+  const P_SOLO = WIDE ? { x: 1340, y: 560, s: 0.85, r: 0 } : { x: 540, y: 1110, s: 0.85, r: 0 };
+  const P_A = WIDE ? { x: 1130, y: 520, s: 0.62, r: -4 } : { x: 285, y: 1080, s: 0.56, r: -4 };
+  const P_B = WIDE ? { x: 1560, y: 520, s: 0.62, r: 4 } : { x: 775, y: 1080, s: 0.56, r: 4 };
+  const IMP = WIDE ? { x: 1340, y: 770 } : { x: 540, y: 1190 }; // punto de impacto del sello
+  const DROP = WIDE ? { from: [1820, 120], to: [1340, 698] } : { from: [980, 560], to: [540, 1238] };
+  const END = WIDE ? { x: 960, y: 216 } : { x: 540, y: 640 }; // centro del icono del cierre
+  let FOCUS = { x: 512, y: 1134 }; // centro del dígito que se manipula (se mide al cargar)
+  const ICON = WIDE ? { x: 302, y: 262 } : { x: 362, y: 300 }; // centro del icono del chip
   const L = EN
     ? { q: "ORIGINAL?", orig: "ORIGINAL", bad: "TAMPERED", ok: "✓ match", ko: "✕ no match" }
     : { q: "¿ORIGINAL?", orig: "ORIGINAL", bad: "RETOCADO", ok: "✓ coincide", ko: "✕ no coincide" };
@@ -586,6 +619,13 @@
   const stage = $("#stage");
   const bgAfter = $("#bgAfter"), aurora = $("#aurora"), shake = $("#shake"), cam = $("#cam");
   const rings = $$("#ripples .rp");
+  if (WIDE) {
+    for (const sel of ["#ripples", "#endRings"]) {
+      const svg = $(sel);
+      svg.setAttribute("width", "1920"); svg.setAttribute("height", "1080"); svg.setAttribute("viewBox", "0 0 1920 1080");
+    }
+    rings.forEach((el) => { el.setAttribute("cx", "1340"); el.setAttribute("cy", "770"); });
+  }
   const wA = wrapRefs("#wA"), wB = wrapRefs("#wB"), wT = wrapRefs("#wT");
   const dS = docRefs($("#docS"));
   const dim = $("#dim"), flash = $("#flash"), stamp = $("#stamp"), stampImg = $("#stampImg"), stampShadow = $("#stampShadow"), vblurDev = $("#vblurDev");
@@ -639,14 +679,14 @@
   const NS = "http://www.w3.org/2000/svg";
   for (const r of [235, 330, 445, 580, 735, 910]) {
     const c = document.createElementNS(NS, "circle");
-    c.setAttribute("cx", "540"); c.setAttribute("cy", "640"); c.setAttribute("r", String(r));
+    c.setAttribute("cx", String(END.x)); c.setAttribute("cy", String(END.y)); c.setAttribute("r", String(r));
     $("#ambientRings").appendChild(c);
   }
   const pulseRings = [];
   for (const start of [11.95, 13.95]) {
     for (let i = 0; i < 3; i++) {
       const c = document.createElementNS(NS, "circle");
-      c.setAttribute("cx", "540"); c.setAttribute("cy", "640"); c.setAttribute("opacity", "0");
+      c.setAttribute("cx", String(END.x)); c.setAttribute("cy", String(END.y)); c.setAttribute("opacity", "0");
       $("#pulseRings").appendChild(c);
       pulseRings.push({ c, t0: start + i * 0.13 });
     }
@@ -670,11 +710,6 @@
   })();
 
   // ---------- Posiciones de los documentos ----------
-  const P_SOLO = { x: 540, y: 1110, s: 0.85, r: 0 };
-  const P_A = { x: 285, y: 1080, s: 0.56, r: -4 };
-  const P_B = { x: 775, y: 1080, s: 0.56, r: 4 };
-  let FOCUS = { x: 512, y: 1134 }; // centro del dígito que se manipula (se mide al cargar)
-  const ICON = { x: 362, y: 300 }; // centro del icono del chip
 
   function placeDoc(w, x, y, s, r) {
     S(w, { transform: `translate(${(x - 320).toFixed(2)}px, ${(y - 452.5).toFixed(2)}px) rotate(${r.toFixed(3)}deg) scale(${s.toFixed(4)})` });
@@ -842,7 +877,7 @@
     else if (pw < 1) {
       const rx = lerp(110, 1500, E.outCubic(pw)) * 1.02;
       const ry = rx * lerp(0.27, 1.3, E.in2(pw));
-      const m = `radial-gradient(${rx.toFixed(0)}px ${ry.toFixed(0)}px at 540px 1190px, #000 0, #000 88%, transparent 100%)`;
+      const m = `radial-gradient(${rx.toFixed(0)}px ${ry.toFixed(0)}px at ${IMP.x}px ${IMP.y}px, #000 0, #000 88%, transparent 100%)`;
       S(bgAfter, { visibility: "visible", webkitMaskImage: m, maskImage: m });
     } else S(bgAfter, { visibility: "visible", webkitMaskImage: "none", maskImage: "none" });
     S(aurora, { transform: `translate(${(Math.sin(t * 0.5) * 70).toFixed(1)}px, ${(Math.cos(t * 0.4) * 50).toFixed(1)}px)` });
@@ -872,10 +907,10 @@
   function seal(t, f) {
     const W = 470, H = 548;
     let vis = t >= 3.45 && t < 4.96;
-    let bx = 540, by = 1190, sx = 1, sy = 1, rot = 0, blurY = 0;
+    let bx = IMP.x, by = IMP.y, sx = 1, sy = 1, rot = 0, blurY = 0;
     if (t < 4.0) {
       const p = prog(t, 3.45, 4.0);
-      by = lerp(-90, 1190, Math.pow(p, 2.3));
+      by = lerp(-90, IMP.y, Math.pow(p, 2.3));
       sy = lerp(1.0, 1.1, p); sx = lerp(1.0, 0.95, p);
       blurY = 24 * p * p;
       rot = lerp(-7, 0, E.out(p));
@@ -885,12 +920,12 @@
       sy = 1 - 0.1 * sq; sx = 1 + 0.06 * sq;
     } else if (t < 4.5) {
       const p = E.out(prog(t, 4.2, 4.5));
-      by = 1190 - 230 * p; sx = sy = 1 - 0.1 * p;
+      by = IMP.y - 230 * p; sx = sy = 1 - 0.1 * p;
     } else {
       const p = E.inOut(prog(t, 4.5, 4.95));
       const s = lerp(0.9, 0.088, p);
-      const cx = lerp(540, ICON.x, p);
-      const cy = lerp(960 - (H * 0.9) / 2, ICON.y, p) - Math.sin(p * Math.PI) * 110;
+      const cx = lerp(IMP.x, ICON.x, p);
+      const cy = lerp(IMP.y - 230 - (H * 0.9) / 2, ICON.y, p) - Math.sin(p * Math.PI) * 110;
       sx = sy = s; bx = cx; by = cy + (H * s) / 2;
       rot = -9 * Math.sin(p * Math.PI);
     }
@@ -948,7 +983,7 @@
     S(wT.w, { visibility: tVis ? "visible" : "hidden", opacity: String(1 - pd) });
     if (tVis) {
       const e = E.out(pt);
-      placeDoc(wT.w, lerp(980, 540, e), lerp(560, 1238, e) - Math.sin(pt * Math.PI) * 70, lerp(0.36, 0.3, pt) * lerp(1, 0.75, E.in2(pd)), lerp(16, -3, e));
+      placeDoc(wT.w, lerp(DROP.from[0], DROP.to[0], e), lerp(DROP.from[1], DROP.to[1], e) - Math.sin(pt * Math.PI) * 70, lerp(0.36, 0.3, pt) * lerp(1, 0.75, E.in2(pd)), lerp(16, -3, e));
     }
     if (!vis) return;
 
@@ -994,7 +1029,7 @@
   // ---------- Cierre ----------
   function endCard(t, f) {
     const pr = E.inOut(prog(t, 11.55, 12.05));
-    S(end, { visibility: t >= 11.55 ? "visible" : "hidden", clipPath: pr < 1 ? `circle(${lerp(0, 1500, pr).toFixed(1)}px at 540px 640px)` : "none" });
+    S(end, { visibility: t >= 11.55 ? "visible" : "hidden", clipPath: pr < 1 ? `circle(${lerp(0, 1500, pr).toFixed(1)}px at ${END.x}px ${END.y}px)` : "none" });
     const R = lerp(0, 1500, pr);
     S(iris, { opacity: String(t >= 11.55 && pr < 1 ? Math.min(1, pr * 12) * (1 - pr) : 0), width: `${(2 * R).toFixed(1)}px`, height: `${(2 * R).toFixed(1)}px`, marginLeft: `${(-R).toFixed(1)}px`, marginTop: `${(-R).toFixed(1)}px` });
     if (t < 11.55) return;
@@ -1044,7 +1079,7 @@
   function measureFocus() {
     render(0.6);
     const sr = stage.getBoundingClientRect(), r = wB.d1.getBoundingClientRect();
-    const k = sr.width / 1080;
+    const k = sr.width / SW;
     FOCUS = { x: (r.left + r.width / 2 - sr.left) / k, y: (r.top + r.height / 2 - sr.top) / k };
   }
 
@@ -1052,8 +1087,8 @@
   function fit() {
     if (RENDER) { stage.style.transform = "none"; return; }
     const vp = $("#viewport").getBoundingClientRect();
-    const k = Math.min(vp.width / 1080, vp.height / 1920);
-    stage.style.transform = `translate(${((vp.width - 1080 * k) / 2).toFixed(1)}px, ${((vp.height - 1920 * k) / 2).toFixed(1)}px) scale(${k})`;
+    const k = Math.min(vp.width / SW, vp.height / SH);
+    stage.style.transform = `translate(${((vp.width - SW * k) / 2).toFixed(1)}px, ${((vp.height - SH * k) / 2).toFixed(1)}px) scale(${k})`;
   }
 
   const ready = (async () => {
