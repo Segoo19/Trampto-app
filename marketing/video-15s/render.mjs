@@ -2,6 +2,7 @@
 // fotograma, o saca fotogramas sueltos en PNG para el storyboard.
 //
 //   node marketing/video-15s/render.mjs                       → trampto-spot-15s-9x16.mp4
+//   node marketing/video-15s/render.mjs --en                  → versión en inglés (…-en.mp4)
 //   node marketing/video-15s/render.mjs salida.mp4
 //   node marketing/video-15s/render.mjs --stills 0.4,4.05,10.4 [carpeta]
 //
@@ -25,14 +26,15 @@ const W = 1080;
 const H = 1920;
 const here = path.dirname(fileURLToPath(import.meta.url));
 
-const args = process.argv.slice(2);
+const EN = process.argv.includes("--en");
+const args = process.argv.slice(2).filter((a) => a !== "--en");
 const stillsAt = args[0] === "--stills" ? args[1].split(",").map(Number) : null;
 
 const proxy = process.env.HTTPS_PROXY ? { server: process.env.HTTPS_PROXY } : undefined;
 const browser = await chromium.launch({ proxy });
 try {
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
-  await page.goto(`${pathToFileURL(path.join(here, "animatic.html")).href}?render`);
+  await page.goto(`${pathToFileURL(path.join(here, "animatic.html")).href}?render${EN ? "&lang=en" : ""}`);
   await page.evaluate(() => window.__ready);
 
   const frame = async (t) => {
@@ -49,7 +51,7 @@ try {
       console.log(`${t.toFixed(2)} s → ${file}`);
     }
   } else {
-    const out = path.resolve(args[0] ?? path.join(here, "trampto-spot-15s-9x16.mp4"));
+    const out = path.resolve(args[0] ?? path.join(here, EN ? "trampto-spot-15s-9x16-en.mp4" : "trampto-spot-15s-9x16.mp4"));
     const audio = path.join(here, "pista-guia.wav");
     const audioArgs = existsSync(audio)
       ? ["-i", audio, "-map", "0:v", "-map", "1:a", "-c:a", "aac", "-b:a", "192k", "-shortest"]

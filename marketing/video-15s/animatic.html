@@ -479,7 +479,11 @@
 <script>
 (() => {
   // ---------- Datos editables ----------
-  const DOMAIN = "trampto-app.vercel.app"; // si trampto.com apunta a la app, usa ese dominio
+  const DOMAIN = "trampto.com";
+  const EN = new URLSearchParams(location.search).get("lang") === "en";
+  const L = EN
+    ? { q: "ORIGINAL?", orig: "ORIGINAL", bad: "TAMPERED", ok: "✓ match", ko: "✕ no match" }
+    : { q: "¿ORIGINAL?", orig: "ORIGINAL", bad: "RETOCADO", ok: "✓ coincide", ko: "✕ no coincide" };
   const HASH_OK = "79f29d93bbfbacc4160f9dc5d9e431d31ad6ea8469543a00c402c40951b51d6a";
   const HASH_BAD = "ee02568a9fe5aa8ee3a4bed49d7252ca000d4e2609388f243e7b26bbb64bfd19";
   const SEAL_ID = "TRP-da0d949d-909d-47a6-b5fa-b1d7abd0a874";
@@ -561,7 +565,12 @@
     </svg>`;
 
   function docRefs(doc) {
-    doc.innerHTML = DOC_HTML;
+    doc.innerHTML = !EN ? DOC_HTML : [
+      ["PRESUPUESTO", "QUOTE"], ["Nº 2026-014 · 06/10/2026", "No. 2026-014 · 10/06/2026"], ["Cliente</span>", "Client</span>"],
+      ["CONCEPTO", "ITEM"], ["IMPORTE", "AMOUNT"], ["Diseño de identidad", "Brand identity"], ["Desarrollo web", "Web development"],
+      ["Mantenimiento · 6 meses", "Maintenance · 6 months"], ["Validez: 30 días · Pago: 50 % a la aceptación", "Valid for 30 days · 50% due on acceptance"],
+      [">Firma<", ">Signature<"], ["1.900,00 €", "1,900.00 €"], ["2.400,00 €", "2,400.00 €"], ["500,00 €", "500.00 €"], ["</b>.800,00 €", "</b>,800.00 €"],
+    ].reduce((h, [x, y]) => h.split(x).join(y), DOC_HTML);
     return {
       doc,
       d1: $(".d1", doc), val: $(".d-val", doc), sel: $(".d-sel", doc), caret: $(".d-caret", doc),
@@ -590,6 +599,38 @@
   const taglineLines = $$("#tagline .ln").map((ln) => $(".in", ln));
   const vignette = $("#vignette"), grain = $("#grain");
 
+
+  if (EN) {
+    document.documentElement.lang = "en";
+    const H = (sel, html) => $$(sel).forEach((el) => { el.innerHTML = html; });
+    const caps2 = $$("#captions .cap");
+    const capHTML = [
+      ['A PDF can be edited', 'in <em>seconds</em>.'],
+      ['Which one is', 'the <em>original</em>?', 'And how do you prove it?'],
+      ['<em>With</em> <span class="brandword gold">TRAMPTO</span>'],
+      ['<span class="num gold">1</span>Upload.', 'PDF, Word, PowerPoint or image'],
+      ['<span class="num gold">2</span>Seal.', 'Unique SHA-256 fingerprint + Seal ID'],
+      ['<span class="num gold">3</span>Share.', 'Anyone can verify it with the link'],
+      ['Someone <em>tampers</em> with it?'],
+      ['Change a single digit', 'and the seal <em class="gold">gives it away</em>.'],
+    ];
+    caps2.forEach((c, i) => $$(".ln .in", c).forEach((el, j) => { el.innerHTML = capHTML[i][j]; }));
+    H(".chip-face.before .chip-txt", "NO TRAMPTO");
+    H(".chip-face.after .chip-txt", 'WITH <span class="gold">TRAMPTO</span>');
+    $$(".chip-txt").forEach((el) => { el.style.letterSpacing = "0.14em"; });
+    H(".app-hero h3", 'Seal and verify <em class="gold">your documents</em>.');
+    const seg = $$(".seg2 span"); seg[0].textContent = "Seal"; seg[1].textContent = "Verify";
+    H(".dz h4", "Drag your document here"); H(".dz p", "PDF, Word, PowerPoint, images or TXT · max. 50 MB");
+    ["Computing the SHA-256 fingerprint", "Sealing page by page", "Registering the public seal"].forEach((txt, i) => { stepLis[i].lastChild.textContent = txt; });
+    H(".hashbox .k", "SHA-256 <b>FINGERPRINT</b>");
+    H(".res h4", "Document sealed");
+    const ks = $$(".field .k"); ks[0].textContent = "SEAL ID"; ks[1].textContent = "PUBLIC VERIFICATION LINK";
+    copied.lastChild.textContent = "Copied";
+    const btns = $$(".btns .btn"); btns[0].lastChild.textContent = "Sealed PDF"; btns[1].lastChild.textContent = "Share";
+    wA.verdict.lastChild.textContent = "Authentic document"; wB.verdict.lastChild.textContent = "Invalid seal";
+    const tl = $$("#tagline .ln .in"); tl[0].innerHTML = "Seal and verify"; tl[1].innerHTML = '<em class="gold">your documents</em>.';
+    cta.childNodes[0].textContent = "Your first "; cta.childNodes[2].textContent = " documents free";
+  }
   T(sealIdVal, SEAL_ID);
   T(linkVal, `${DOMAIN}/v/${HASH_OK}`);
   T(domainEl, DOMAIN);
@@ -758,13 +799,13 @@
     const lblIn5 = E.out(prog(t, 9.15, 9.38));
     if (t < 5) {
       for (const w of [wA, wB]) {
-        T(w.lbl, "¿ORIGINAL?");
+        T(w.lbl, L.q);
         S(w.lbl, { opacity: String(lblIn2), transform: `translateY(${(1 - lblIn2) * 20}px)`, color: "rgba(255,255,255,.82)" });
       }
     } else {
       const pa = prog(t, 10.0, 10.24), pb = prog(t, 9.8, 10.06);
-      T(wA.lbl, t < 10.0 ? "¿ORIGINAL?" : scramble("ORIGINAL", pa, f, UP, 3));
-      T(wB.lbl, t < 9.8 ? "¿ORIGINAL?" : scramble("RETOCADO", pb, f, UP, 9));
+      T(wA.lbl, t < 10.0 ? L.q : scramble(L.orig, pa, f, UP, 3));
+      T(wB.lbl, t < 9.8 ? L.q : scramble(L.bad, pb, f, UP, 9));
       S(wA.lbl, { opacity: String(lblIn5), transform: `translateY(${(1 - lblIn5) * 20}px)`, color: t >= 10.0 ? "#7ee2aa" : "rgba(255,255,255,.82)" });
       S(wB.lbl, { opacity: String(lblIn5), transform: `translateY(${(1 - lblIn5) * 20}px)`, color: t >= 9.8 ? "#ff9a92" : "rgba(255,255,255,.82)" });
     }
@@ -776,8 +817,8 @@
     const ph = E.out(prog(t, 9.42, 9.7));
     const hbP = prog(t, 9.8, 10.1);
     const hashB = t < 9.8 ? short(HASH_OK) : short(scramble(HASH_BAD, hbP, f, HEX, 21));
-    setHline(wA.hline, short(HASH_OK), t >= 10.05 ? "✓ coincide" : "", "#7ee2aa", t >= 10.05);
-    setHline(wB.hline, hashB, t >= 9.9 ? "✕ no coincide" : "", "#ff9a92", t >= 9.8);
+    setHline(wA.hline, short(HASH_OK), t >= 10.05 ? L.ok : "", "#7ee2aa", t >= 10.05);
+    setHline(wB.hline, hashB, t >= 9.9 ? L.ko : "", "#ff9a92", t >= 9.8);
     S(wA.hline, { opacity: String(ph) });
     S(wB.hline, { opacity: String(ph) });
 

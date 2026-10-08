@@ -93,7 +93,7 @@ Un panel de **cristal líquido** (translúcido, con canto de luz especular) sube
 |---|---|---|---|---|
 | **1 · Sube** | 5,0 – 6,0 s | Cabecera de la app, selector «Sellar \| Verificar» y la zona «Arrastra tu documento aquí». El presupuesto entra volando y cae dentro: el borde dorado se ilumina y rebota. | «*1* Sube.» / «PDF, Word, PowerPoint o imagen» | «súbelo,» |
 | **2 · Sella** | 6,0 – 7,5 s | El panel cambia a la vista de sellado: una línea de escaneo dorada recorre la página y se marcan los pasos reales de la app (*Calculando la huella SHA-256* ✓ · *Sellando página a página* ✓ · *Registrando el sello público* ✓). La huella se descifra carácter a carácter (`79f29d93…51b51d6a`) y debajo aparece el ID de sello. A los 7,0 s, el sello burdeos y oro aparece con un rebote elástico y se encoge hasta la esquina inferior derecha de la página: es el **microsello** real, discreto, que no toca el diseño del documento. | «*2* Sella.» / «Huella SHA-256 única + Seal ID» | «séllalo» |
-| **3 · Comparte** | 7,5 – 9,0 s | Resultado «Documento sellado» con el ID de sello `TRP-da0d949d-…` y el enlace público `trampto-app.vercel.app/v/79f29d93…`. A los 8,0 s (*downbeat*) se pulsa «Compartir»: el campo del enlace se ilumina en oro y aparece la píldora verde «✓ Copiado». | «*3* Comparte.» / «Cualquiera lo verifica con el enlace» | «y compártelo.» |
+| **3 · Comparte** | 7,5 – 9,0 s | Resultado «Documento sellado» con el ID de sello `TRP-da0d949d-…` y el enlace público `trampto.com/v/79f29d93…`. A los 8,0 s (*downbeat*) se pulsa «Compartir»: el campo del enlace se ilumina en oro y aparece la píldora verde «✓ Copiado». | «*3* Comparte.» / «Cualquiera lo verifica con el enlace» | «y compártelo.» |
 
 **Transiciones:** el panel sube con el *easing* de la app; entre pasos, su contenido cambia con un *morph* (lo saliente sube y se desenfoca, lo entrante aparece desde abajo). Los números de los pasos van en Playfair cursiva con degradado dorado.
 **Sonido:** golpe suave de «soltar archivo» (5,6 s) · barrido de escaneo con tecleo digital (6,0–7,0 s) · *pop* cristalino del sello (7,0 s) · *tap* + *swoosh* del enlace (8,0 s).
@@ -120,7 +120,7 @@ Un panel de **cristal líquido** (translúcido, con canto de luz especular) sube
 - 12,2 s — **TRAMPTO** en DM Sans 700; el espaciado se cierra de 0,75 em a 0,32 em, como en la pantalla de carga de la app.
 - 12,5 s — «Sella y verifica / *tus documentos*.» en Playfair Display; *tus documentos* en cursiva con degradado dorado, igual que el titular de la app.
 - 13,1 s — filete dorado + píldora burdeos **«Gratis tus 3 primeros documentos»**; destello que la recorre a los 13,8 s.
-- 13,4 s — dominio `trampto-app.vercel.app` en oro claro (`#EAD7A1`).
+- 13,4 s — dominio `trampto.com` en oro claro (`#EAD7A1`).
 - 14,0 – 15,0 s — último latido y plano fijo: se lee con calma, funciona como miniatura y el bucle de la plataforma no corta nada.
 
 **Locución:** «Trampto. Sella y verifica tus documentos.»
@@ -291,7 +291,7 @@ El logo y el nombre están en pantalla el 100 % del tiempo.
   node marketing/video-15s/render.mjs --stills 4.1,10.6,14.6  # fotogramas sueltos en PNG
   ```
 
-- El dominio del cierre es una constante (`DOMAIN`) al principio del script de la animática. Si `trampto.com` apunta a la app, úsalo: es más corto y se recuerda mejor.
+- El dominio del cierre es `trampto.com` (constante `DOMAIN`). La versión en inglés se ve con `animatic.html?lang=en` y se exporta con `node marketing/video-15s/render.mjs --en` → `trampto-spot-15s-9x16-en.mp4`.
 - Los datos que se ven (huellas, Seal ID, presupuesto) son de demostración, pero tienen el formato real: SHA-256 de 64 caracteres y `TRP-` + UUID.
 
 **Para pasar a producción final:** grabar la locución, licenciar la música, sustituir el render de la animática por la versión de *motion* si se quiere más acabado 3D (por ejemplo, un render del sello con iluminación real en el impacto) y exportar los tres formatos.
